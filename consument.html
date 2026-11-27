@@ -75,12 +75,16 @@ details summary{cursor:pointer;font-weight:700}
 .disc{font-size:13px;color:var(--muted)}
 footer{color:var(--muted);font-size:13px;padding:10px 0 40px}
 .hide{display:none!important}
+.demo{background:var(--krap-bg);color:var(--ink);border-left:4px solid var(--krap);border-radius:10px;padding:10px 14px;font-size:14px;margin:14px 0}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.neu{background:var(--brand-2);color:var(--brand)}
+textarea{font:inherit}
 .kv{display:grid;grid-template-columns:1fr auto;gap:6px 14px;font-size:15px}
 .kv span:nth-child(even){text-align:right;font-weight:600}
 </style>
 </head>
 <body>
-<header class="wrap"><div class="logo"><i>H</i>Hypotheekcijfer</div></header>
+<header class="wrap" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div class="logo"><i>H</i>Hypotheekcijfer</div><div style="margin-left:auto;display:flex;gap:8px;align-items:center" id="who"></div></header>
 <main class="wrap" id="app"></main>
 <footer class="wrap">Indicatief en geen hypotheekadvies of kredietbeslissing. Berekend met de leennormen 2027 (Tijdelijke regeling hypothecair krediet), met vereenvoudigde aannames. Je gegevens blijven in deze browser en worden niet opgeslagen of verstuurd.</footer>
 
@@ -399,37 +403,170 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 const parseNum = v => { const s = String(v ?? '').replace(/\s|€/g, '').replace(/\./g, '').replace(',', '.'); const n = parseFloat(s); return isFinite(n) ? n : 0; };
 const fmtInt = n => Math.round(n || 0).toLocaleString('nl-NL');
 
-const ST = { stap: 0, k: {
+const leegDossier = () => ({
   naam1: '', partner: false, naam2: '', geboortejaar1: '', geboortejaar2: '', inkomen1: '', inkomen2: '', pensioen1: '', pensioen2: '',
   orv1: '', orv2: '', nabestaanden: '', nabestaanden2: '',
   waarde: '', woz: '', waardeDatum: `${J}-01`, waardeBron: 'Eigen schatting', bouwjaar: '', grond: 'zand', aandachtsgebied: 'nee', grondwater: 'nee',
   fundering: 'onbekend', schade: 'nee', funderingExtern: '', onderhoud: '', energielabel: 'geen', nhg: 'nee',
   renteHerfin: PARAMS.renteHerfinDefault, herRvp: 10, inkomensdaling: 20,
   delen: [{ vorm: 'annuitair', bedrag: '', rente: '', rvpJaar: '', eindJaar: '', startJaar: '' }]
-}};
+});
+
+/* ---------- Demo-omgeving: gesimuleerde accounts, alleen in het geheugen van deze pagina ---------- */
+const DEMO_WW = 'demo';
+const ADVISEURS = [
+  { id: 'jdv', naam: 'J. de Vries', kantoor: 'Hypotheekhuis Oost', email: 'jdevries@demo.nl' },
+  { id: 'sb', naam: 'S. Bakker', kantoor: 'Bakker Advies', email: 'sbakker@demo.nl' }];
+const DB = { klanten: [] };
+const STATUS = { uitgenodigd: ['Uitgenodigd', 'neu'], behandeling: ['Bezig met invullen', 'let'], gedeeld: ['Gedeeld door klant', 'goed'], besproken: ['Besproken', 'goed'] };
+function nieuweKlant(adv, naam, data, code) {
+  const kl = { id: 'k' + (DB.klanten.length + 1), code: code || 'HC-' + String(Math.floor(1000 + Math.random() * 9000)), adviseur: adv, naam,
+    status: 'uitgenodigd', notitie: '', bericht: '', k: Object.assign(leegDossier(), data), res: null, bijgewerkt: null };
+  DB.klanten.push(kl); return kl;
+}
+nieuweKlant('jdv', 'Sanne & Daan Smit', { naam1: 'Sanne', partner: true, naam2: 'Daan', geboortejaar1: 1964, geboortejaar2: 1966, inkomen1: 58000, inkomen2: 24000, waarde: 425000, woz: 401000, bouwjaar: 1938, grond: 'veen', aandachtsgebied: 'ja',
+  delen: [{ vorm: 'annuitair', bedrag: 180000, rente: 1.9, rvpJaar: 2028, eindJaar: 2041, startJaar: 2011 }, { vorm: 'aflossingsvrij', bedrag: 90000, rente: 2.1, rvpJaar: 2028, eindJaar: 2041, startJaar: 2011 }] }, 'HC-4821');
+nieuweKlant('jdv', 'Mehmet Kaya', { naam1: 'Mehmet', geboortejaar1: 1979, inkomen1: 47000, waarde: 310000, bouwjaar: 1999, delen: [{ vorm: 'annuitair', bedrag: 245000, rente: 3.9, rvpJaar: 2031, eindJaar: 2052, startJaar: 2022 }] }, 'HC-7350');
+nieuweKlant('jdv', 'Petra & Kees de Boer', { naam1: 'Petra', partner: true, naam2: 'Kees', geboortejaar1: 1959, geboortejaar2: 1957, inkomen1: 41000, inkomen2: 52000, waarde: 520000, bouwjaar: 1972,
+  delen: [{ vorm: 'aflossingsvrij', bedrag: 210000, rente: 4.6, rvpJaar: 2027, eindJaar: 2034, startJaar: 2004 }] }, 'HC-1196');
+nieuweKlant('sb', 'Lotte Visser', { naam1: 'Lotte', geboortejaar1: 1990, inkomen1: 62000, waarde: 395000, bouwjaar: 2015, energielabel: 'AB', nhg: 'ja',
+  delen: [{ vorm: 'annuitair', bedrag: 318000, rente: 3.6, rvpJaar: 2033, eindJaar: 2053, startJaar: 2023 }] }, 'HC-6603');
+
+const ST = { view: 'login', rol: null, adv: null, klantId: null, stap: 0, k: leegDossier(), loginTab: 'consument', toonUitn: null };
 const STAPPEN = ['Over jou', 'Je hypotheek', 'Je woning', 'Als het tegenzit', 'Je cijfer'];
+const klant = () => DB.klanten.find(x => x.id === ST.klantId);
+const advVan = id => ADVISEURS.find(a => a.id === id);
+const go = v => { ST.view = v; render(); window.scrollTo(0, 0); };
+
+function renderWho() {
+  const el = document.getElementById('who');
+  if (!ST.rol || ST.rol === 'anoniem') { el.innerHTML = ST.rol === 'anoniem' ? '<button class="btn s" id="uit">Inloggen</button>' : ''; }
+  else {
+    const n = ST.rol === 'adviseur' ? advVan(ST.adv).naam + ' · adviseur' : (klant().k.naam1 || klant().naam) + ' · consument';
+    el.innerHTML = `<span class="muted" style="font-size:13px">${esc(n)}</span> <button class="btn s" id="uit">Uitloggen</button>`;
+  }
+  const u = el.querySelector('#uit'); if (u) u.onclick = () => { Object.assign(ST, { rol: null, adv: null, klantId: null, k: leegDossier(), stap: 0 }); go('login'); };
+}
 
 function render() {
+  renderWho();
   const app = document.getElementById('app');
-  if (ST.stap === 0 && !ST.gestart) { app.innerHTML = intro(); app.querySelector('#start').onclick = () => { ST.gestart = true; render(); }; return; }
-  if (ST.stap === 4) { renderResultaat(app); return; }
+  if (ST.view === 'login') return renderLogin(app);
+  if (ST.view === 'adv') return renderAdvDash(app);
+  if (ST.view === 'welkom') return renderWelkom(app);
+  if (ST.view === 'intro') { app.innerHTML = intro(); app.querySelector('#start').onclick = () => { ST.stap = 0; go('wizard'); }; return; }
+  if (ST.view === 'result') return renderResultaat(app);
   app.innerHTML = `
     <div class="steps">${STAPPEN.map((_, i) => `<span class="${i <= ST.stap ? 'on' : ''}"></span>`).join('')}</div>
-    <div class="stepl">Stap ${ST.stap + 1} van ${STAPPEN.length} · ${STAPPEN[ST.stap]}</div>
+    <div class="stepl">Stap ${ST.stap + 1} van ${STAPPEN.length} · ${STAPPEN[ST.stap]}${ST.rol === 'adviseur' ? ` · samen met ${esc(klant().naam)}` : ''}</div>
     <div class="card" id="form">${[stapJij, stapHypotheek, stapWoning, stapTegenzit][ST.stap]()}
       <div class="err" id="err"></div>
-      <div class="nav"><button class="btn" id="terug">${ST.stap === 0 ? 'Terug naar start' : '← Vorige'}</button>
-      <button class="btn p" id="verder">${ST.stap === 3 ? 'Bekijk mijn hypotheekcijfer' : 'Volgende →'}</button></div>
+      <div class="nav"><button class="btn" id="terug">${ST.stap === 0 ? 'Terug' : '← Vorige'}</button>
+      <button class="btn p" id="verder">${ST.stap === 3 ? 'Bekijk het hypotheekcijfer' : 'Volgende →'}</button></div>
     </div>`;
   bind(app);
-  app.querySelector('#terug').onclick = () => { if (ST.stap === 0) ST.gestart = false; else ST.stap--; render(); window.scrollTo(0, 0); };
+  app.querySelector('#terug').onclick = () => {
+    if (ST.stap > 0) { ST.stap--; render(); window.scrollTo(0, 0); return; }
+    go(ST.rol === 'adviseur' ? 'adv' : ST.rol === 'consument' ? 'welkom' : 'intro');
+  };
   app.querySelector('#verder').onclick = () => {
     const e = valideer(ST.stap); if (e) { app.querySelector('#err').textContent = e; return; }
+    if (ST.stap === 3) return go('result');
     ST.stap++; render(); window.scrollTo(0, 0);
   };
 }
 
+function renderLogin(app) {
+  const c = ST.loginTab === 'consument';
+  app.innerHTML = `<section class="hero"><h1>Scoor je hypotheekcijfer, en zie hoe jij ervoor staat.</h1>
+    <p>Log in met de uitnodiging van je adviseur, of doe de check zonder inlog.</p></section>
+  <div class="demo"><b>Demo-omgeving</b> · inloggen is gesimuleerd en gegevens staan alleen in deze browsertab. Gebruik geen echte persoonsgegevens.</div>
+  <div class="card"><div class="seg" style="max-width:420px;margin-bottom:18px"><button data-tab="consument" class="${c ? 'on' : ''}">Ik ben consument</button><button data-tab="adviseur" class="${!c ? 'on' : ''}">Ik ben adviseur</button></div>
+    ${c ? `<h2>Inloggen als consument</h2><p class="lead">Je hebt een uitnodigingscode gekregen van je adviseur.</p>
+      <div class="fg"><label class="f">Uitnodigingscode<input id="lc" placeholder="HC-0000" autocomplete="off"></label><label class="f">Je geboortejaar<input id="lg" inputmode="numeric" placeholder="bijv. 1964"></label></div>
+      <div class="hint">Demo: code <b>HC-4821</b> met geboortejaar <b>1964</b>, of <b>HC-7350</b> met <b>1979</b>.</div>`
+    : `<h2>Inloggen als adviseur</h2><p class="lead">Bekijk je klanten, nodig ze uit en vul het hypotheekcijfer samen in.</p>
+      <div class="fg"><label class="f">E-mailadres<input id="le" type="email" placeholder="naam@kantoor.nl" autocomplete="username"></label><label class="f">Wachtwoord<input id="lw" type="password" autocomplete="current-password"></label></div>
+      <div class="hint">Demo: <b>jdevries@demo.nl</b> of <b>sbakker@demo.nl</b>, wachtwoord <b>demo</b>.</div>`}
+    <div class="err" id="err"></div>
+    <div class="nav" style="justify-content:flex-start"><button class="btn p" id="login">Inloggen</button></div></div>
+  <div class="card"><h3>Liever zonder inlog?</h3><p class="lead" style="margin-bottom:12px">Doe de check anoniem. Je uitkomst wordt dan niet gedeeld met een adviseur.</p><button class="btn" id="anon">Check zonder inlog</button></div>`;
+  app.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { ST.loginTab = b.dataset.tab; render(); });
+  app.querySelector('#anon').onclick = () => { Object.assign(ST, { rol: 'anoniem', k: leegDossier(), stap: 0 }); go('intro'); };
+  const doLogin = () => {
+    const err = app.querySelector('#err');
+    if (c) {
+      const code = app.querySelector('#lc').value.trim().toUpperCase(), gj = +app.querySelector('#lg').value.trim();
+      const kl = DB.klanten.find(x => x.code === code && (+x.k.geboortejaar1 === gj || +x.k.geboortejaar2 === gj));
+      if (!kl) { err.textContent = 'Code en geboortejaar horen niet bij elkaar. Controleer je uitnodiging.'; return; }
+      Object.assign(ST, { rol: 'consument', klantId: kl.id, k: kl.k, stap: 0 }); go('welkom');
+    } else {
+      const a = ADVISEURS.find(x => x.email === app.querySelector('#le').value.trim().toLowerCase());
+      if (!a || app.querySelector('#lw').value !== DEMO_WW) { err.textContent = 'E-mailadres of wachtwoord onjuist.'; return; }
+      Object.assign(ST, { rol: 'adviseur', adv: a.id }); go('adv');
+    }
+  };
+  app.querySelector('#login').onclick = doLogin;
+  app.querySelectorAll('input').forEach(i => i.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); }));
+}
+
+function renderWelkom(app) {
+  const kl = klant(), a = advVan(kl.adviseur);
+  app.innerHTML = `<section class="hero"><h1>Welkom${kl.k.naam1 ? ', ' + esc(kl.k.naam1) : ''}</h1>
+    <p>${esc(a.naam)} van ${esc(a.kantoor)} heeft je uitgenodigd om je hypotheekcijfer te scoren. Een deel van je gegevens is al ingevuld; controleer en vul aan.</p></section>
+  ${kl.bericht ? `<div class="card"><h3>Bericht van je adviseur</h3><p style="margin:0;white-space:pre-wrap">${esc(kl.bericht)}</p></div>` : ''}
+  <div class="card"><div class="kv"><span>Status</span><span>${STATUS[kl.status][0]}</span>${kl.res ? `<span>Je laatste cijfer</span><span>${fmtNum(kl.res.totaal)}</span>` : ''}</div>
+    <div class="nav" style="justify-content:flex-start">
+      <button class="btn p" id="start">${kl.res ? 'Gegevens bijwerken' : 'Start de check'}</button>
+      ${kl.res ? '<button class="btn" id="bekijk">Bekijk mijn cijfer</button>' : ''}</div>
+    <p class="disc" style="margin-top:14px">Je adviseur ziet je uitkomst pas als je die zelf deelt.</p></div>`;
+  app.querySelector('#start').onclick = () => { if (kl.status === 'uitgenodigd') kl.status = 'behandeling'; ST.stap = 0; go('wizard'); };
+  const b = app.querySelector('#bekijk'); if (b) b.onclick = () => go('result');
+}
+
+function uitnodigingTekst(kl) {
+  const a = advVan(kl.adviseur);
+  return `Beste ${kl.naam},\n\nGraag nodig ik je uit om je hypotheekcijfer te scoren: zie hoe jij ervoor staat bij belangrijke momenten zoals het einde van je rentevaste periode en je pensioen.\n\nGa naar ${location.href.split('#')[0]} en log in met:\nCode: ${kl.code}\nJe geboortejaar\n\nDaarna bespreken we samen de uitkomst.\n\nMet vriendelijke groet,\n${a.naam}\n${a.kantoor}`;
+}
+
+function renderAdvDash(app) {
+  const a = advVan(ST.adv), mijn = DB.klanten.filter(x => x.adviseur === a.id);
+  mijn.forEach(x => { if (!x.res && x.k.delen.every(d => d.bedrag > 0 && d.eindJaar > J) && +x.k.geboortejaar1) { ST.k = x.k; x.voorlopig = berekenDossier(naarDossier()); } });
+  app.innerHTML = `<section class="hero"><h1>Mijn klanten</h1><p>${esc(a.naam)} · ${esc(a.kantoor)}</p></section>
+  <div class="demo"><b>Demo-omgeving</b> · gesimuleerde inlog, fictieve klanten.</div>
+  ${mijn.map(x => {
+    const c = x.res ? x.res.totaal : x.voorlopig ? x.voorlopig.totaal : null;
+    return `<div class="card" style="padding:16px 18px"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px"><div style="font-weight:700">${esc(x.naam)}</div><div class="muted" style="font-size:13px">Code ${x.code}${x.bijgewerkt ? ' · bijgewerkt ' + x.bijgewerkt : ''}</div></div>
+      <span class="badge ${STATUS[x.status][1]}">${STATUS[x.status][0]}</span>
+      ${c != null ? `<span class="c ${kleur(c)}" title="${x.res ? 'Vastgesteld' : 'Voorlopig, op bekende gegevens'}" style="${x.res ? '' : 'opacity:.7;border:1px dashed currentColor'}">${fmtNum(c)}</span>` : ''}
+    </div>
+    <div class="nav" style="justify-content:flex-start;margin-top:12px">
+      <button class="btn s p" data-a="samen" data-id="${x.id}">Samen invullen</button>
+      ${x.res ? `<button class="btn s" data-a="cijfer" data-id="${x.id}">Bekijk cijfer</button>` : ''}
+      <button class="btn s" data-a="uitn" data-id="${x.id}">Uitnodiging</button></div>
+    ${ST.toonUitn === x.id ? `<textarea readonly rows="11" style="width:100%;margin-top:12px;font:13px/1.5 inherit;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);color:var(--ink)">${esc(uitnodigingTekst(x))}</textarea>
+      <button class="btn s" data-a="kopie" data-id="${x.id}" style="margin-top:6px">Kopieer tekst</button>` : ''}
+    </div>`;
+  }).join('') || '<div class="card">Nog geen klanten.</div>'}
+  <div class="card"><h3>Nieuwe klant uitnodigen</h3><div class="fg"><label class="f">Naam<input id="nn" placeholder="bijv. Fam. Jansen"></label><label class="f">Geboortejaar klant<input id="ng" inputmode="numeric" placeholder="bijv. 1975"></label></div>
+    <div class="err" id="err"></div><div class="nav" style="justify-content:flex-start"><button class="btn p" id="nieuw">Maak uitnodiging</button></div></div>`;
+  app.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => {
+    const x = DB.klanten.find(y => y.id === b.dataset.id);
+    if (b.dataset.a === 'samen') { Object.assign(ST, { klantId: x.id, k: x.k, stap: 0 }); if (x.status === 'uitgenodigd') x.status = 'behandeling'; return go('wizard'); }
+    if (b.dataset.a === 'cijfer') { Object.assign(ST, { klantId: x.id, k: x.k }); return go('result'); }
+    if (b.dataset.a === 'uitn') { ST.toonUitn = ST.toonUitn === x.id ? null : x.id; return render(); }
+    if (b.dataset.a === 'kopie') { try { await navigator.clipboard.writeText(uitnodigingTekst(x)); b.textContent = 'Gekopieerd ✓'; } catch { b.textContent = 'Selecteer en kopieer handmatig'; } }
+  });
+  app.querySelector('#nieuw').onclick = () => {
+    const n = app.querySelector('#nn').value.trim(), g = +app.querySelector('#ng').value.trim();
+    if (!n || !(g >= 1930 && g <= J - 18)) { app.querySelector('#err').textContent = 'Vul een naam en een geldig geboortejaar in.'; return; }
+    const kl = nieuweKlant(a.id, n, { naam1: n.split(' ')[0], geboortejaar1: g }); ST.toonUitn = kl.id; render();
+  };
+}
+
 function intro() {
+
   return `<section class="hero">
     <h1>Scoor je hypotheekcijfer, en zie hoe jij ervoor staat.</h1>
     <p>Kun je je hypotheek blijven betalen als je rente straks omhooggaat, de renteaftrek stopt of je met pensioen gaat? En wat als er iets onverwachts gebeurt?</p>
@@ -645,17 +782,45 @@ function renderResultaat(app) {
     ${res.fund.niveau !== 'laag' ? `<div class="hint">Je woning heeft kenmerken die wijzen op een verhoogd funderingsrisico (${esc(res.fund.redenen.join(', '))}). Een funderingsonderzoek geeft duidelijkheid; tijdig onderzoek voorkomt hogere kosten.</div>` : ''}
     ${res.ltv > 1 ? '<div class="hint">Je hypotheek is hoger dan de geschatte waarde van je woning. Extra aflossen verkleint dit risico.</div>' : ''}
   </div>
+  ${rolBlok()}
   <div class="card"><h2>Hoe nu verder?</h2>
     <p>Je cijfer is een momentopname. Bespreek de uitkomst met je hypotheekadviseur: die kan met je meekijken naar extra aflossen, rentemiddeling, verzekeringen of een andere hypotheekvorm.</p>
-    <div class="nav" style="justify-content:flex-start"><button class="btn a" id="pdf">Download rapport (PDF)</button><button class="btn" id="aanp">Gegevens aanpassen</button><button class="btn" id="opn">Opnieuw beginnen</button></div>
+    <div class="nav" style="justify-content:flex-start"><button class="btn a" id="pdf">Download rapport (PDF)</button><button class="btn" id="aanp">Gegevens aanpassen</button>${ST.rol === 'anoniem' ? '<button class="btn" id="opn">Opnieuw beginnen</button>' : ''}</div>
     <details style="margin-top:16px"><summary>Hoe berekenen we je cijfer?</summary>
       <p class="disc">Per situatie berekenen we hoeveel hypotheek volgens de leennormen ${PARAMS.normJaar} (Tijdelijke regeling hypothecair krediet) bij je inkomen past, en vergelijken dat met je hypotheek op dat moment. Precies op de norm geeft een 6; ruim eronder een hoger cijfer, erboven een lager cijfer. Je totaalcijfer is het gemiddelde van je cijfer nu, je laagste cijfer bij een belangrijk moment en je laagste cijfer bij een life event.
       We gaan uit van vereenvoudigingen: AOW-leeftijd 67, WW/WIA ongeveer 70% van je loon, pensioen 70% van je inkomen als je niets invult, rente na de rentevaste periode ${fmtPct(+k.renteHerfin || PARAMS.renteHerfinDefault)}. Studieschuld en andere leningen tellen niet mee. Netto lasten zijn indicatief (fiscale regels ${PARAMS.jaar}).</p></details>
     <p class="disc">Dit is een indicatie en geen hypotheekadvies of kredietbeslissing. Aan de uitkomst kun je geen rechten ontlenen.</p>
   </div>`;
   app.querySelector('#pdf').onclick = () => printRapport(k, res);
-  app.querySelector('#aanp').onclick = () => { ST.stap = 0; render(); window.scrollTo(0, 0); };
-  app.querySelector('#opn').onclick = () => { if (confirm('Alle ingevulde gegevens wissen?')) location.reload(); };
+  app.querySelector('#aanp').onclick = () => { ST.stap = 0; go('wizard'); };
+  const opn = app.querySelector('#opn'); if (opn) opn.onclick = () => { if (confirm('Alle ingevulde gegevens wissen?')) { ST.k = leegDossier(); ST.stap = 0; go('intro'); } };
+  bindRol(app, res);
+}
+
+function rolBlok() {
+  if (ST.rol === 'consument') {
+    const kl = klant(), a = advVan(kl.adviseur), gedeeld = kl.status === 'gedeeld' || kl.status === 'besproken';
+    return `<div class="card" style="border-color:var(--brand)"><h2>Deel met je adviseur</h2>
+      <p class="lead">${gedeeld ? `Je cijfer is gedeeld met ${esc(a.naam)}. Heb je iets aangepast? Deel dan opnieuw.` : `Wil je dat ${esc(a.naam)} met je meekijkt? Deel je uitkomst; je adviseur neemt daarna contact met je op.`}</p>
+      <button class="btn p" id="deel">${gedeeld ? 'Opnieuw delen' : 'Deel met mijn adviseur'}</button> <span id="deelok" class="muted"></span></div>`;
+  }
+  if (ST.rol === 'adviseur') {
+    const kl = klant();
+    return `<div class="card" style="border-color:var(--brand)"><h2>Adviseur · ${esc(kl.naam)}</h2>
+      <div class="fg" style="grid-template-columns:1fr">
+        <label class="f">Adviesnotitie <small>Alleen zichtbaar voor de adviseur.</small><textarea id="notitie" rows="3" style="border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--card);color:var(--ink)">${esc(kl.notitie)}</textarea></label>
+        <label class="f">Bericht aan klant <small>Ziet de klant na inloggen.</small><textarea id="bericht" rows="3" style="border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--card);color:var(--ink)">${esc(kl.bericht)}</textarea></label></div>
+      <div class="nav" style="justify-content:flex-start"><button class="btn p" id="besproken">Opslaan &amp; markeer als besproken</button><button class="btn" id="naarklanten">← Mijn klanten</button></div></div>`;
+  }
+  return `<div class="card"><h3>Heb je een hypotheekadviseur?</h3><p class="lead" style="margin:0">Vraag om een uitnodiging. Dan kun je je cijfer veilig delen en samen bespreken.</p></div>`;
+}
+function bindRol(app, res) {
+  const kl = ST.klantId ? klant() : null, stamp = () => new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' });
+  const d = app.querySelector('#deel');
+  if (d) d.onclick = () => { kl.res = res; kl.status = 'gedeeld'; kl.bijgewerkt = stamp(); app.querySelector('#deelok').textContent = 'Gedeeld ✓'; d.textContent = 'Opnieuw delen'; };
+  const b = app.querySelector('#besproken');
+  if (b) b.onclick = () => { kl.notitie = app.querySelector('#notitie').value; kl.bericht = app.querySelector('#bericht').value; kl.res = res; kl.status = 'besproken'; kl.bijgewerkt = stamp(); go('adv'); };
+  const n = app.querySelector('#naarklanten'); if (n) n.onclick = () => go('adv');
 }
 
 function printRapport(k, res) {
@@ -667,7 +832,7 @@ function printRapport(k, res) {
   .c{display:inline-block;min-width:30px;text-align:center;border-radius:4px;font-weight:700;padding:1px 4px}.goed{background:#e2f4ea;color:#17824f}.let{background:#eef4d9;color:#5f7417}.krap{background:#fdefd8;color:#a96400}.risico{background:#fbe4e1;color:#bf2f24}@page{margin:14mm}</style></head><body>
   <table><tr><td style="border:0"><h1>Mijn hypotheekcijfer</h1><b>Scoor je hypotheekcijfer, en zie hoe jij ervoor staat.</b><div class="n">${new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })} · leennormen ${PARAMS.normJaar}</div></td>
   <td style="border:0;text-align:right"><span class="c ${kleur(res.totaal)}" style="font-size:28px;padding:6px 14px">${fmtNum(res.totaal)}</span><div class="n">${label(res.totaal)}</div></td></tr></table>
-  <p>${zin(res.totaal)} Je netto maandlast is nu ${fmtEUR(res.scen[0].netto)}.</p>
+  ${ST.klantId ? `<p class="n">Adviseur: ${esc(advVan(klant().adviseur).naam)}, ${esc(advVan(klant().adviseur).kantoor)}</p>` : ''}<p>${zin(res.totaal)} Je netto maandlast is nu ${fmtEUR(res.scen[0].netto)}.</p>
   <h2>Cijfer per moment en life event</h2><table><tr><th>Situatie</th><th>Wanneer</th><th class="r">Netto p/m</th><th>Cijfer</th><th>Wat kun je doen?</th></tr>${res.scen.map(row).join('')}</table>
   <h2>Je woning</h2><table><tr><td>Woningwaarde (eigen schatting)</td><td class="r">${fmtEUR(k.waarde)}</td></tr><tr><td>Hypotheek / woningwaarde</td><td class="r">${fmtPct(res.ltv * 100, 0)}</td></tr><tr><td>Funderingscijfer (indicatief)</td><td class="r">${fmtNum(res.fund.cijfer)}</td></tr></table>
   <p class="n" style="margin-top:16px">Dit rapport is een indicatie en geen hypotheekadvies of kredietbeslissing. Berekend met de leennormen ${PARAMS.normJaar} (Tijdelijke regeling hypothecair krediet) en vereenvoudigde aannames. Bespreek de uitkomst met je hypotheekadviseur.</p></body></html>`);

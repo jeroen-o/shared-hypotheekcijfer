@@ -7,7 +7,7 @@ if (blok('index.html') !== blok('consument.html')) { console.error('FAIL: rekenk
   const b = await chromium.launch(), pg = await b.newPage({ viewport: { width: 390, height: 844 } }), errs = [];
   pg.on('pageerror', e => errs.push(e.message));
   await pg.goto('file://' + path.resolve(__dirname, '../consument.html'));
-  await pg.click('#start');
+  await pg.click('#anon'); await pg.click('#start');
   await pg.click('[data-seg="partner"][data-v="true"]');
   await pg.fill('[data-k="geboortejaar1"]', '1964'); await pg.fill('[data-k="inkomen1"]', '58000');
   await pg.fill('[data-k="geboortejaar2"]', '1966'); await pg.fill('[data-k="inkomen2"]', '24000');
@@ -19,6 +19,21 @@ if (blok('index.html') !== blok('consument.html')) { console.error('FAIL: rekenk
   await pg.click('#verder'); await pg.click('#verder');
   const c = await pg.textContent('.ring b'), w = await pg.evaluate(() => document.documentElement.scrollWidth);
   if (process.argv[2]) await pg.screenshot({ path: process.argv[2], fullPage: true });
+  // Inlogflow: consument deelt, adviseur ziet en bespreekt
+  await pg.click('#uit'); await pg.click('[data-tab="consument"]');
+  await pg.fill('#lc', 'hc-9999'); await pg.fill('#lg', '1964'); await pg.click('#login');
+  if (!(await pg.textContent('#err')).length) errs.push('foute code geaccepteerd');
+  await pg.fill('#lc', 'hc-4821'); await pg.click('#login');
+  await pg.click('#start'); for (let i = 0; i < 4; i++) await pg.click('#verder');
+  await pg.click('#deel');
+  await pg.click('#uit'); await pg.click('[data-tab="adviseur"]');
+  await pg.fill('#le', 'jdevries@demo.nl'); await pg.fill('#lw', 'demo'); await pg.click('#login');
+  const status = await pg.textContent('.card .badge');
+  if (!/Gedeeld/.test(status)) errs.push('status niet gedeeld: ' + status);
+  await pg.click('[data-a="cijfer"]'); await pg.fill('#bericht', 'Laten we je pensioen bespreken.'); await pg.click('#besproken');
+  await pg.click('#uit'); await pg.click('[data-tab="consument"]'); await pg.fill('#lc', 'HC-4821'); await pg.fill('#lg', '1966'); await pg.click('#login');
+  if (!/pensioen bespreken/.test(await pg.textContent('#app'))) errs.push('bericht adviseur niet zichtbaar voor partner-login');
+  if (process.argv[2]) await pg.screenshot({ path: process.argv[2].replace('.png', '-welkom.png'), fullPage: true });
   await b.close();
   if (errs.length || !/\d,\d/.test(c) || w > 390) { console.error('FAIL', { c, w, errs }); process.exit(1); }
   console.log(`OK · consumentencijfer ${c} · breedte ${w}px`);
