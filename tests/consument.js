@@ -7,8 +7,6 @@ if (blok('geldverstrekker.html') !== blok('index.html')) { console.error('FAIL: 
   const b = await chromium.launch(), pg = await b.newPage({ viewport: { width: 390, height: 844 } }), errs = [];
   pg.on('pageerror', e => errs.push(e.message));
   await pg.goto('file://' + path.resolve(__dirname, '../index.html'));
-  await pg.fill('#gw', 'dennes roes'); await pg.click('#gate button');
-  await pg.waitForFunction(() => !document.documentElement.classList.contains('locked'));
   await pg.click('#anon'); await pg.click('#start');
   await pg.click('[data-seg="partner"][data-v="true"]');
   await pg.fill('[data-k="geboortejaar1"]', '1964'); await pg.fill('[data-k="inkomen1"]', '58000');
@@ -27,7 +25,7 @@ if (blok('geldverstrekker.html') !== blok('index.html')) { console.error('FAIL: 
   await pg.goto('about:blank');
   if (await volgorde(base + '#demo') !== 'inlog-eerst') errs.push('demo: inlog niet bovenaan');
   await pg.goto('about:blank');
-  if (await volgorde(base) !== 'anon-eerst') errs.push('homepage: inlog niet onderaan');
+  if (await volgorde(base) !== 'inlog-eerst') errs.push('homepage: zonder-inlog-blok niet onder de inlog');
   await pg.click('#anon'); await pg.click('#start'); await pg.click('[data-seg="partner"][data-v="true"]');
   await pg.fill('[data-k="geboortejaar1"]', '1964'); await pg.fill('[data-k="inkomen1"]', '58000'); await pg.fill('[data-k="geboortejaar2"]', '1966'); await pg.fill('[data-k="inkomen2"]', '24000'); await pg.click('#verder');
   await pg.fill('[data-d="bedrag"]', '240000'); await pg.fill('[data-d="rente"]', '1,9'); await pg.fill('[data-d="rvpJaar"]', '2028'); await pg.fill('[data-d="eindJaar"]', '2041'); await pg.click('#verder');
