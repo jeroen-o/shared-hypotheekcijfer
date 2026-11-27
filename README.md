@@ -27,7 +27,8 @@ Download het sjabloon in de tool. Het scheidingsteken is `;`, decimalen met komm
 
 ## Beperkingen ⚠️
 
-- Het cijfer is een **indicatieve woonquote-benadering**. Het is geen toets aan de leennormen (Tijdelijke regeling hypothecair krediet) en geen hypotheekadvies.
+- Het cijfer toetst per scenario aan de **leennormen 2027**: de financieringslastpercentages uit Bijlage 1 van de Tijdelijke regeling hypothecair krediet (Stcrt. 2026, 38415), gecontroleerd tegen de Nibud-bijlage. Benutting = schuld / maximale hypotheek; die benutting wordt vertaald naar een cijfer van 1–10. Vereenvoudigingen: geen studieschuld of andere verplichtingen, geen verhoging van € 18.000 voor alleenstaanden, een pensioenaanname van 70%, en de AOW-tabel volgt de partner met het hoogste inkomen. Het cijfer is geen hypotheekadvies en geen kredietbeslissing.
+- NHG (Voorwaarden & normen 2027): NHG-kenmerk per lening; grens € 500.000 (€ 530.000 met EBV), borgtochtprovisie 0,4%.
 - De koppelingen met Ockto, PandWise, Calcasa en Funderingscijfer zijn **gesimuleerd** of gaan via handmatige invoer.
 - De demo-portefeuille is fictief.
 - De parameters staan in `PARAMS` in `index.html`; werk ze jaarlijks bij.
