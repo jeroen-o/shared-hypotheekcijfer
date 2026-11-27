@@ -39,7 +39,9 @@ Download het sjabloon in de tool. Het scheidingsteken is `;`, decimalen met komm
 - NHG (Voorwaarden & normen 2027): NHG-kenmerk per lening; grens € 500.000 (€ 530.000 met EBV), borgtochtprovisie 0,4%.
 - De koppelingen met Ockto, PandWise, Calcasa en Funderingscijfer zijn **gesimuleerd** of gaan via handmatige invoer.
 - De demo-portefeuille is fictief.
-- De parameters staan in `PARAMS` in `index.html`; werk ze jaarlijks bij.
+- Fiscale parameters 2027 (Belastingplan 2027, **wetsvoorstel**; definitief na stemming in de Eerste Kamer): aftrektarief 38,16%, eigenwoningforfait 0,35% tot € 1.360.000 en 2,35% daarboven, Wet Hillen 67,067%. AOW-leeftijd 67 jaar (geboren t/m 1960), daarna 67 jaar en 3 maanden. Maximumdagloon € 309,91 per 1-7-2026; het bedrag per 1-1-2027 is nog niet gepubliceerd.
+- De parameters staan in `PARAMS` in `index.html` (en identiek in `consument.html`); werk ze jaarlijks bij.
+- Huisstijl: die van Hypotheekcijfer (geel #FFD31C / zwart, zeshoeken, afgeschuinde hoeken). Lettertypefamilie Montserrat als die lokaal aanwezig is, anders systeemfont (geen externe fonts geladen).
 
 ## Test
 
