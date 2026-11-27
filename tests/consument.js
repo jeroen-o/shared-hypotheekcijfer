@@ -1,0 +1,25 @@
+// Rooktest consumententool: node tests/consument.js
+const { chromium } = require('playwright');
+const fs = require('fs'), path = require('path');
+const blok = f => { const s = fs.readFileSync(path.resolve(__dirname, '..', f), 'utf8'); const a = s.indexOf('<script>') + 8; return s.slice(a, s.indexOf('</script>', a)).trim(); };
+if (blok('index.html') !== blok('consument.html')) { console.error('FAIL: rekenkern in consument.html wijkt af van index.html'); process.exit(1); }
+(async () => {
+  const b = await chromium.launch(), pg = await b.newPage({ viewport: { width: 390, height: 844 } }), errs = [];
+  pg.on('pageerror', e => errs.push(e.message));
+  await pg.goto('file://' + path.resolve(__dirname, '../consument.html'));
+  await pg.click('#start');
+  await pg.click('[data-seg="partner"][data-v="true"]');
+  await pg.fill('[data-k="geboortejaar1"]', '1964'); await pg.fill('[data-k="inkomen1"]', '58000');
+  await pg.fill('[data-k="geboortejaar2"]', '1966'); await pg.fill('[data-k="inkomen2"]', '24000');
+  await pg.click('#verder');
+  await pg.fill('[data-d="bedrag"]', '240000'); await pg.fill('[data-d="rente"]', '1,9');
+  await pg.fill('[data-d="rvpJaar"]', '2028'); await pg.fill('[data-d="eindJaar"]', '2041'); await pg.fill('[data-d="startJaar"]', '2011');
+  await pg.click('#verder');
+  await pg.fill('[data-k="waarde"]', '425000'); await pg.fill('[data-k="bouwjaar"]', '1938'); await pg.selectOption('[data-k="grond"]', 'veen');
+  await pg.click('#verder'); await pg.click('#verder');
+  const c = await pg.textContent('.ring b'), w = await pg.evaluate(() => document.documentElement.scrollWidth);
+  if (process.argv[2]) await pg.screenshot({ path: process.argv[2], fullPage: true });
+  await b.close();
+  if (errs.length || !/\d,\d/.test(c) || w > 390) { console.error('FAIL', { c, w, errs }); process.exit(1); }
+  console.log(`OK · consumentencijfer ${c} · breedte ${w}px`);
+})();
