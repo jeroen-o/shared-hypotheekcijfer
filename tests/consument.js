@@ -2,6 +2,8 @@
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');
 const blok = f => { const s = fs.readFileSync(path.resolve(__dirname, '..', f), 'utf8'); const a = s.indexOf('/* Rekenkern Shared'); return s.slice(a, s.indexOf('</script>', a)).trim(); };
+const rap = f => { const s = fs.readFileSync(path.resolve(__dirname, '..', f), 'utf8'); return s.slice(s.indexOf('/* === RAPPORT START'), s.indexOf('/* === RAPPORT EINDE')); };
+if (rap('geldverstrekker.html') !== rap('index.html') || !rap('index.html')) { console.error('FAIL: rapportcode in index.html en geldverstrekker.html wijkt af'); process.exit(1); }
 if (blok('geldverstrekker.html') !== blok('index.html')) { console.error('FAIL: rekenkern in index.html wijkt af van geldverstrekker.html'); process.exit(1); }
 (async () => {
   const b = await chromium.launch(), pg = await b.newPage({ viewport: { width: 390, height: 844 } }), errs = [];
