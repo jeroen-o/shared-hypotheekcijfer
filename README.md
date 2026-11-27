@@ -43,8 +43,21 @@ Download het sjabloon in de tool. Het scheidingsteken is `;`, decimalen met komm
 - De parameters staan in `PARAMS` in `geldverstrekker.html` en identiek in `index.html`; werk ze jaarlijks bij.
 - Huisstijl: die van Hypotheekcijfer (geel #FFD31C / zwart, zeshoeken, afgeschuinde hoeken). Lettertypefamilie Montserrat als die lokaal aanwezig is, anders systeemfont (geen externe fonts geladen).
 
+## Rapport
+
+De homepage maakt het rapport "Je hypotheekcijfer nu en later": een brief, een voorblad, een inhoudsopgave en zeven hoofdstukken (samenvatting, belangrijke momenten, hypotheek in de tijd, life events, gegevens, wat je kunt doen, goed om te weten). Het opent via `window.open()` en is als PDF op te slaan.
+
+De rekenkern volgt de methode van Hypotheekcijfer.nl:
+- maximale hypotheek volgens de leennormen 2027 minus (schuld − eigen geld);
+- verplichtingen: studieschuld 0,75%/0,45% × bruteringsfactor, krediet 2%, private lease 100%;
+- € 18.000 extra voor een alleenstaande met een toetsinkomen boven € 31.000;
+- momenten per leningdeel en per AOW-datum;
+- cijfer: met ruimte 7 of 8, bij overschrijding 5, 4 of 3.
+
 ## Test
 
 ```bash
 node tests/smoke.js
+node tests/consument.js
+node tests/kelder.js   # rekenkern tegen het voorbeeldrapport (Hans en Petra Kelder)
 ```
