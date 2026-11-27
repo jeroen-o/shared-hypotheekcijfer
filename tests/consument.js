@@ -7,6 +7,8 @@ if (blok('geldverstrekker.html') !== blok('index.html')) { console.error('FAIL: 
   const b = await chromium.launch(), pg = await b.newPage({ viewport: { width: 390, height: 844 } }), errs = [];
   pg.on('pageerror', e => errs.push(e.message));
   await pg.goto('file://' + path.resolve(__dirname, '../index.html'));
+  await pg.fill('#gw', 'dennes roes'); await pg.click('#gate button');
+  await pg.waitForFunction(() => !document.documentElement.classList.contains('locked'));
   await pg.click('#anon'); await pg.click('#start');
   await pg.click('[data-seg="partner"][data-v="true"]');
   await pg.fill('[data-k="geboortejaar1"]', '1964'); await pg.fill('[data-k="inkomen1"]', '58000');
