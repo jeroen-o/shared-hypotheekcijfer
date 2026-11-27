@@ -1054,12 +1054,12 @@ function renderForm() {
 }
 
 function timeline(res) {
-  const pts = res.scen.filter(s => s.groep === 'moment' && /^\d{4}/.test(s.wanneer));
+  const pts = res.scen.filter(s => s.groep === 'moment');
   if (!pts.length) return '';
-  const y0 = PARAMS.jaar, y1 = Math.max(y0 + 10, ...pts.map(s => +s.wanneer.slice(-4))) + 1, pos = y => ((y - y0) / (y1 - y0) * 100).toFixed(1) + '%';
+  const y0 = PARAMS.jaar, y1 = Math.max(y0 + 10, ...pts.map(s => s.jaar)) + 1, pos = y => ((y - y0) / (y1 - y0) * 100).toFixed(1) + '%';
   const ticks = []; for (let y = y0; y <= y1; y += Math.ceil((y1 - y0) / 6)) ticks.push(y);
   return `<div class="tl"><div class="ax"></div>${ticks.map(y => `<span class="y" style="left:${pos(y)}">${y}</span>`).join('')}
-    ${pts.map((s, i) => `<span class="m" style="left:${pos(+s.wanneer.slice(0, 4))};top:${i % 2 ? 0 : 4}px" title="${esc(s.titel)}: ${fmtNum(s.cijfer)}"><i style="background:var(--${cls(s.cijfer)})"></i></span>`).join('')}</div>`;
+    ${pts.map((s, i) => `<span class="m" style="left:${pos(s.jaar)};top:${i % 2 ? 0 : 4}px" title="${esc(s.titel)}: ${fmtNum(s.cijfer)}"><i style="background:var(--${cls(s.cijfer)})"></i></span>`).join('')}</div>`;
 }
 
 function scenCard(s, k, res) {
@@ -1222,8 +1222,10 @@ function renderKader(app) {
     <tr><td>Toetsrente</td><td class="r">werkelijke rente; minimaal ${fmtPct(LEENNORMEN_2027.minToetsrente)} bij een rentevaste periode korter dan 10 jaar of een resterende looptijd korter dan 10 jaar · annuïtair over 30 jaar</td></tr>
     <tr><td>Tweede inkomen</td><td class="r">telt voor ${fmtPct(LEENNORMEN_2027.tweedeInkomenFactor * 100, 0)} mee</td></tr>
     <tr><td>Energielabel (extra leenruimte)</td><td class="r">${Object.entries(LEENNORMEN_2027.energielabel).filter(([k]) => k !== 'geen').map(([k, v]) => `${k} ${fmtEUR(v)}`).join(' · ')}</td></tr>
-    <tr><td>Cijfer</td><td class="r">benutting = schuld / maximale hypotheek volgens leennorm: ${PARAMS.cijferSchaal.map(([r, c]) => `${fmtNum(r * 100, 0)}% → ${c}`).join(' · ')}</td></tr>
-    <tr><td>Totaalcijfer</td><td class="r">gemiddelde van: cijfer nu, laagste moment, laagste life event</td></tr>
+    <tr><td>Cijfer</td><td class="r">ruimte = maximale hypotheek − (schuld − eigen geld): ruimte ≥ 10% → 8, ruimte → 7; overschrijding tot 5% → 5, tot 10% → 4, daarboven → 3; geen schuld → 10</td></tr>
+    <tr><td>Verplichtingen</td><td class="r">studieschuld 0,75% (oud) / 0,45% (nieuw) per maand × bruteringsfactor · krediet 2% per maand · private lease 100%</td></tr>
+    <tr><td>Alleenstaande</td><td class="r">+ € 18.000 maximale hypotheek bij toetsinkomen &gt; € 31.000</td></tr>
+    <tr><td>Totaalcijfer</td><td class="r">laagste cijfer van de huidige situatie en de belangrijke momenten (life events apart)</td></tr>
     <tr><td>Stress-aftrek fundering (middel / hoog)</td><td class="r">${fmtEUR(PARAMS.funderingHerstel.middel)} / ${fmtEUR(PARAMS.funderingHerstel.hoog)}</td></tr>
     <tr><td>Onderhoudscorrectie</td><td class="r">${Object.entries(PARAMS.onderhoudCorrectie).map(([k, v]) => `${k} ${fmtPct(v * 100, 0)}`).join(' · ')}</td></tr>
   </tbody></table><p class="note">Alle parameters zijn indicatief en staan centraal in PARAMS, zodat ze jaarlijks bij te werken zijn.</p></details></div>`;

@@ -600,6 +600,8 @@ const leegDossier = () => ({
   waarde: '', woz: '', waardeDatum: `${J}-01`, waardeBron: 'Eigen schatting', bouwjaar: '', grond: 'zand', aandachtsgebied: 'nee', grondwater: 'nee',
   fundering: 'onbekend', schade: 'nee', funderingExtern: '', onderhoud: '', energielabel: 'geen', nhg: 'nee',
   renteHerfin: PARAMS.renteHerfinDefault, herRvp: 10, inkomensdaling: 20,
+  eigenGeld: '', studieBedrag: '', studieStelsel: 'oud', studieEind: '', kredietBedrag: '', kredietEind: '', leaseMaand: '', leaseEind: '',
+  straat: '', postcode: '', plaats: '', hypotheeknummer: '', plannen: [],
   delen: [{ vorm: 'annuitair', bedrag: '', rente: '', rvpJaar: '', eindJaar: '', startJaar: '' }]
 });
 
@@ -846,12 +848,22 @@ function stapJij() {
   return `<h2>Over jou</h2><p class="lead">Je inkomen bepaalt hoeveel hypotheek bij je past. Vul het bruto jaarinkomen in, inclusief vakantiegeld en vaste 13e maand.</p>
   <div class="fg">${f.seg('partner', 'Koop je samen?', [['false', 'Alleen'], ['true', 'Met partner']])}</div>
   <h3 style="margin-top:20px">Jij</h3>
-  <div class="fg">${f.txt('naam1', 'Voornaam (optioneel)', 'bijv. Sanne')}${f.num('geboortejaar1', 'Geboortejaar', '', 'bijv. 1968')}
+  <div class="fg">${f.txt('naam1', 'Naam (voor het rapport)', 'bijv. Hans Kelder')}${f.num('geboortejaar1', 'Geboortejaar', '', 'bijv. 1968')}
     ${f.eur('inkomen1', 'Bruto jaarinkomen')}${f.eur('pensioen1', 'Verwacht pensioen per jaar (incl. AOW)', 'Leeg laten? Dan rekenen we met 70% van je inkomen.', 'optioneel')}</div>
   ${k.partner ? `<h3 style="margin-top:20px">Je partner</h3>
-  <div class="fg">${f.txt('naam2', 'Voornaam (optioneel)', 'bijv. Daan')}${f.num('geboortejaar2', 'Geboortejaar', '', 'bijv. 1970')}
+  <div class="fg">${f.txt('naam2', 'Naam partner', 'bijv. Petra Kelder')}${f.num('geboortejaar2', 'Geboortejaar', '', 'bijv. 1970')}
     ${f.eur('inkomen2', 'Bruto jaarinkomen')}${f.eur('pensioen2', 'Verwacht pensioen per jaar (incl. AOW)', 'Leeg = 70% van het inkomen.', 'optioneel')}</div>` : ''}
-  <div class="hint">Tip: je verwachte pensioen vind je op mijnpensioenoverzicht.nl.</div>`;
+  <div class="hint">Tip: je verwachte pensioen vind je op mijnpensioenoverzicht.nl.</div>
+  <h3 style="margin-top:22px">Vermogen en verplichtingen</h3>
+  <p class="muted" style="margin:-4px 0 10px;font-size:14px">Leningen en lease tellen mee in de leennormen: ze verlagen je maximale hypotheek. Eigen geld verlaagt je schuld.</p>
+  <div class="fg">${f.eur('eigenGeld', 'Eigen geld dat je kunt inzetten', 'Spaargeld of beleggingen voor aflossing.', 'optioneel')}
+    ${f.eur('studieBedrag', 'Studieschuld (oorspronkelijk bedrag)', '', 'optioneel')}
+    ${f.sel('studieStelsel', 'Stelsel studieschuld', [['oud', 'Oud stelsel (vóór 2012) / SF15'], ['nieuw', 'Nieuw stelsel / SF35']])}
+    ${f.num('studieEind', 'Studieschuld t/m (jaar)', '', 'bijv. 2045')}
+    ${f.eur('kredietBedrag', 'Krediet (limiet of bedrag)', 'Bijv. doorlopend of persoonlijk krediet.', 'optioneel')}
+    ${f.num('kredietEind', 'Krediet t/m (jaar)', '', 'bijv. 2045')}
+    ${f.eur('leaseMaand', 'Private lease per maand', '', 'optioneel')}
+    ${f.num('leaseEind', 'Private lease t/m (jaar)', '', 'bijv. 2029')}</div>`;
 }
 
 function stapHypotheek() {
@@ -868,7 +880,7 @@ function stapHypotheek() {
       <label class="f">Afgesloten in (jaar)<input data-d="startJaar" data-num inputmode="numeric" placeholder="bijv. ${J - 12}" value="${d.startJaar}"><small>Voor het einde van je renteaftrek (30 jaar na start).</small></label>
     </div></div>`).join('')}
   <button class="btn s" id="add">+ Leningdeel toevoegen</button>
-  <div class="fg" style="margin-top:18px">${f.sel('nhg', 'Heb je Nationale Hypotheek Garantie (NHG)?', [['nee', 'Nee / weet ik niet'], ['ja', 'Ja']])}</div>
+  <div class="fg" style="margin-top:18px">${f.txt('hypotheeknummer', 'Hypotheeknummer (optioneel)', 'bijv. ZH01')}${f.sel('nhg', 'Heb je Nationale Hypotheek Garantie (NHG)?', [['nee', 'Nee / weet ik niet'], ['ja', 'Ja']])}</div>
   <div class="hint">Aflossingsvrij deel afgesloten vanaf 2013? Dan is de rente meestal niet aftrekbaar; daar rekenen we mee.</div>`;
 }
 
@@ -884,6 +896,7 @@ function stapWoning() {
   <div class="hint">Een indicatie van je woningwaarde, funderings- en klimaatrisico kun je ook gratis opvragen via PandWise.nl of Funderingscijfer.nl. Let op: een indicatieve waarde is geen taxatie.</div>`;
 }
 
+const PLANNEN = [['kredieten', 'los eenmalig of regelmatig af op mijn kredieten of leningen'], ['sparen', 'spaar of beleg voor aflossing later'], ['aflossen', 'los extra af op mijn hypotheek'], ['omzetten', 'zet aflossingsvrij (deels) om naar annuïtair of lineair'], ['verhuizen', 'ga (later) goedkoper wonen of verkoop het huis']];
 function stapTegenzit() {
   const k = ST.k;
   return `<h2>Als het tegenzit</h2><p class="lead">We rekenen ook uit wat er gebeurt bij werkloosheid, arbeidsongeschiktheid, overlijden of scheiding. Heb je verzekeringen? Vul ze in, dan tellen ze mee.</p>
@@ -892,6 +905,10 @@ function stapTegenzit() {
     ${f.eur('nabestaanden2', `Nabestaandenpensioen voor ${esc(k.naam2 || 'partner')} per jaar`, '', 'optioneel')}
     ${f.eur('nabestaanden', `Nabestaandenpensioen voor ${esc(k.naam1 || 'jou')} per jaar`, '', 'optioneel')}</div>`
     : '<p class="muted">Je koopt alleen; overlijden en scheiding laten we daarom buiten beschouwing.</p>'}
+  <h3 style="margin-top:22px">Wat ben je van plan?</h3>
+  <div style="display:grid;gap:8px">${PLANNEN.map(([v, t]) => `<label style="display:flex;gap:10px;align-items:flex-start;font-size:15px"><input type="checkbox" data-plan="${v}" ${(k.plannen || []).includes(v) ? 'checked' : ''} style="width:auto;margin-top:4px"> ${t}</label>`).join('')}</div>
+  <h3 style="margin-top:22px">Adres (voor de brief bij het rapport)</h3>
+  <div class="fg">${f.txt('straat', 'Straat en huisnummer', 'bijv. Diemermere 1')}${f.txt('postcode', 'Postcode', 'bijv. 1112 TA')}${f.txt('plaats', 'Plaats', 'bijv. Diemen')}</div>
   <details style="margin-top:18px"><summary>Aannames aanpassen</summary><div class="fg" style="margin-top:12px">
     ${f.num('renteHerfin', 'Rente na einde rentevaste periode %', 'Onze aanname voor de toekomstige rente.')}
     ${f.num('herRvp', 'Nieuwe rentevaste periode (jaar)', 'Korter dan 10 jaar? Dan toetsen we met minimaal 5%.')}
@@ -911,6 +928,7 @@ function bind(app) {
     const d = ST.k.delen[+el.closest('.deel').dataset.i], key = el.dataset.d;
     d[key] = key === 'vorm' ? el.value : (el.value.trim() === '' ? '' : parseNum(el.value.replace(key === 'rente' ? '.' : '\u0000', ',')));
   }));
+  app.querySelectorAll('[data-plan]').forEach(c => c.onchange = () => { const p = new Set(ST.k.plannen || []); c.checked ? p.add(c.dataset.plan) : p.delete(c.dataset.plan); ST.k.plannen = [...p]; });
   const add = app.querySelector('#add');
   if (add) add.onclick = () => { ST.k.delen.push({ vorm: 'aflossingsvrij', bedrag: '', rente: '', rvpJaar: '', eindJaar: '', startJaar: '' }); render(); };
   app.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { ST.k.delen.splice(+b.dataset.rm, 1); render(); });
@@ -959,9 +977,9 @@ const UITLEG = {
   samenloop: 'Een paar grote veranderingen vallen kort na elkaar. Dat maakt het extra spannend.',
   looptijd: 'Aan het einde van de looptijd moet het aflossingsvrije deel worden afgelost of opnieuw gefinancierd.',
   ww1: 'Bij werkloosheid krijg je WW: ongeveer 70% van je loon, tot een maximum.', ww2: 'Bij werkloosheid krijg je WW: ongeveer 70% van je loon, tot een maximum.',
-  ao1: 'Na 2 jaar ziekte krijg je een WIA-uitkering. Die is vaak lager dan je loon.',
+  ao1: 'Na 2 jaar ziekte krijg je een WIA-uitkering. Die is vaak lager dan je loon.', ao2: 'Na 2 jaar ziekte krijg je een WIA-uitkering. Die is vaak lager dan je loon.',
   overlijden1: 'Valt een inkomen weg, dan moet het andere inkomen de lasten dragen.', overlijden: 'Valt een inkomen weg, dan moet het andere inkomen de lasten dragen.',
-  scheiding: 'Blijft één van jullie in het huis wonen, dan moet die de hypotheek alleen kunnen betalen.',
+  scheiding: 'Blijft één van jullie in het huis wonen, dan moet die de hypotheek alleen kunnen betalen.', scheiding2: 'Blijft één van jullie in het huis wonen, dan moet die de hypotheek alleen kunnen betalen.',
   daling: 'Bijvoorbeeld als je minder gaat werken of een lager betaalde baan neemt.'
 };
 function tip(s, k) {
@@ -977,7 +995,7 @@ function tip(s, k) {
     scheiding: 'Leg afspraken vast, bijvoorbeeld in een samenlevingscontract, en weet wat er met de hypotheek gebeurt.',
     daling: 'Breng je vaste lasten in kaart en kijk welke ruimte je hebt.'
   };
-  const id = s.id === 'ww2' ? 'ww1' : s.id === 'overlijden1' ? 'overlijden' : s.id;
+  const id = { ww2: 'ww1', ao2: 'ao1', overlijden1: 'overlijden', scheiding2: 'scheiding' }[s.id] || s.id;
   let x = t[id] || '';
   if (k.nhg === 'ja' && ['ww1', 'ao1', 'overlijden', 'scheiding', 'daling'].includes(id)) x += ' Je hebt NHG: neem bij betalingsproblemen tijdig contact op met je geldverstrekker.';
   return x;
@@ -987,12 +1005,12 @@ function zin(c) {
 }
 
 function tijdlijn(res) {
-  const pts = res.scen.filter(s => s.groep === 'moment' && /^\d{4}/.test(s.wanneer));
+  const pts = res.scen.filter(s => s.groep === 'moment');
   if (!pts.length) return '';
-  const y0 = J, y1 = Math.max(y0 + 10, ...pts.map(s => +s.wanneer.slice(-4))) + 1, pos = y => ((y - y0) / (y1 - y0) * 100).toFixed(1) + '%';
+  const y0 = J, y1 = Math.max(y0 + 10, ...pts.map(s => s.jaar)) + 1, pos = y => ((y - y0) / (y1 - y0) * 100).toFixed(1) + '%';
   const tk = []; for (let y = y0; y <= y1; y += Math.ceil((y1 - y0) / 5)) tk.push(y);
   return `<div class="tl"><div class="ax"></div>${tk.map(y => `<span class="y" style="left:${pos(y)}">${y}</span>`).join('')}
-    ${pts.map(s => `<span class="m" style="left:${pos(+s.wanneer.slice(0, 4))}" title="${esc(s.titel)}"><i style="background:var(--${kleur(s.cijfer)})"></i></span>`).join('')}</div>
+    ${pts.map(s => `<span class="m" style="left:${pos(s.jaar)}" title="${esc(s.titel)}"><i style="background:var(--${kleur(s.cijfer)})"></i></span>`).join('')}</div>
     <p class="disc" style="text-align:center;margin:0">Belangrijke momenten in de tijd, gekleurd naar cijfer</p>`;
 }
 
