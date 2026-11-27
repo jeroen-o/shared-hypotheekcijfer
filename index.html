@@ -106,11 +106,16 @@ footer{color:var(--muted);font-size:12px;padding:20px 0;border-top:1px solid var
 const PARAMS = {
   jaar: 2026,                // peiljaar portefeuille/projecties
   normJaar: 2027,            // leennormen (financieringslastpercentages) 2027
-  aftrekTarief: 0.3756,      // max. tarief hypotheekrenteaftrek 2026 (voor netto maandlast)
-  ewfPct: 0.0035,            // eigenwoningforfait 2026
-  aowLeeftijd: 67,           // vereenvoudigd
+  fiscaalJaar: 2027,         // fiscale parameters: Belastingplan 2027 (wetsvoorstel, nog niet door Eerste Kamer)
+  aftrekTarief: 0.3816,      // max. tarief hypotheekrenteaftrek 2027 (2026: 37,56%)
+  ewfPct: 0.0035,            // eigenwoningforfait 2027 (WOZ € 75.000 – € 1.360.000)
+  ewfVillaGrens: 1360000,    // daarboven 2,35% over het meerdere (villataks 2027)
+  ewfVillaPct: 0.0235,
+  hillenPct: 0.67067,        // Wet Hillen 2027: aftrek bij geen/geringe eigenwoningschuld
+  aowLeeftijd: 67,           // t/m 2027 (geboren t/m 1960)
+  aowLeeftijdVanaf2028: 67.25, // 67 jaar en 3 maanden, 2028 t/m 2032 (vastgesteld 13-11-2026)
   wwPct: 0.70,               // WW na 2 maanden
-  wwMaxJaar: 79000,          // indicatief maximum dagloon x 261
+  wwMaxJaar: 80886,          // maximumdagloon € 309,91 (per 1-7-2026) x 261; bedrag 1-1-2027 nog niet gepubliceerd
   aoPct: 0.70,               // indicatief WIA/WGA-niveau
   pensioenPctDefault: 0.70,
   renteHerfinDefault: 4.2,
@@ -204,6 +209,18 @@ function projecteerSaldo(d, n) {
   return Math.max(0, s);
 }
 
+/* AOW-jaar bij geboortejaar (geboortedatum onbekend: halverwege het jaar aangenomen) */
+function aowJaar(gj) {
+  if (!gj) return 9999;
+  const leeftijd = gj <= 1960 ? PARAMS.aowLeeftijd : PARAMS.aowLeeftijdVanaf2028;
+  return Math.floor(gj + 0.5 + leeftijd);
+}
+
+function eigenwoningforfait(woz) {
+  if (woz <= PARAMS.ewfVillaGrens) return woz * PARAMS.ewfPct;
+  return PARAMS.ewfVillaGrens * PARAMS.ewfPct + (woz - PARAMS.ewfVillaGrens) * PARAMS.ewfVillaPct;
+}
+
 function cijferUitRatio(ratio) {
   if (!isFinite(ratio)) return 1;
   const c = ratio <= PARAMS.cijferSchaal[0][0] ? 10 : interp(PARAMS.cijferSchaal, ratio);
@@ -221,7 +238,7 @@ function berekenDossier(k) {
   const woz = +k.woz || +k.waarde || 0;
   const herRente = +k.renteHerfin || PARAMS.renteHerfinDefault, herRvp = +k.herRvp || 10;
   const labelBonus = LEENNORMEN_2027.energielabel[k.energielabel || 'geen'] || 0;
-  const aow1 = (+k.geboortejaar1 || 0) + PARAMS.aowLeeftijd, aow2 = k.partner && k.geboortejaar2 ? +k.geboortejaar2 + PARAMS.aowLeeftijd : 9999;
+  const aow1 = aowJaar(+k.geboortejaar1 || 0), aow2 = k.partner && k.geboortejaar2 ? aowJaar(+k.geboortejaar2) : 9999;
   const inkOp = Y => [aow1 <= Y ? pens1 : ink1, k.partner ? (aow2 <= Y ? pens2 : ink2) : 0];
 
   function maandlast(opts) {
@@ -234,7 +251,9 @@ function berekenDossier(k) {
       const aftrek = opts.aftrek === false ? false : (d.aftrekEindJaar ? d.aftrekEindJaar > jaar + (opts.jarenVooruit || 0) : true);
       if (aftrek && d.box !== 3) aftrekbareRente += l.rente;
     });
-    const voordeel = Math.max(0, (aftrekbareRente - woz * PARAMS.ewfPct / 12) * PARAMS.aftrekTarief);
+    const saldoEW = aftrekbareRente - eigenwoningforfait(woz) / 12;
+    // Saldo negatief (forfait > rente): Wet Hillen 2027 compenseert 67,067%, de rest wordt bijgeteld
+    const voordeel = saldoEW >= 0 ? saldoEW * PARAMS.aftrekTarief : saldoEW * (1 - PARAMS.hillenPct) * PARAMS.aftrekTarief;
     return { bruto, rente, netto: bruto - voordeel, voordeel };
   }
 
@@ -901,7 +920,7 @@ function klantRapportHTML(k, res) {
   ${k.onderhoud ? `<tr><td>Onderhoudstoestand</td><td class="r">${esc(k.onderhoud)}</td></tr>` : ''}</table>
   ${res.fund.niveau !== 'laag' ? '<div class="box"><b>Fundering:</b> uw woning heeft kenmerken die wijzen op een verhoogd funderingsrisico. Bespreek met uw adviseur of een funderingsonderzoek zinvol is; tijdig onderzoek voorkomt hogere herstelkosten.</div>' : ''}
   <p class="note">Dit rapport is indicatief en geen hypotheekadvies. De cijfers zijn berekend met de leennormen ${PARAMS.normJaar} (Tijdelijke regeling hypothecair krediet), met vereenvoudigde aannames over inkomen en lasten. Een indicatieve woningwaarde is geen taxatie.
-  Rekenparameters ${PARAMS.jaar}: aftrektarief ${fmtPct(PARAMS.aftrekTarief * 100)}, eigenwoningforfait ${fmtPct(PARAMS.ewfPct * 100)}, herfinancieringsrente ${fmtPct(+k.renteHerfin || PARAMS.renteHerfinDefault)}.
+  Fiscale parameters ${PARAMS.fiscaalJaar}: aftrektarief ${fmtPct(PARAMS.aftrekTarief * 100)}, eigenwoningforfait ${fmtPct(PARAMS.ewfPct * 100)}, herfinancieringsrente ${fmtPct(+k.renteHerfin || PARAMS.renteHerfinDefault)}.
   Over ${S.cyclus} jaar nodigen wij u opnieuw uit voor een update.</p></body></html>`;
 }
 
@@ -967,12 +986,14 @@ function renderKader(app) {
     <div class="flag"><b>Provisieverbod (art. 86c Bgfo).</b> Een vergoeding per dossier mag alleen aan Blinqx toekomen, moet marktconform zijn en mag niet afhangen van productafzet. Zodra de adviseur er (mede) van profiteert, is er risico op verkapte provisie. Laat dit vooraf juridisch toetsen.</div>
     <div class="flag"><b>Funderingscijfer.nl.</b> De site noemt zich een "onafhankelijk initiatief", terwijl hypotheekcijfer.nl het onder "Andere cijfers van Blinqx" noemt. Stem de positionering af vóór externe communicatie.</div>
   </div>
-  <div class="card" style="margin-top:14px"><details><summary>Rekenparameters en aannames (leennormen ${PARAMS.normJaar}, fiscaal ${PARAMS.jaar})</summary><table class="tbl" style="margin-top:8px"><tbody>
+  <div class="card" style="margin-top:14px"><details><summary>Rekenparameters en aannames (leennormen ${PARAMS.normJaar}, fiscaal ${PARAMS.fiscaalJaar})</summary><table class="tbl" style="margin-top:8px"><tbody>
     <tr><td>Aftrektarief hypotheekrente</td><td class="r">${fmtPct(PARAMS.aftrekTarief * 100)}</td></tr>
-    <tr><td>Eigenwoningforfait</td><td class="r">${fmtPct(PARAMS.ewfPct * 100)} van de WOZ</td></tr>
-    <tr><td>AOW-leeftijd (vereenvoudigd)</td><td class="r">${PARAMS.aowLeeftijd} jaar</td></tr>
+    <tr><td>Eigenwoningforfait</td><td class="r">${fmtPct(PARAMS.ewfPct * 100)} van de WOZ tot ${fmtEUR(PARAMS.ewfVillaGrens)}; daarboven ${fmtPct(PARAMS.ewfVillaPct * 100)}</td></tr>
+    <tr><td>Wet Hillen</td><td class="r">${fmtPct(PARAMS.hillenPct * 100, 3)} van het negatieve saldo</td></tr>
+    <tr><td>Status fiscaal</td><td class="r">Belastingplan ${PARAMS.fiscaalJaar} (wetsvoorstel; definitief na stemming Eerste Kamer)</td></tr>
+    <tr><td>AOW-leeftijd</td><td class="r">67 jaar (geboren t/m 1960) · 67 jaar en 3 maanden (AOW-datum 2028–2032)</td></tr>
     <tr><td>Pensioeninkomen als niet opgegeven</td><td class="r">${fmtPct(PARAMS.pensioenPctDefault * 100, 0)} van het huidige inkomen</td></tr>
-    <tr><td>WW / AO</td><td class="r">${fmtPct(PARAMS.wwPct * 100, 0)} van het loon, max. ${fmtEUR(PARAMS.wwMaxJaar)}</td></tr>
+    <tr><td>WW / AO</td><td class="r">${fmtPct(PARAMS.wwPct * 100, 0)} van het loon, max. ${fmtEUR(PARAMS.wwMaxJaar)} (dagloon per 1-7-2026; 2027 nog niet bekend)</td></tr>
     <tr><td>Herfinancieringsrente (standaard)</td><td class="r">${fmtPct(PARAMS.renteHerfinDefault)}</td></tr>
     <tr><td>Leennormen</td><td class="r">Financieringslastpercentages ${PARAMS.normJaar}: tabellen 1–4 (niet-AOW, AOW, niet-aftrekbaar niet-AOW en AOW); toetsinkomen in stappen van € 1.000; boven de tabel geldt de hoogste rij</td></tr>
     <tr><td>Toetsrente</td><td class="r">werkelijke rente; minimaal ${fmtPct(LEENNORMEN_2027.minToetsrente)} bij een rentevaste periode korter dan 10 jaar of een resterende looptijd korter dan 10 jaar · annuïtair over 30 jaar</td></tr>
