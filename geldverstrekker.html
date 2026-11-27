@@ -1030,9 +1030,9 @@ function renderForm() {
   <div class="sect"><h2>1 · Huishouden &amp; inkomen</h2>
     <p class="note" style="margin-top:-6px">In de praktijk via de Procesversneller (Ockto) geverifieerd opgehaald; hier handmatig aan te passen.</p>
     <div class="fg">
-      ${F.t('naam1', 'Naam aanvrager 1')}${F.n('geboortejaar1', 'Geboortejaar 1')}${F.e('inkomen1', 'Bruto jaarinkomen 1')}${F.e('pensioen1', 'Pensioeninkomen 1 (incl. AOW)', { ph: 'leeg = 70%' })}
+      ${F.t('naam1', 'Naam aanvrager 1')}${F.n('geboortejaar1', 'Geboortejaar 1')}${F.t('geboortedatum1', 'Geboortedatum 1 (exacte AOW)', { type: 'date' })}${F.e('inkomen1', 'Bruto jaarinkomen 1')}${F.e('pensioen1', 'Pensioeninkomen 1 (incl. AOW)', { ph: 'leeg = 70%' })}
       ${F.s('partner', 'Partner', [['true', 'Ja'], ['false', 'Nee']])}
-      ${k.partner ? F.t('naam2', 'Naam partner') + F.n('geboortejaar2', 'Geboortejaar 2') + F.e('inkomen2', 'Bruto jaarinkomen 2') + F.e('pensioen2', 'Pensioeninkomen 2 (incl. AOW)', { ph: 'leeg = 70%' })
+      ${k.partner ? F.t('naam2', 'Naam partner') + F.n('geboortejaar2', 'Geboortejaar 2') + F.t('geboortedatum2', 'Geboortedatum 2 (exacte AOW)', { type: 'date' }) + F.e('inkomen2', 'Bruto jaarinkomen 2') + F.e('pensioen2', 'Pensioeninkomen 2 (incl. AOW)', { ph: 'leeg = 70%' })
         + F.e('orv1', 'ORV-dekking op leven 1') + F.e('orv2', 'ORV-dekking op leven 2') + F.e('nabestaanden2', 'Nabestaandenpensioen voor 2 /jr') + F.e('nabestaanden', 'Nabestaandenpensioen voor 1 /jr') : ''}
     </div>
     <h3 style="margin-top:14px">Vermogen en verplichtingen</h3>
@@ -1262,7 +1262,7 @@ function rapportHTML(k, res, ctx = {}) {
     <p class="grijsbox">Een tekort betekent dat de schuld in die situatie hoger is dan volgens de leennormen verantwoord is. Dat leidt niet automatisch tot betalingsproblemen, maar is wel een risico. Een adviseur kan bekijken of een verzekering (zoals een woonlastenverzekering, AOV of overlijdensrisicoverzekering), extra aflossen of sparen dit risico verkleint.</p>`);
 
   /* --- 5 je gegevens --- */
-  const persoon = (n, gj, aowJ, ink, pens) => `<tr class="sub"><td colspan="2">${esc(n)}</td></tr><tr><td>Geboortejaar</td><td>${gj || '–'}</td></tr><tr><td>AOW-datum</td><td>${aowJ < 9999 ? 'in ' + aowJ : '–'}</td></tr><tr><td>Bruto jaarinkomen</td><td>${eur(ink)}</td></tr><tr><td>AOW + pensioen per jaar</td><td>${eur(pens)}</td></tr>`;
+  const persoon = (n, gd, gj, ink, pens) => { const a = aowDatumVan(gd, gj); return `<tr class="sub"><td colspan="2">${esc(n)}</td></tr><tr><td>Geboortedatum</td><td>${gd ? fDatum(dISO(gd)) : gj ? gj + ' (jaar)' : '–'}</td></tr><tr><td>AOW-datum</td><td>${a ? fDatum(a) : '–'}</td></tr><tr><td>Bruto jaarinkomen</td><td>${eur(ink)}</td></tr><tr><td>AOW + pensioen per jaar</td><td>${eur(pens)}</td></tr>`; };
   const p1 = k.pensioen1 !== '' && k.pensioen1 != null ? +k.pensioen1 : k.inkomen1 * PARAMS.pensioenPctDefault, p2 = k.pensioen2 !== '' && k.pensioen2 != null ? +k.pensioen2 : k.inkomen2 * PARAMS.pensioenPctDefault;
   const verpl = [k.eigenGeld > 0 ? `<tr><td>Eigen geld</td><td>${eur(k.eigenGeld)}</td></tr>` : '', k.studieBedrag > 0 ? `<tr><td>Studieschuld (${k.studieStelsel === 'nieuw' ? 'nieuw' : 'oud'} stelsel)</td><td>${eur(k.studieBedrag)}${k.studieEind ? ' t/m ' + k.studieEind : ''}</td></tr>` : '',
     k.kredietBedrag > 0 ? `<tr><td>Krediet</td><td>${eur(k.kredietBedrag)}${k.kredietEind ? ' t/m ' + k.kredietEind : ''}</td></tr>` : '', k.leaseMaand > 0 ? `<tr><td>Private lease p/m</td><td>${eur(k.leaseMaand)}${k.leaseEind ? ' t/m ' + k.leaseEind : ''}</td></tr>` : ''].join('') || '<tr><td colspan="2">Geen opgegeven</td></tr>';
@@ -1270,8 +1270,7 @@ function rapportHTML(k, res, ctx = {}) {
   const delenT = (raw.delen || []).map((d, i) => { const ed = k.delen[i] || {}, mb = d.vorm === 'aflossingsvrij' ? (+d.bedrag) * (+d.rente) / 1200 : d.vorm === 'lineair' ? (+d.bedrag) / Math.max(1, ed.restLooptijd) + (+d.bedrag) * (+d.rente) / 1200 : annuiteit(+d.bedrag, +d.rente, ed.restLooptijd || 1);
     return `<tr class="sub"><td colspan="2">Leningdeel ${i + 1}</td></tr><tr><td>Schuld</td><td>${eur(+d.bedrag)}</td></tr><tr><td>Aflosvorm</td><td>${vorm[d.vorm]}</td></tr><tr><td>Rente</td><td>${fmtPct(+d.rente)}</td></tr><tr><td>Maandbedrag (bruto)</td><td>${eur(mb)}</td></tr>
       <tr><td>Einde rentevast</td><td>${d.rvpJaar ? '1-1-' + d.rvpJaar : '–'}</td></tr><tr><td>Einddatum</td><td>1-1-${d.eindJaar}</td></tr><tr><td>Einde renteaftrek</td><td>${ed.box === 3 ? 'n.v.t. (box 3)' : ed.aftrekEindJaar ? '1-1-' + ed.aftrekEindJaar : '–'}</td></tr>`; }).join('');
-  const aowJ = gj => gj ? aowJaar(+gj) : 9999;
-  const s5 = page(`${h1(5, 'Je gegevens')}<div class="g2t"><div><h3 class="bar">Persoonlijk</h3><table class="kv">${persoon(k.naam1 || 'Aanvrager', k.geboortejaar1, aowJ(k.geboortejaar1), k.inkomen1, p1)}${k.partner ? persoon(k.naam2 || 'Partner', k.geboortejaar2, aowJ(k.geboortejaar2), k.inkomen2, p2) : ''}</table>
+  const s5 = page(`${h1(5, 'Je gegevens')}<div class="g2t"><div><h3 class="bar">Persoonlijk</h3><table class="kv">${persoon(k.naam1 || 'Aanvrager', k.geboortedatum1, k.geboortejaar1, k.inkomen1, p1)}${k.partner ? persoon(k.naam2 || 'Partner', k.geboortedatum2, k.geboortejaar2, k.inkomen2, p2) : ''}</table>
     <h3 class="bar">Vermogen en verplichtingen</h3><table class="kv">${verpl}</table></div>
     <div><h3 class="bar">Hypotheek per ${datum}</h3><table class="kv">${raw.hypotheeknummer ? `<tr><td>Contractnummer</td><td>${esc(raw.hypotheeknummer)}</td></tr>` : ''}<tr><td>Totale schuld</td><td>${eur(res.schuld)}</td></tr><tr><td>Waarde huis</td><td>${eur(k.waarde)}</td></tr><tr><td>Bruto maandlast</td><td>${eur(nu.bruto)}</td></tr><tr><td>Netto maandlast</td><td>${eur(nu.netto)}</td></tr><tr><td>Toetsrente</td><td>${fmtPct(nu.toetsrente, 1)}</td></tr>${k.nhg === 'ja' ? '<tr><td>NHG</td><td>Ja</td></tr>' : ''}
     ${delenT}</table></div></div>`);

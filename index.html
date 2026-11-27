@@ -633,7 +633,7 @@ const parseNum = v => { const s = String(v ?? '').replace(/\s|€/g, '').replace
 const fmtInt = n => Math.round(n || 0).toLocaleString('nl-NL');
 
 const leegDossier = () => ({
-  naam1: '', partner: false, naam2: '', geboortejaar1: '', geboortejaar2: '', inkomen1: '', inkomen2: '', pensioen1: '', pensioen2: '',
+  naam1: '', partner: false, naam2: '', geboortejaar1: '', geboortejaar2: '', geboortedatum1: '', geboortedatum2: '', inkomen1: '', inkomen2: '', pensioen1: '', pensioen2: '',
   orv1: '', orv2: '', nabestaanden: '', nabestaanden2: '',
   waarde: '', woz: '', waardeDatum: `${J}-01`, waardeBron: 'Eigen schatting', bouwjaar: '', grond: 'zand', aandachtsgebied: 'nee', grondwater: 'nee',
   fundering: 'onbekend', schade: 'nee', funderingExtern: '', onderhoud: '', energielabel: 'geen', nhg: 'nee',
@@ -655,12 +655,12 @@ function nieuweKlant(adv, naam, data, code) {
     status: 'uitgenodigd', notitie: '', bericht: '', k: Object.assign(leegDossier(), data), res: null, bijgewerkt: null };
   DB.klanten.push(kl); return kl;
 }
-nieuweKlant('jdv', 'Sanne & Daan Smit', { naam1: 'Sanne', partner: true, naam2: 'Daan', geboortejaar1: 1964, geboortejaar2: 1966, inkomen1: 58000, inkomen2: 24000, waarde: 425000, woz: 401000, bouwjaar: 1938, grond: 'veen', aandachtsgebied: 'ja',
+nieuweKlant('jdv', 'Sanne & Daan Smit', { naam1: 'Sanne', partner: true, naam2: 'Daan', geboortejaar1: 1964, geboortejaar2: 1966, geboortedatum1: '1964-03-12', geboortedatum2: '1966-08-02', inkomen1: 58000, inkomen2: 24000, waarde: 425000, woz: 401000, bouwjaar: 1938, grond: 'veen', aandachtsgebied: 'ja',
   delen: [{ vorm: 'annuitair', bedrag: 180000, rente: 1.9, rvpJaar: 2028, eindJaar: 2041, startJaar: 2011 }, { vorm: 'aflossingsvrij', bedrag: 90000, rente: 2.1, rvpJaar: 2028, eindJaar: 2041, startJaar: 2011 }] }, 'HC-4821');
-nieuweKlant('jdv', 'Mehmet Kaya', { naam1: 'Mehmet', geboortejaar1: 1979, inkomen1: 47000, waarde: 310000, bouwjaar: 1999, delen: [{ vorm: 'annuitair', bedrag: 245000, rente: 3.9, rvpJaar: 2031, eindJaar: 2052, startJaar: 2022 }] }, 'HC-7350');
-nieuweKlant('jdv', 'Petra & Kees de Boer', { naam1: 'Petra', partner: true, naam2: 'Kees', geboortejaar1: 1959, geboortejaar2: 1957, inkomen1: 41000, inkomen2: 52000, waarde: 520000, bouwjaar: 1972,
+nieuweKlant('jdv', 'Mehmet Kaya', { naam1: 'Mehmet', geboortejaar1: 1979, geboortedatum1: '1979-05-20', inkomen1: 47000, waarde: 310000, bouwjaar: 1999, delen: [{ vorm: 'annuitair', bedrag: 245000, rente: 3.9, rvpJaar: 2031, eindJaar: 2052, startJaar: 2022 }] }, 'HC-7350');
+nieuweKlant('jdv', 'Petra & Kees de Boer', { naam1: 'Petra', partner: true, naam2: 'Kees', geboortejaar1: 1959, geboortejaar2: 1957, geboortedatum1: '1959-02-14', geboortedatum2: '1957-11-30', inkomen1: 41000, inkomen2: 52000, waarde: 520000, bouwjaar: 1972,
   delen: [{ vorm: 'aflossingsvrij', bedrag: 210000, rente: 4.6, rvpJaar: 2027, eindJaar: 2034, startJaar: 2004 }] }, 'HC-1196');
-nieuweKlant('sb', 'Lotte Visser', { naam1: 'Lotte', geboortejaar1: 1990, inkomen1: 62000, waarde: 395000, bouwjaar: 2015, energielabel: 'AB', nhg: 'ja',
+nieuweKlant('sb', 'Lotte Visser', { naam1: 'Lotte', geboortejaar1: 1990, geboortedatum1: '1990-09-09', inkomen1: 62000, waarde: 395000, bouwjaar: 2015, energielabel: 'AB', nhg: 'ja',
   delen: [{ vorm: 'annuitair', bedrag: 318000, rente: 3.6, rvpJaar: 2033, eindJaar: 2053, startJaar: 2023 }] }, 'HC-6603');
 
 const DEMO_MODUS = /demo\.html$/.test(location.pathname) || location.hash === '#demo';
@@ -874,6 +874,7 @@ function intro() {
 
 /* ---------- velden ---------- */
 const f = {
+  datum: (key, lbl, help = '') => `<label class="f">${lbl}<input type="date" data-k="${key}" data-datum min="1930-01-01" max="${J - 18}-12-31" value="${esc(ST.k[key] || '')}">${help ? `<small>${help}</small>` : ''}</label>`,
   eur: (key, lbl, help = '', ph = '€ 0') => `<label class="f">${lbl}<input data-k="${key}" data-eur inputmode="numeric" placeholder="${ph}" value="${ST.k[key] === '' ? '' : fmtInt(ST.k[key])}">${help ? `<small>${help}</small>` : ''}</label>`,
   num: (key, lbl, help = '', ph = '') => `<label class="f">${lbl}<input data-k="${key}" data-num inputmode="decimal" placeholder="${ph}" value="${String(ST.k[key] ?? '').replace('.', ',')}">${help ? `<small>${help}</small>` : ''}</label>`,
   txt: (key, lbl, ph = '') => `<label class="f">${lbl}<input data-k="${key}" placeholder="${ph}" value="${esc(ST.k[key])}"></label>`,
@@ -886,10 +887,10 @@ function stapJij() {
   return `<h2>Over jou</h2><p class="lead">Je inkomen bepaalt hoeveel hypotheek bij je past. Vul het bruto jaarinkomen in, inclusief vakantiegeld en vaste 13e maand.</p>
   <div class="fg">${f.seg('partner', 'Koop je samen?', [['false', 'Alleen'], ['true', 'Met partner']])}</div>
   <h3 style="margin-top:20px">Jij</h3>
-  <div class="fg">${f.txt('naam1', 'Naam (voor het rapport)', 'bijv. Hans Kelder')}${f.num('geboortejaar1', 'Geboortejaar', '', 'bijv. 1968')}
+  <div class="fg">${f.txt('naam1', 'Naam (voor het rapport)', 'bijv. Hans Kelder')}${f.datum('geboortedatum1', 'Geboortedatum', 'Bepaalt je exacte AOW-datum.')}
     ${f.eur('inkomen1', 'Bruto jaarinkomen')}${f.eur('pensioen1', 'Verwacht pensioen per jaar (incl. AOW)', 'Leeg laten? Dan rekenen we met 70% van je inkomen.', 'optioneel')}</div>
   ${k.partner ? `<h3 style="margin-top:20px">Je partner</h3>
-  <div class="fg">${f.txt('naam2', 'Naam partner', 'bijv. Petra Kelder')}${f.num('geboortejaar2', 'Geboortejaar', '', 'bijv. 1970')}
+  <div class="fg">${f.txt('naam2', 'Naam partner', 'bijv. Petra Kelder')}${f.datum('geboortedatum2', 'Geboortedatum partner')}
     ${f.eur('inkomen2', 'Bruto jaarinkomen')}${f.eur('pensioen2', 'Verwacht pensioen per jaar (incl. AOW)', 'Leeg = 70% van het inkomen.', 'optioneel')}</div>` : ''}
   <div class="hint">Tip: je verwachte pensioen vind je op mijnpensioenoverzicht.nl.</div>
   <h3 style="margin-top:22px">Vermogen en verplichtingen</h3>
@@ -959,6 +960,7 @@ function bind(app) {
     if (el.hasAttribute('data-eur')) v = el.value.trim() === '' ? '' : parseNum(el.value);
     else if (el.hasAttribute('data-num')) v = el.value.trim() === '' ? '' : parseNum(el.value.replace('.', ','));
     ST.k[el.dataset.k] = v;
+    if (el.hasAttribute('data-datum')) { const n = el.dataset.k.slice(-1); ST.k['geboortejaar' + n] = v ? +String(v).slice(0, 4) : ''; }
   }));
   app.querySelectorAll('[data-eur]').forEach(el => el.addEventListener('blur', () => { if (el.value.trim() !== '') el.value = fmtInt(parseNum(el.value)); }));
   app.querySelectorAll('[data-seg]').forEach(b => b.onclick = () => { ST.k[b.dataset.seg] = b.dataset.v === 'true' ? true : b.dataset.v === 'false' ? false : b.dataset.v; render(); });
@@ -975,9 +977,9 @@ function bind(app) {
 function valideer(stap) {
   const k = ST.k, gj = x => x >= 1930 && x <= J - 18;
   if (stap === 0) {
-    if (!gj(+k.geboortejaar1)) return 'Vul een geldig geboortejaar in.';
+    if (!gj(+k.geboortejaar1)) return 'Vul een geldige geboortedatum in.';
     if (!(k.inkomen1 > 0) && !(k.partner && k.inkomen2 > 0)) return 'Vul een bruto jaarinkomen in.';
-    if (k.partner && !gj(+k.geboortejaar2)) return 'Vul het geboortejaar van je partner in.';
+    if (k.partner && !gj(+k.geboortejaar2)) return 'Vul de geboortedatum van je partner in.';
   }
   if (stap === 1) {
     for (const [i, d] of k.delen.entries()) {
@@ -1233,7 +1235,7 @@ function rapportHTML(k, res, ctx = {}) {
     <p class="grijsbox">Een tekort betekent dat de schuld in die situatie hoger is dan volgens de leennormen verantwoord is. Dat leidt niet automatisch tot betalingsproblemen, maar is wel een risico. Een adviseur kan bekijken of een verzekering (zoals een woonlastenverzekering, AOV of overlijdensrisicoverzekering), extra aflossen of sparen dit risico verkleint.</p>`);
 
   /* --- 5 je gegevens --- */
-  const persoon = (n, gj, aowJ, ink, pens) => `<tr class="sub"><td colspan="2">${esc(n)}</td></tr><tr><td>Geboortejaar</td><td>${gj || '–'}</td></tr><tr><td>AOW-datum</td><td>${aowJ < 9999 ? 'in ' + aowJ : '–'}</td></tr><tr><td>Bruto jaarinkomen</td><td>${eur(ink)}</td></tr><tr><td>AOW + pensioen per jaar</td><td>${eur(pens)}</td></tr>`;
+  const persoon = (n, gd, gj, ink, pens) => { const a = aowDatumVan(gd, gj); return `<tr class="sub"><td colspan="2">${esc(n)}</td></tr><tr><td>Geboortedatum</td><td>${gd ? fDatum(dISO(gd)) : gj ? gj + ' (jaar)' : '–'}</td></tr><tr><td>AOW-datum</td><td>${a ? fDatum(a) : '–'}</td></tr><tr><td>Bruto jaarinkomen</td><td>${eur(ink)}</td></tr><tr><td>AOW + pensioen per jaar</td><td>${eur(pens)}</td></tr>`; };
   const p1 = k.pensioen1 !== '' && k.pensioen1 != null ? +k.pensioen1 : k.inkomen1 * PARAMS.pensioenPctDefault, p2 = k.pensioen2 !== '' && k.pensioen2 != null ? +k.pensioen2 : k.inkomen2 * PARAMS.pensioenPctDefault;
   const verpl = [k.eigenGeld > 0 ? `<tr><td>Eigen geld</td><td>${eur(k.eigenGeld)}</td></tr>` : '', k.studieBedrag > 0 ? `<tr><td>Studieschuld (${k.studieStelsel === 'nieuw' ? 'nieuw' : 'oud'} stelsel)</td><td>${eur(k.studieBedrag)}${k.studieEind ? ' t/m ' + k.studieEind : ''}</td></tr>` : '',
     k.kredietBedrag > 0 ? `<tr><td>Krediet</td><td>${eur(k.kredietBedrag)}${k.kredietEind ? ' t/m ' + k.kredietEind : ''}</td></tr>` : '', k.leaseMaand > 0 ? `<tr><td>Private lease p/m</td><td>${eur(k.leaseMaand)}${k.leaseEind ? ' t/m ' + k.leaseEind : ''}</td></tr>` : ''].join('') || '<tr><td colspan="2">Geen opgegeven</td></tr>';
@@ -1241,8 +1243,7 @@ function rapportHTML(k, res, ctx = {}) {
   const delenT = (raw.delen || []).map((d, i) => { const ed = k.delen[i] || {}, mb = d.vorm === 'aflossingsvrij' ? (+d.bedrag) * (+d.rente) / 1200 : d.vorm === 'lineair' ? (+d.bedrag) / Math.max(1, ed.restLooptijd) + (+d.bedrag) * (+d.rente) / 1200 : annuiteit(+d.bedrag, +d.rente, ed.restLooptijd || 1);
     return `<tr class="sub"><td colspan="2">Leningdeel ${i + 1}</td></tr><tr><td>Schuld</td><td>${eur(+d.bedrag)}</td></tr><tr><td>Aflosvorm</td><td>${vorm[d.vorm]}</td></tr><tr><td>Rente</td><td>${fmtPct(+d.rente)}</td></tr><tr><td>Maandbedrag (bruto)</td><td>${eur(mb)}</td></tr>
       <tr><td>Einde rentevast</td><td>${d.rvpJaar ? '1-1-' + d.rvpJaar : '–'}</td></tr><tr><td>Einddatum</td><td>1-1-${d.eindJaar}</td></tr><tr><td>Einde renteaftrek</td><td>${ed.box === 3 ? 'n.v.t. (box 3)' : ed.aftrekEindJaar ? '1-1-' + ed.aftrekEindJaar : '–'}</td></tr>`; }).join('');
-  const aowJ = gj => gj ? aowJaar(+gj) : 9999;
-  const s5 = page(`${h1(5, 'Je gegevens')}<div class="g2t"><div><h3 class="bar">Persoonlijk</h3><table class="kv">${persoon(k.naam1 || 'Aanvrager', k.geboortejaar1, aowJ(k.geboortejaar1), k.inkomen1, p1)}${k.partner ? persoon(k.naam2 || 'Partner', k.geboortejaar2, aowJ(k.geboortejaar2), k.inkomen2, p2) : ''}</table>
+  const s5 = page(`${h1(5, 'Je gegevens')}<div class="g2t"><div><h3 class="bar">Persoonlijk</h3><table class="kv">${persoon(k.naam1 || 'Aanvrager', k.geboortedatum1, k.geboortejaar1, k.inkomen1, p1)}${k.partner ? persoon(k.naam2 || 'Partner', k.geboortedatum2, k.geboortejaar2, k.inkomen2, p2) : ''}</table>
     <h3 class="bar">Vermogen en verplichtingen</h3><table class="kv">${verpl}</table></div>
     <div><h3 class="bar">Hypotheek per ${datum}</h3><table class="kv">${raw.hypotheeknummer ? `<tr><td>Contractnummer</td><td>${esc(raw.hypotheeknummer)}</td></tr>` : ''}<tr><td>Totale schuld</td><td>${eur(res.schuld)}</td></tr><tr><td>Waarde huis</td><td>${eur(k.waarde)}</td></tr><tr><td>Bruto maandlast</td><td>${eur(nu.bruto)}</td></tr><tr><td>Netto maandlast</td><td>${eur(nu.netto)}</td></tr><tr><td>Toetsrente</td><td>${fmtPct(nu.toetsrente, 1)}</td></tr>${k.nhg === 'ja' ? '<tr><td>NHG</td><td>Ja</td></tr>' : ''}
     ${delenT}</table></div></div>`);

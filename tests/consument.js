@@ -11,8 +11,8 @@ if (blok('geldverstrekker.html') !== blok('index.html')) { console.error('FAIL: 
   await pg.goto('file://' + path.resolve(__dirname, '../index.html'));
   await pg.click('#anon'); await pg.click('#start');
   await pg.click('[data-seg="partner"][data-v="true"]');
-  await pg.fill('[data-k="geboortejaar1"]', '1964'); await pg.fill('[data-k="inkomen1"]', '58000');
-  await pg.fill('[data-k="geboortejaar2"]', '1966'); await pg.fill('[data-k="inkomen2"]', '24000');
+  await pg.fill('[data-k="geboortedatum1"]', '1964-03-12'); await pg.fill('[data-k="inkomen1"]', '58000');
+  await pg.fill('[data-k="geboortedatum2"]', '1966-08-02'); await pg.fill('[data-k="inkomen2"]', '24000');
   await pg.click('#verder');
   await pg.fill('[data-d="bedrag"]', '240000'); await pg.fill('[data-d="rente"]', '1,9');
   await pg.fill('[data-d="rvpJaar"]', '2028'); await pg.fill('[data-d="eindJaar"]', '2041'); await pg.fill('[data-d="startJaar"]', '2011');
@@ -29,7 +29,7 @@ if (blok('geldverstrekker.html') !== blok('index.html')) { console.error('FAIL: 
   await pg.goto('about:blank');
   if (await volgorde(base) !== 'inlog-eerst') errs.push('homepage: zonder-inlog-blok niet onder de inlog');
   await pg.click('#anon'); await pg.click('#start'); await pg.click('[data-seg="partner"][data-v="true"]');
-  await pg.fill('[data-k="geboortejaar1"]', '1964'); await pg.fill('[data-k="inkomen1"]', '58000'); await pg.fill('[data-k="geboortejaar2"]', '1966'); await pg.fill('[data-k="inkomen2"]', '24000'); await pg.click('#verder');
+  await pg.fill('[data-k="geboortedatum1"]', '1964-03-12'); await pg.fill('[data-k="inkomen1"]', '58000'); await pg.fill('[data-k="geboortedatum2"]', '1966-08-02'); await pg.fill('[data-k="inkomen2"]', '24000'); await pg.click('#verder');
   await pg.fill('[data-d="bedrag"]', '240000'); await pg.fill('[data-d="rente"]', '1,9'); await pg.fill('[data-d="rvpJaar"]', '2028'); await pg.fill('[data-d="eindJaar"]', '2041'); await pg.click('#verder');
   await pg.fill('[data-k="waarde"]', '425000'); await pg.click('#verder'); await pg.click('#verder');
   // Inlogflow: consument deelt, adviseur ziet en bespreekt
