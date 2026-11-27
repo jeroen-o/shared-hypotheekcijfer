@@ -52,7 +52,11 @@ De rekenkern volgt de methode van Hypotheekcijfer.nl:
 - verplichtingen: studieschuld 0,75%/0,45% × bruteringsfactor, krediet 2%, private lease 100%;
 - € 18.000 extra voor een alleenstaande met een toetsinkomen boven € 31.000;
 - momenten per leningdeel en per AOW-datum;
-- cijfer: met ruimte 7 of 8, bij overschrijding 5, 4 of 3.
+- rekenen per maand vanaf de peildatum; AOW binnen 10 jaar via de contante waarde van de toegestane last vóór en na de AOW-datum; AOW-tabel als iedereen in het huishouden de AOW-leeftijd heeft bereikt;
+- cijfer per moment: ruimte < 10% van de schuld → 7, anders 8; overschrijding tot 5% → 5, tot 10% → 4, daarboven 3;
+- totaalcijfer volgens de 'Hypotheekcijfer rekenmethode': 5 situaties; basis 6, −1 per tekort, +1 bij min. overschot > 10% en > 20%; minimaal 3; plafonds bij tekort > 25%/50% en LTV > 100/115/130%.
+
+`tests/kelder.js` controleert alle 17 situaties en het totaalcijfer (5) tegen het voorbeeldrapport.
 
 ## Test
 
