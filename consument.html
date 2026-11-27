@@ -8,18 +8,12 @@
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--ink:#13203b;--muted:#5d6680;--line:#e1e5ef;--brand:#1d3a8a;--brand-2:#e8eefb;--accent:#ff6a3d;
 --goed:#17824f;--goed-bg:#e2f4ea;--let:#5f7417;--let-bg:#eef4d9;--krap:#a96400;--krap-bg:#fdefd8;--risico:#bf2f24;--risico-bg:#fbe4e1;--shadow:0 1px 2px rgba(19,32,59,.06),0 6px 20px rgba(19,32,59,.06)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1424;--card:#161e33;--ink:#e7ebf5;--muted:#9aa4bd;--line:#29324b;--brand:#8fb0ff;--brand-2:#1d2847;--accent:#ff8a63;
---goed:#58c98f;--goed-bg:#163626;--let:#b9cf63;--let-bg:#2a331a;--krap:#f0a845;--krap-bg:#3a2b12;--risico:#ff7a6e;--risico-bg:#3d1b18;--shadow:none}}
-:root[data-theme="dark"]{--bg:#0e1424;--card:#161e33;--ink:#e7ebf5;--muted:#9aa4bd;--line:#29324b;--brand:#8fb0ff;--brand-2:#1d2847;--accent:#ff8a63;
---goed:#58c98f;--goed-bg:#163626;--let:#b9cf63;--let-bg:#2a331a;--krap:#f0a845;--krap-bg:#3a2b12;--risico:#ff7a6e;--risico-bg:#3d1b18;--shadow:none}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 .wrap{max-width:860px;margin:0 auto;padding:0 16px}
 header{padding:18px 0 0}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
 .logo i{width:32px;height:32px;border-radius:9px;background:var(--brand);display:grid;place-items:center;color:#fff;font-style:normal}
-:root[data-theme="dark"] .logo i{color:#0e1424}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo i{color:#0e1424}}
 .hero{padding:28px 0 8px}
 .hero h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:0 0 10px;letter-spacing:-.01em}
 .hero p{color:var(--muted);margin:0 0 6px;font-size:17px}
@@ -40,16 +34,12 @@ input:focus,select:focus{outline:2px solid var(--brand);outline-offset:-1px}
 .seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .seg button{flex:1;border:0;background:var(--card);color:var(--ink);padding:11px;font:inherit;cursor:pointer}
 .seg button.on{background:var(--brand);color:#fff}
-:root[data-theme="dark"] .seg button.on{color:#0e1424}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button.on{color:#0e1424}}
 .deel{border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0;position:relative}
 .deel .x{position:absolute;top:8px;right:8px}
 .nav{display:flex;gap:10px;justify-content:space-between;margin-top:22px;flex-wrap:wrap}
 .btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:12px 18px;border-radius:12px;font:inherit;font-weight:700;cursor:pointer}
 .btn:hover{border-color:var(--brand)}
 .btn.p{background:var(--brand);border-color:var(--brand);color:#fff}
-:root[data-theme="dark"] .btn.p{color:#0e1424}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.p{color:#0e1424}}
 .btn.a{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn.s{padding:6px 10px;font-size:13px;border-radius:9px}
 .hint{font-size:13px;color:var(--muted);background:var(--brand-2);border-radius:10px;padding:10px 12px;margin-top:12px}
@@ -81,12 +71,50 @@ footer{color:var(--muted);font-size:13px;padding:10px 0 40px}
 textarea{font:inherit}
 .kv{display:grid;grid-template-columns:1fr auto;gap:6px 14px;font-size:15px}
 .kv span:nth-child(even){text-align:right;font-weight:600}
+:root{--bg:#E6ECF3;--card:#fff;--ink:#010101;--muted:#5f5f5f;--line:#d5dce6;--brand:#010101;--brand-2:#FFF6CC;--accent:#FFD31C;--accent-2:#FFF6CC;--y:#FFD31C;
+--goed:#1f8a4c;--goed-bg:#e3f3ea;--let:#5d6b00;--let-bg:#f3f5d3;--krap:#a85800;--krap-bg:#fff0d6;--risico:#c8324f;--risico-bg:#fde6ec;--shadow:none}
+/* Huisstijl Hypotheekcijfer: geel/zwart, zeshoeken, afgeschuinde hoeken, hoekige knoppen */
+body{font-family:Montserrat,"Gilroy","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+h1,h2{font-weight:900}
+.card{border-radius:0;box-shadow:none;clip-path:polygon(22px 0,100% 0,100% 100%,0 100%,0 22px)}
+.btn{border-radius:0;border:2px solid var(--ink);font-weight:700}
+.btn:hover{border-color:var(--ink);background:var(--brand-2)}
+.btn.p{background:var(--ink);border-color:var(--ink);color:#fff}.btn.p:hover{background:#333}
+.btn.a{background:var(--y);border-color:var(--y);color:var(--ink)}.btn.a:hover{background:#ffdc4a}
+select,input,textarea{border-radius:0!important;border:1.5px solid var(--ink)!important}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--y)!important;outline-offset:0}
+.c,.b,.badge{border-radius:0}
+.ring{border-radius:0!important;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+mark{background:linear-gradient(transparent 58%,var(--y) 58%);color:inherit;padding:0 2px}
+.hero mark{background:linear-gradient(transparent 58%,#fff 58%)}
+.hexi{display:inline-grid;place-items:center;background:var(--ink);color:var(--y);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);font-weight:900;font-style:normal}
+.topbar{background:var(--y);position:sticky;top:0;z-index:20}
+header.wrap{padding:14px 16px}
+.logo{font-weight:900;font-size:20px}
+.logo i{border-radius:0;background:var(--ink);color:var(--y);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);width:36px;height:40px;font-weight:900}
+.hero{background:var(--y);margin:0 -16px;padding:34px 24px 64px;clip-path:polygon(0 0,100% 0,100% 100%,0 86%);position:relative}
+.hero h1{font-weight:900;max-width:620px}
+.hero p{color:var(--ink);max-width:620px}
+@media (min-width:760px){.hero{padding-right:300px}.hero:after{content:"8";position:absolute;right:48px;top:30px;width:190px;height:216px;display:grid;place-items:center;background:var(--ink);color:var(--y);font-size:140px;font-weight:900;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}}
+.pill{border-radius:0;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-weight:600}
+.steps span{border-radius:0;height:8px}.steps span.on{background:var(--ink)}
+.seg{border-radius:0;border:1.5px solid var(--ink)}.seg button.on{background:var(--ink);color:#fff}
+.deel{border-radius:0;clip-path:polygon(16px 0,100% 0,100% 100%,0 100%,0 16px)}
+.hint{border-radius:0;background:var(--brand-2);color:var(--ink);border-left:4px solid var(--y)}
+.demo{border-radius:0;background:var(--brand-2);border-left:4px solid var(--ink)}
+.s{border-radius:0;clip-path:polygon(14px 0,100% 0,100% 100%,0 100%,0 14px)}
+.ring{width:132px;height:150px}
+.tl .m i{border-radius:0;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+h2:after{content:"";display:block;width:40px;height:5px;background:var(--y);margin:8px 0 4px}
+.hero h1:after{display:none}
+footer{background:var(--ink);color:#bbb;max-width:none;padding:28px 16px 40px;border-top:6px solid var(--y)}
+footer>*{max-width:860px;margin:0 auto}
 </style>
 </head>
 <body>
-<header class="wrap" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div class="logo"><i>H</i>Hypotheekcijfer</div><div style="margin-left:auto;display:flex;gap:8px;align-items:center" id="who"></div></header>
+<div class="topbar"><header class="wrap" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div class="logo"><i>H</i>Hypotheekcijfer</div><div style="margin-left:auto;display:flex;gap:8px;align-items:center" id="who"></div></header></div>
 <main class="wrap" id="app"></main>
-<footer class="wrap">Indicatief en geen hypotheekadvies of kredietbeslissing. Berekend met de leennormen 2027 (Tijdelijke regeling hypothecair krediet), met vereenvoudigde aannames. Je gegevens blijven in deze browser en worden niet opgeslagen of verstuurd.</footer>
+<footer><div>Indicatief en geen hypotheekadvies of kredietbeslissing. Berekend met de leennormen 2027 (Tijdelijke regeling hypothecair krediet), met vereenvoudigde aannames. Je gegevens blijven in deze browser en worden niet opgeslagen of verstuurd.</div></footer>
 
 <script>
 /* Rekenkern Shared Hypotheekcijfer — toetst per scenario aan de leennormen 2027
@@ -94,11 +122,16 @@ textarea{font:inherit}
 const PARAMS = {
   jaar: 2026,                // peiljaar portefeuille/projecties
   normJaar: 2027,            // leennormen (financieringslastpercentages) 2027
-  aftrekTarief: 0.3756,      // max. tarief hypotheekrenteaftrek 2026 (voor netto maandlast)
-  ewfPct: 0.0035,            // eigenwoningforfait 2026
-  aowLeeftijd: 67,           // vereenvoudigd
+  fiscaalJaar: 2027,         // fiscale parameters: Belastingplan 2027 (wetsvoorstel, nog niet door Eerste Kamer)
+  aftrekTarief: 0.3816,      // max. tarief hypotheekrenteaftrek 2027 (2026: 37,56%)
+  ewfPct: 0.0035,            // eigenwoningforfait 2027 (WOZ € 75.000 – € 1.360.000)
+  ewfVillaGrens: 1360000,    // daarboven 2,35% over het meerdere (villataks 2027)
+  ewfVillaPct: 0.0235,
+  hillenPct: 0.67067,        // Wet Hillen 2027: aftrek bij geen/geringe eigenwoningschuld
+  aowLeeftijd: 67,           // t/m 2027 (geboren t/m 1960)
+  aowLeeftijdVanaf2028: 67.25, // 67 jaar en 3 maanden, 2028 t/m 2032 (vastgesteld 13-11-2026)
   wwPct: 0.70,               // WW na 2 maanden
-  wwMaxJaar: 79000,          // indicatief maximum dagloon x 261
+  wwMaxJaar: 80886,          // maximumdagloon € 309,91 (per 1-7-2026) x 261; bedrag 1-1-2027 nog niet gepubliceerd
   aoPct: 0.70,               // indicatief WIA/WGA-niveau
   pensioenPctDefault: 0.70,
   renteHerfinDefault: 4.2,
@@ -192,6 +225,18 @@ function projecteerSaldo(d, n) {
   return Math.max(0, s);
 }
 
+/* AOW-jaar bij geboortejaar (geboortedatum onbekend: halverwege het jaar aangenomen) */
+function aowJaar(gj) {
+  if (!gj) return 9999;
+  const leeftijd = gj <= 1960 ? PARAMS.aowLeeftijd : PARAMS.aowLeeftijdVanaf2028;
+  return Math.floor(gj + 0.5 + leeftijd);
+}
+
+function eigenwoningforfait(woz) {
+  if (woz <= PARAMS.ewfVillaGrens) return woz * PARAMS.ewfPct;
+  return PARAMS.ewfVillaGrens * PARAMS.ewfPct + (woz - PARAMS.ewfVillaGrens) * PARAMS.ewfVillaPct;
+}
+
 function cijferUitRatio(ratio) {
   if (!isFinite(ratio)) return 1;
   const c = ratio <= PARAMS.cijferSchaal[0][0] ? 10 : interp(PARAMS.cijferSchaal, ratio);
@@ -209,7 +254,7 @@ function berekenDossier(k) {
   const woz = +k.woz || +k.waarde || 0;
   const herRente = +k.renteHerfin || PARAMS.renteHerfinDefault, herRvp = +k.herRvp || 10;
   const labelBonus = LEENNORMEN_2027.energielabel[k.energielabel || 'geen'] || 0;
-  const aow1 = (+k.geboortejaar1 || 0) + PARAMS.aowLeeftijd, aow2 = k.partner && k.geboortejaar2 ? +k.geboortejaar2 + PARAMS.aowLeeftijd : 9999;
+  const aow1 = aowJaar(+k.geboortejaar1 || 0), aow2 = k.partner && k.geboortejaar2 ? aowJaar(+k.geboortejaar2) : 9999;
   const inkOp = Y => [aow1 <= Y ? pens1 : ink1, k.partner ? (aow2 <= Y ? pens2 : ink2) : 0];
 
   function maandlast(opts) {
@@ -222,7 +267,9 @@ function berekenDossier(k) {
       const aftrek = opts.aftrek === false ? false : (d.aftrekEindJaar ? d.aftrekEindJaar > jaar + (opts.jarenVooruit || 0) : true);
       if (aftrek && d.box !== 3) aftrekbareRente += l.rente;
     });
-    const voordeel = Math.max(0, (aftrekbareRente - woz * PARAMS.ewfPct / 12) * PARAMS.aftrekTarief);
+    const saldoEW = aftrekbareRente - eigenwoningforfait(woz) / 12;
+    // Saldo negatief (forfait > rente): Wet Hillen 2027 compenseert 67,067%, de rest wordt bijgeteld
+    const voordeel = saldoEW >= 0 ? saldoEW * PARAMS.aftrekTarief : saldoEW * (1 - PARAMS.hillenPct) * PARAMS.aftrekTarief;
     return { bruto, rente, netto: bruto - voordeel, voordeel };
   }
 
@@ -395,6 +442,7 @@ function fmtPct(x, d = 2) { return isFinite(x) ? x.toLocaleString('nl-NL', { min
 function fmtNum(x, d = 1) { return isFinite(x) ? x.toLocaleString('nl-NL', { minimumFractionDigits: d, maximumFractionDigits: d }) : '–'; }
 
 if (typeof module !== 'undefined') module.exports = { PARAMS, berekenDossier, annuiteit, score, funderingsRisico, fmtEUR };
+
 </script>
 <script>
 /* ================= Consumententool ================= */
@@ -478,7 +526,7 @@ function render() {
 
 function renderLogin(app) {
   const c = ST.loginTab === 'consument';
-  app.innerHTML = `<section class="hero"><h1>Scoor je hypotheekcijfer, en zie hoe jij ervoor staat.</h1>
+  app.innerHTML = `<section class="hero"><h1>Scoor je <mark>hypotheekcijfer</mark>, en zie hoe jij ervoor staat.</h1>
     <p>Log in met de uitnodiging van je adviseur, of doe de check zonder inlog.</p></section>
   <div class="demo"><b>Demo-omgeving</b> · inloggen is gesimuleerd en gegevens staan alleen in deze browsertab. Gebruik geen echte persoonsgegevens.</div>
   <div class="card"><div class="seg" style="max-width:420px;margin-bottom:18px"><button data-tab="consument" class="${c ? 'on' : ''}">Ik ben consument</button><button data-tab="adviseur" class="${!c ? 'on' : ''}">Ik ben adviseur</button></div>
@@ -568,7 +616,7 @@ function renderAdvDash(app) {
 function intro() {
 
   return `<section class="hero">
-    <h1>Scoor je hypotheekcijfer, en zie hoe jij ervoor staat.</h1>
+    <h1>Scoor je <mark>hypotheekcijfer</mark>, en zie hoe jij ervoor staat.</h1>
     <p>Kun je je hypotheek blijven betalen als je rente straks omhooggaat, de renteaftrek stopt of je met pensioen gaat? En wat als er iets onverwachts gebeurt?</p>
     <p>Je krijgt een cijfer van 1 tot 10, plus een cijfer per belangrijk moment en per life event, met tips wat je kunt doen.</p>
     <div class="pills"><span class="pill">± 5 minuten</span><span class="pill">Leennormen ${PARAMS.normJaar}</span><span class="pill">Gegevens blijven in je browser</span><span class="pill">Gratis en vrijblijvend</span></div>
@@ -788,7 +836,7 @@ function renderResultaat(app) {
     <div class="nav" style="justify-content:flex-start"><button class="btn a" id="pdf">Download rapport (PDF)</button><button class="btn" id="aanp">Gegevens aanpassen</button>${ST.rol === 'anoniem' ? '<button class="btn" id="opn">Opnieuw beginnen</button>' : ''}</div>
     <details style="margin-top:16px"><summary>Hoe berekenen we je cijfer?</summary>
       <p class="disc">Per situatie berekenen we hoeveel hypotheek volgens de leennormen ${PARAMS.normJaar} (Tijdelijke regeling hypothecair krediet) bij je inkomen past, en vergelijken dat met je hypotheek op dat moment. Precies op de norm geeft een 6; ruim eronder een hoger cijfer, erboven een lager cijfer. Je totaalcijfer is het gemiddelde van je cijfer nu, je laagste cijfer bij een belangrijk moment en je laagste cijfer bij een life event.
-      We gaan uit van vereenvoudigingen: AOW-leeftijd 67, WW/WIA ongeveer 70% van je loon, pensioen 70% van je inkomen als je niets invult, rente na de rentevaste periode ${fmtPct(+k.renteHerfin || PARAMS.renteHerfinDefault)}. Studieschuld en andere leningen tellen niet mee. Netto lasten zijn indicatief (fiscale regels ${PARAMS.jaar}).</p></details>
+      We gaan uit van vereenvoudigingen: AOW-leeftijd 67 jaar (geboren t/m 1960) of 67 jaar en 3 maanden, WW/WIA ongeveer 70% van je loon, pensioen 70% van je inkomen als je niets invult, rente na de rentevaste periode ${fmtPct(+k.renteHerfin || PARAMS.renteHerfinDefault)}. Studieschuld en andere leningen tellen niet mee. Netto lasten zijn indicatief (fiscale regels ${PARAMS.fiscaalJaar}, Belastingplan ${PARAMS.fiscaalJaar}).</p></details>
     <p class="disc">Dit is een indicatie en geen hypotheekadvies of kredietbeslissing. Aan de uitkomst kun je geen rechten ontlenen.</p>
   </div>`;
   app.querySelector('#pdf').onclick = () => printRapport(k, res);
