@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex,nofollow">
 <script>
 /* Wachtwoordscherm — client-side toegangsdrempel, GEEN echte beveiliging (de inhoud staat in de bron). */
-(function () { var ok = false; try { ok = sessionStorage.getItem('hc-toegang') === '1'; } catch (e) {} if (!ok) document.documentElement.classList.add('locked'); })();
+document.documentElement.classList.add('locked'); /* elke keer opnieuw vragen: niets onthouden */
 </script>
 <style>
 #gate{display:none}
@@ -132,7 +132,7 @@ footer .in{max-width:1120px;margin:0 auto;padding:24px 16px 36px}footer a{color:
     var v = document.getElementById('gw').value.trim().toLowerCase().replace(/\s+/g, ' ');
     var d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v));
     var h = Array.from(new Uint8Array(d)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-    if (h === H) { try { sessionStorage.setItem('hc-toegang', '1'); } catch (x) {} document.documentElement.classList.remove('locked'); window.dispatchEvent(new Event('resize')); }
+    if (h === H) { document.documentElement.classList.remove('locked'); window.dispatchEvent(new Event('resize')); }
     else { err.textContent = 'Onjuist wachtwoord.'; document.getElementById('gw').select(); }
   });
   document.getElementById('taform').addEventListener('submit', function (e) {
