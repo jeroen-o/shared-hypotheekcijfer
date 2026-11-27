@@ -2,11 +2,11 @@
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');
 const blok = f => { const s = fs.readFileSync(path.resolve(__dirname, '..', f), 'utf8'); const a = s.indexOf('<script>') + 8; return s.slice(a, s.indexOf('</script>', a)).trim(); };
-if (blok('index.html') !== blok('consument.html')) { console.error('FAIL: rekenkern in consument.html wijkt af van index.html'); process.exit(1); }
+if (blok('geldverstrekker.html') !== blok('index.html')) { console.error('FAIL: rekenkern in index.html wijkt af van geldverstrekker.html'); process.exit(1); }
 (async () => {
   const b = await chromium.launch(), pg = await b.newPage({ viewport: { width: 390, height: 844 } }), errs = [];
   pg.on('pageerror', e => errs.push(e.message));
-  await pg.goto('file://' + path.resolve(__dirname, '../consument.html'));
+  await pg.goto('file://' + path.resolve(__dirname, '../index.html'));
   await pg.click('#anon'); await pg.click('#start');
   await pg.click('[data-seg="partner"][data-v="true"]');
   await pg.fill('[data-k="geboortejaar1"]', '1964'); await pg.fill('[data-k="inkomen1"]', '58000');

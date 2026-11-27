@@ -2,7 +2,7 @@
 
 Een monitoringtool voor hypotheken die geldverstrekker, adviseur en klant in één keten verbindt. Het concept is Blinqx: Hypotheekcijfer, Procesversneller/Ockto en woningwaarde via PandWise/Calcasa. Aanleiding is de verplichting om kredietkwaliteit en onderpand gedurende de hele looptijd te volgen (EBA/GL/2020/06, SREP, ECB-prioriteiten). Het AFM-gedragstoezicht stelt daarbij eisen aan zorgplicht en handelingsperspectief.
 
-**Gebruik:** open `index.html` in een browser. Het is één bestand, zonder build-step en zonder externe API's. Er wordt niets opgeslagen, ook niet in localStorage; dat maakt embedden in Google Sites mogelijk. Printen gaat via `window.open()`.
+**Gebruik:** de homepage (`index.html`) is de Hypotheekcijfer-tool voor consument en adviseur; `geldverstrekker.html` is de portefeuillemonitoring. Open ze in een browser. Het is één bestand, zonder build-step en zonder externe API's. Er wordt niets opgeslagen, ook niet in localStorage; dat maakt embedden in Google Sites mogelijk. Printen gaat via `window.open()`.
 
 ## Onderdelen
 
@@ -13,9 +13,9 @@ Een monitoringtool voor hypotheken die geldverstrekker, adviseur en klant in é�
 | Hypotheekcijfer | Klant + adviseur | Cijfer 1–10 per moment (einde rentevaste periode, einde renteaftrek, pensioen, samenloop, einde looptijd) en per life event (WW, AO, overlijden, scheiding, inkomensdaling), met handelingsperspectief; onderpand met LTV, funderingscijfer, onderhoud en stress-LTV; klantrapport; terugmelden aan de geldverstrekker |
 | Kader & compliance | Iedereen | Processtappen, koppeling regelgeving → tool, compliance-aandachtspunten, rekenparameters |
 
-## Consumenten- en adviseursportaal (`consument.html`)
+## Hypotheekcijfer voor consument en adviseur (homepage, `index.html`)
 
-"Scoor je hypotheekcijfer, en zie hoe jij ervoor staat." Een stappenplan in je-vorm (over jou, hypotheek, woning, als het tegenzit, je cijfer) met dezelfde rekenkern als `index.html`; `tests/consument.js` bewaakt dat beide identiek rekenen.
+"Scoor je hypotheekcijfer, en zie hoe jij ervoor staat." Een stappenplan in je-vorm (over jou, hypotheek, woning, als het tegenzit, je cijfer) met dezelfde rekenkern als `geldverstrekker.html`; `tests/consument.js` bewaakt dat beide identiek rekenen.
 
 - **Consument:** logt in met een uitnodigingscode en het geboortejaar, ziet een vooraf ingevuld dossier, vult aan en deelt de uitkomst met de adviseur. De check kan ook anoniem.
 - **Adviseur:** logt in, ziet de eigen klanten (status, voorlopig of vastgesteld cijfer), maakt uitnodigingen, vult samen met de klant in, legt een adviesnotitie en een bericht aan de klant vast, en markeert het dossier als besproken.
@@ -40,7 +40,7 @@ Download het sjabloon in de tool. Het scheidingsteken is `;`, decimalen met komm
 - De koppelingen met Ockto, PandWise, Calcasa en Funderingscijfer zijn **gesimuleerd** of gaan via handmatige invoer.
 - De demo-portefeuille is fictief.
 - Fiscale parameters 2027 (Belastingplan 2027, **wetsvoorstel**; definitief na stemming in de Eerste Kamer): aftrektarief 38,16%, eigenwoningforfait 0,35% tot € 1.360.000 en 2,35% daarboven, Wet Hillen 67,067%. AOW-leeftijd 67 jaar (geboren t/m 1960), daarna 67 jaar en 3 maanden. Maximumdagloon € 309,91 per 1-7-2026; het bedrag per 1-1-2027 is nog niet gepubliceerd.
-- De parameters staan in `PARAMS` in `index.html` (en identiek in `consument.html`); werk ze jaarlijks bij.
+- De parameters staan in `PARAMS` in `geldverstrekker.html` en identiek in `index.html`; werk ze jaarlijks bij.
 - Huisstijl: die van Hypotheekcijfer (geel #FFD31C / zwart, zeshoeken, afgeschuinde hoeken). Lettertypefamilie Montserrat als die lokaal aanwezig is, anders systeemfont (geen externe fonts geladen).
 
 ## Test

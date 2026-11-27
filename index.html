@@ -3,81 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Shared Hypotheekcijfer</title>
+<title>Scoor je hypotheekcijfer</title>
+<meta name="description" content="Scoor je hypotheekcijfer, en zie hoe jij ervoor staat. Indicatief, getoetst aan de leennormen 2027.">
 <style>
-:root{--bg:#f4f6fb;--card:#fff;--ink:#13203b;--muted:#5d6680;--line:#e1e5ef;--brand:#1d3a8a;--brand-2:#e8eefb;--accent:#ff6a3d;--accent-2:#fff0ea;
---goed:#17824f;--goed-bg:#e2f4ea;--let:#5f7417;--let-bg:#eef4d9;--krap:#a96400;--krap-bg:#fdefd8;--risico:#bf2f24;--risico-bg:#fbe4e1;--shadow:0 1px 2px rgba(19,32,59,.06),0 4px 14px rgba(19,32,59,.05)}
+:root{--bg:#f4f6fb;--card:#fff;--ink:#13203b;--muted:#5d6680;--line:#e1e5ef;--brand:#1d3a8a;--brand-2:#e8eefb;--accent:#ff6a3d;
+--goed:#17824f;--goed-bg:#e2f4ea;--let:#5f7417;--let-bg:#eef4d9;--krap:#a96400;--krap-bg:#fdefd8;--risico:#bf2f24;--risico-bg:#fbe4e1;--shadow:0 1px 2px rgba(19,32,59,.06),0 6px 20px rgba(19,32,59,.06)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
-.wrap{max-width:1240px;margin:0 auto;padding:0 16px}
-.top{display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
-.logo i{width:30px;height:30px;border-radius:8px;background:var(--brand);display:grid;place-items:center;color:#fff;font-style:normal;font-size:15px}
-.logo small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
-nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
-nav button{border:0;background:none;color:var(--muted);padding:8px 12px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer}
-nav button.on{background:var(--brand-2);color:var(--brand)}
-main{padding:20px 0 60px}
-h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:0 0 12px}h3{font-size:14px;margin:0 0 8px}
-.sub{color:var(--muted);margin:0 0 18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
-.grid{display:grid;gap:14px}
-.kpis{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
-.kpi .v{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}.kpi .l{color:var(--muted);font-size:12px}.kpi .h{font-size:12px;color:var(--muted);margin-top:2px}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.sp{flex:1}
-.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 12px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px}
+header{padding:18px 0 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+.logo i{width:32px;height:32px;border-radius:9px;background:var(--brand);display:grid;place-items:center;color:#fff;font-style:normal}
+.hero{padding:28px 0 8px}
+.hero h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:0 0 10px;letter-spacing:-.01em}
+.hero p{color:var(--muted);margin:0 0 6px;font-size:17px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);margin:16px 0}
+.steps{display:flex;gap:6px;margin:18px 0 0}
+.steps span{flex:1;height:6px;border-radius:9px;background:var(--line)}
+.steps span.on{background:var(--brand)}
+.stepl{font-size:13px;color:var(--muted);margin-top:6px}
+h2{font-size:22px;margin:0 0 4px}h3{font-size:17px;margin:0 0 8px}
+.lead{color:var(--muted);margin:0 0 18px}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px 16px}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600}
+label.f small{font-weight:400;color:var(--muted);font-size:12px}
+input,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;min-width:0}
+input:focus,select:focus{outline:2px solid var(--brand);outline-offset:-1px}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{flex:1;border:0;background:var(--card);color:var(--ink);padding:11px;font:inherit;cursor:pointer}
+.seg button.on{background:var(--brand);color:#fff}
+.deel{border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0;position:relative}
+.deel .x{position:absolute;top:8px;right:8px}
+.nav{display:flex;gap:10px;justify-content:space-between;margin-top:22px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:12px 18px;border-radius:12px;font:inherit;font-weight:700;cursor:pointer}
 .btn:hover{border-color:var(--brand)}
 .btn.p{background:var(--brand);border-color:var(--brand);color:#fff}
 .btn.a{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn.s{padding:4px 8px;font-size:12px}
-select,input{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 9px;min-width:0}
-input:focus,select:focus{outline:2px solid var(--brand);outline-offset:-1px}
-label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
-label.f input,label.f select{width:100%;font-weight:400}
-.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px 12px}
-.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-.tbl th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);padding:8px;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
-.tbl td{white-space:nowrap;padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
-.tbl tr.click{cursor:pointer}.tbl tr.click:hover td{background:var(--brand-2)}
-.tbl .r{text-align:right}
-.scroll{overflow-x:auto}
-.b{display:inline-block;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
+.btn.s{padding:6px 10px;font-size:13px;border-radius:9px}
+.hint{font-size:13px;color:var(--muted);background:var(--brand-2);border-radius:10px;padding:10px 12px;margin-top:12px}
+.err{color:var(--risico);font-size:14px;margin-top:10px}
+.score{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.ring{width:140px;height:140px;border-radius:50%;display:grid;place-items:center;flex:none;position:relative}
+.ring b{font-size:46px;font-weight:800}
+.ring small{position:absolute;bottom:22px;font-size:12px;font-weight:600}
 .goed{background:var(--goed-bg);color:var(--goed)}.let{background:var(--let-bg);color:var(--let)}.krap{background:var(--krap-bg);color:var(--krap)}.risico{background:var(--risico-bg);color:var(--risico)}
-.neu{background:var(--brand-2);color:var(--brand)}.ghost{background:transparent;border:1px dashed var(--line);color:var(--muted)}
-.c{display:inline-grid;place-items:center;min-width:36px;height:24px;border-radius:6px;font-weight:700;font-size:13px;padding:0 6px}
-.c.vl{opacity:.75;border:1px dashed currentColor}
-.two{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:16px;align-items:start}
-@media(max-width:960px){.two{grid-template-columns:1fr}}
-.sticky{position:sticky;top:74px}
-@media(max-width:960px){.sticky{position:static}}
-.big{display:flex;gap:16px;align-items:center}
-.ring{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:32px;font-weight:800;flex:none}
-.sc{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-.s{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--card)}
-.s .t{font-weight:700;font-size:13px}.s .w{font-size:12px;color:var(--muted)}
-.s .n{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px}
-.s .hp{font-size:12px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line)}
-.sig{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px}.sig:last-child{border:0}
-.note{font-size:12px;color:var(--muted)}
-.warn{background:var(--accent-2);border-left:3px solid var(--accent);padding:10px 12px;border-radius:6px;font-size:13px}
-.flag{background:var(--krap-bg);border-left:3px solid var(--krap);padding:10px 12px;border-radius:6px;font-size:13px;margin:8px 0}
-.flag b{color:var(--krap)}
-.sect{margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
-.sect:first-child{margin-top:0;padding-top:0;border:0}
-details summary{cursor:pointer;font-weight:700}
-.tl{position:relative;height:56px;margin:8px 4px 0}
-.tl .ax{position:absolute;left:0;right:0;top:26px;height:2px;background:var(--line)}
-.tl .m{position:absolute;top:18px;transform:translateX(-50%);text-align:center;font-size:10px;color:var(--muted);white-space:nowrap}
-.tl .m i{display:block;width:14px;height:14px;border-radius:50%;margin:0 auto 4px;border:2px solid var(--card)}
-.tl .y{position:absolute;top:36px;font-size:10px;color:var(--muted);transform:translateX(-50%)}
-.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
-.flow div{border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;background:var(--card)}
-.flow b{display:block;font-size:13px;color:var(--brand)}
+.c{display:inline-grid;place-items:center;min-width:44px;height:30px;border-radius:8px;font-weight:800;font-size:15px;padding:0 8px}
+.sc{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.s{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--card)}
+.s .t{font-weight:700}.s .w{font-size:13px;color:var(--muted)}
+.s .n{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-top:6px}
+.s .tip{font-size:14px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.tl{position:relative;height:64px;margin:18px 6px 4px}
+.tl .ax{position:absolute;left:0;right:0;top:28px;height:3px;border-radius:3px;background:var(--line)}
+.tl .m{position:absolute;top:20px;transform:translateX(-50%);text-align:center;font-size:11px;color:var(--muted);white-space:nowrap}
+.tl .m i{display:block;width:18px;height:18px;border-radius:50%;margin:0 auto 4px;border:3px solid var(--card)}
+.tl .y{position:absolute;top:44px;font-size:11px;color:var(--muted);transform:translateX(-50%)}
 .muted{color:var(--muted)}
+details summary{cursor:pointer;font-weight:700}
+.disc{font-size:13px;color:var(--muted)}
+footer{color:var(--muted);font-size:13px;padding:10px 0 40px}
 .hide{display:none!important}
-footer{color:var(--muted);font-size:12px;padding:20px 0;border-top:1px solid var(--line)}
+.demo{background:var(--krap-bg);color:var(--ink);border-left:4px solid var(--krap);border-radius:10px;padding:10px 14px;font-size:14px;margin:14px 0}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.neu{background:var(--brand-2);color:var(--brand)}
+textarea{font:inherit}
+.kv{display:grid;grid-template-columns:1fr auto;gap:6px 14px;font-size:15px}
+.kv span:nth-child(even){text-align:right;font-weight:600}
 :root{--bg:#E6ECF3;--card:#fff;--ink:#010101;--muted:#5f5f5f;--line:#d5dce6;--brand:#010101;--brand-2:#FFF6CC;--accent:#FFD31C;--accent-2:#FFF6CC;--y:#FFD31C;
 --goed:#1f8a4c;--goed-bg:#e3f3ea;--let:#5d6b00;--let-bg:#f3f5d3;--krap:#a85800;--krap-bg:#fff0d6;--risico:#c8324f;--risico-bg:#fde6ec;--shadow:none}
 /* Huisstijl Hypotheekcijfer: geel/zwart, zeshoeken, afgeschuinde hoeken, hoekige knoppen */
@@ -93,34 +86,35 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--y)!important;out
 .c,.b,.badge{border-radius:0}
 .ring{border-radius:0!important;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
 mark{background:linear-gradient(transparent 58%,var(--y) 58%);color:inherit;padding:0 2px}
+.hero mark{background:linear-gradient(transparent 58%,#fff 58%)}
 .hexi{display:inline-grid;place-items:center;background:var(--ink);color:var(--y);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);font-weight:900;font-style:normal}
-header{background:var(--y);border-bottom:0}
-.logo i{border-radius:0;background:var(--ink);color:var(--y);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);width:34px;height:38px;font-weight:900}
-.logo small{color:#333}
-nav button{border-radius:0;color:var(--ink);border-bottom:3px solid transparent;padding:8px 10px}
-nav button.on{background:transparent;color:var(--ink);border-color:var(--ink)}
-nav a{color:var(--ink)!important;background:var(--ink);color:#fff!important;border-radius:0!important}
-h1:after{content:"";display:block;width:44px;height:6px;background:var(--y);margin:10px 0 2px}
-.tbl tr.click:hover td{background:var(--brand-2)}
+.topbar{background:var(--y);position:sticky;top:0;z-index:20}
+header.wrap{padding:14px 16px}
+.logo{font-weight:900;font-size:20px}
+.logo i{border-radius:0;background:var(--ink);color:var(--y);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);width:36px;height:40px;font-weight:900}
+.hero{background:var(--y);margin:0 -16px;padding:34px 24px 64px;clip-path:polygon(0 0,100% 0,100% 100%,0 86%);position:relative}
+.hero h1{font-weight:900;max-width:620px}
+.hero p{color:var(--ink);max-width:620px}
+@media (min-width:760px){.hero{padding-right:300px}.hero:after{content:"8";position:absolute;right:48px;top:30px;width:190px;height:216px;display:grid;place-items:center;background:var(--ink);color:var(--y);font-size:140px;font-weight:900;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}}
+.pill{border-radius:0;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-weight:600}
+.steps span{border-radius:0;height:8px}.steps span.on{background:var(--ink)}
+.seg{border-radius:0;border:1.5px solid var(--ink)}.seg button.on{background:var(--ink);color:#fff}
+.deel{border-radius:0;clip-path:polygon(16px 0,100% 0,100% 100%,0 100%,0 16px)}
+.hint{border-radius:0;background:var(--brand-2);color:var(--ink);border-left:4px solid var(--y)}
+.demo{border-radius:0;background:var(--brand-2);border-left:4px solid var(--ink)}
 .s{border-radius:0;clip-path:polygon(14px 0,100% 0,100% 100%,0 100%,0 14px)}
-.warn,.flag{border-radius:0}
-.flow div{border-radius:0;border-top:6px solid var(--ink)}.flow b{color:var(--ink)}
-footer{border-top:6px solid var(--y)}
+.ring{width:132px;height:150px}
+.tl .m i{border-radius:0;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+h2:after{content:"";display:block;width:40px;height:5px;background:var(--y);margin:8px 0 4px}
+.hero h1:after{display:none}
+footer{background:var(--ink);color:#bbb;max-width:none;padding:28px 16px 40px;border-top:6px solid var(--y)}
+footer>*{max-width:860px;margin:0 auto}
 </style>
 </head>
 <body>
-<header><div class="wrap top">
-  <div class="logo"><i>H</i><div>Shared Hypotheekcijfer<small>Structurele hypotheekmonitoring · geldverstrekker · adviseur · klant</small></div></div>
-  <nav id="nav">
-    <button data-v="gv" class="on">Geldverstrekker</button>
-    <button data-v="adv">Adviseur</button>
-    <button data-v="klant">Hypotheekcijfer</button>
-    <button data-v="kader">Kader &amp; compliance</button>
-    <a href="consument.html" target="_blank" rel="noopener" style="padding:8px 12px;border-radius:8px;font-weight:600;color:var(--accent);text-decoration:none">Consument &amp; adviseur ↗</a>
-  </nav>
-</div></header>
+<div class="topbar"><header class="wrap" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div class="logo"><i>H</i>Hypotheekcijfer</div><div style="margin-left:auto;display:flex;gap:8px;align-items:center" id="who"></div></header></div>
 <main class="wrap" id="app"></main>
-<footer class="wrap">Indicatieve monitoringtool — getoetst aan de leennormen 2027, maar geen hypotheekadvies, geen kredietbeslissing en geen taxatie. Demo-portefeuille is fictief. Gegevens blijven in het geheugen van deze pagina (geen opslag, geen externe API's).</footer>
+<footer><div>Indicatief en geen hypotheekadvies of kredietbeslissing. Berekend met de leennormen 2027 (Tijdelijke regeling hypothecair krediet), met vereenvoudigde aannames. Je gegevens blijven in deze browser en worden niet opgeslagen of verstuurd.<br><a href="geldverstrekker.html" style="color:var(--y)">Voor geldverstrekkers: portefeuillemonitoring →</a></div></footer>
 
 <script>
 /* Rekenkern Shared Hypotheekcijfer — toetst per scenario aan de leennormen 2027
@@ -451,585 +445,448 @@ if (typeof module !== 'undefined') module.exports = { PARAMS, berekenDossier, an
 
 </script>
 <script>
-/* ================= Applicatie ================= */
-const TODAY = new Date();
-const ISO = d => d.toISOString().slice(0, 10);
-const nlDate = s => s ? new Date(s).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }) : '–';
+/* ================= Consumententool ================= */
+const J = PARAMS.jaar;
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const clone = o => JSON.parse(JSON.stringify(o));
-const parseNum = v => { if (typeof v === 'number') return v; const s = String(v || '').replace(/\s|€/g, '').replace(/\./g, '').replace(',', '.'); const n = parseFloat(s); return isFinite(n) ? n : 0; };
+const parseNum = v => { const s = String(v ?? '').replace(/\s|€/g, '').replace(/\./g, '').replace(',', '.'); const n = parseFloat(s); return isFinite(n) ? n : 0; };
 const fmtInt = n => Math.round(n || 0).toLocaleString('nl-NL');
-const STATUS = { niet: 'Niet gestart', uitgenodigd: 'Uitgenodigd', behandeling: 'In behandeling', afgerond: 'Afgerond', herhaling: 'Herhaling vereist' };
-const STATUS_B = { niet: 'ghost', uitgenodigd: 'neu', behandeling: 'let', afgerond: 'goed', herhaling: 'krap' };
 
-const S = {
-  view: 'gv', gv: 'Voorbeeldbank Hypotheken N.V.', cyclus: 4,
-  portfolio: [], adviseurs: [], filter: { q: '', status: '', signaal: '', adviseur: '' }, sort: { k: 'prio', d: -1 },
-  adv: '', cur: null /* {id|null, k, adviseur} */
-};
+const leegDossier = () => ({
+  naam1: '', partner: false, naam2: '', geboortejaar1: '', geboortejaar2: '', inkomen1: '', inkomen2: '', pensioen1: '', pensioen2: '',
+  orv1: '', orv2: '', nabestaanden: '', nabestaanden2: '',
+  waarde: '', woz: '', waardeDatum: `${J}-01`, waardeBron: 'Eigen schatting', bouwjaar: '', grond: 'zand', aandachtsgebied: 'nee', grondwater: 'nee',
+  fundering: 'onbekend', schade: 'nee', funderingExtern: '', onderhoud: '', energielabel: 'geen', nhg: 'nee',
+  renteHerfin: PARAMS.renteHerfinDefault, herRvp: 10, inkomensdaling: 20,
+  delen: [{ vorm: 'annuitair', bedrag: '', rente: '', rvpJaar: '', eindJaar: '', startJaar: '' }]
+});
 
-/* ---------- Demo-portefeuille (fictief, deterministisch) ---------- */
-function rng(seed) { return () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296; }
-const PLAATSEN = [['Gouda', 'veen', 'ja'], ['Zaanstad', 'veen', 'ja'], ['Dordrecht', 'klei', 'ja'], ['Schiedam', 'klei', 'ja'], ['Rotterdam', 'klei', 'ja'],
-  ['Utrecht', 'klei', 'nee'], ['Leiden', 'klei', 'nee'], ['Amersfoort', 'zand', 'nee'], ['Eindhoven', 'zand', 'nee'], ['Zwolle', 'zand', 'nee'], ['Haarlem', 'zand', 'nee'], ['Groningen', 'klei', 'nee']];
+/* ---------- Demo-omgeving: gesimuleerde accounts, alleen in het geheugen van deze pagina ---------- */
+const DEMO_WW = 'demo';
 const ADVISEURS = [
-  { naam: 'J. de Vries', kantoor: 'Hypotheekhuis Oost', cert: true },
-  { naam: 'S. Bakker', kantoor: 'Bakker Advies', cert: false },
-  { naam: 'M. Jansen', kantoor: 'Jansen & Co Financieel', cert: true },
-  { naam: 'R. El Amrani', kantoor: 'Woonadvies Zuid', cert: false },
-  { naam: 'L. Visser', kantoor: 'Visser Hypotheken', cert: false }];
-const VOORN = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.', 'G.', 'H.', 'I.', 'K.', 'L.', 'M.', 'N.', 'P.', 'R.', 'S.', 'T.', 'W.'];
-const ACHTERN = ['Smit', 'Meijer', 'de Boer', 'Mulder', 'de Groot', 'Bos', 'Vos', 'Peters', 'Hendriks', 'van Leeuwen', 'Dekker', 'Brouwer', 'de Wit', 'Dijkstra', 'Kok', 'Jacobs', 'van der Berg', 'Vermeulen', 'Willems', 'Kaya', 'Yilmaz', 'Schouten', 'Hoekstra', 'Koster'];
+  { id: 'jdv', naam: 'J. de Vries', kantoor: 'Hypotheekhuis Oost', email: 'jdevries@demo.nl' },
+  { id: 'sb', naam: 'S. Bakker', kantoor: 'Bakker Advies', email: 'sbakker@demo.nl' }];
+const DB = { klanten: [] };
+const STATUS = { uitgenodigd: ['Uitgenodigd', 'neu'], behandeling: ['Bezig met invullen', 'let'], gedeeld: ['Gedeeld door klant', 'goed'], besproken: ['Besproken', 'goed'] };
+function nieuweKlant(adv, naam, data, code) {
+  const kl = { id: 'k' + (DB.klanten.length + 1), code: code || 'HC-' + String(Math.floor(1000 + Math.random() * 9000)), adviseur: adv, naam,
+    status: 'uitgenodigd', notitie: '', bericht: '', k: Object.assign(leegDossier(), data), res: null, bijgewerkt: null };
+  DB.klanten.push(kl); return kl;
+}
+nieuweKlant('jdv', 'Sanne & Daan Smit', { naam1: 'Sanne', partner: true, naam2: 'Daan', geboortejaar1: 1964, geboortejaar2: 1966, inkomen1: 58000, inkomen2: 24000, waarde: 425000, woz: 401000, bouwjaar: 1938, grond: 'veen', aandachtsgebied: 'ja',
+  delen: [{ vorm: 'annuitair', bedrag: 180000, rente: 1.9, rvpJaar: 2028, eindJaar: 2041, startJaar: 2011 }, { vorm: 'aflossingsvrij', bedrag: 90000, rente: 2.1, rvpJaar: 2028, eindJaar: 2041, startJaar: 2011 }] }, 'HC-4821');
+nieuweKlant('jdv', 'Mehmet Kaya', { naam1: 'Mehmet', geboortejaar1: 1979, inkomen1: 47000, waarde: 310000, bouwjaar: 1999, delen: [{ vorm: 'annuitair', bedrag: 245000, rente: 3.9, rvpJaar: 2031, eindJaar: 2052, startJaar: 2022 }] }, 'HC-7350');
+nieuweKlant('jdv', 'Petra & Kees de Boer', { naam1: 'Petra', partner: true, naam2: 'Kees', geboortejaar1: 1959, geboortejaar2: 1957, inkomen1: 41000, inkomen2: 52000, waarde: 520000, bouwjaar: 1972,
+  delen: [{ vorm: 'aflossingsvrij', bedrag: 210000, rente: 4.6, rvpJaar: 2027, eindJaar: 2034, startJaar: 2004 }] }, 'HC-1196');
+nieuweKlant('sb', 'Lotte Visser', { naam1: 'Lotte', geboortejaar1: 1990, inkomen1: 62000, waarde: 395000, bouwjaar: 2015, energielabel: 'AB', nhg: 'ja',
+  delen: [{ vorm: 'annuitair', bedrag: 318000, rente: 3.6, rvpJaar: 2033, eindJaar: 2053, startJaar: 2023 }] }, 'HC-6603');
 
-function genPortfolio(n = 48) {
-  const r = rng(20261127), pick = a => a[Math.floor(r() * a.length)], between = (a, b) => a + r() * (b - a), int = (a, b) => Math.floor(between(a, b + 1));
-  const out = [];
-  for (let i = 0; i < n; i++) {
-    const [plaats, grond, aand] = pick(PLAATSEN);
-    const start = int(1997, 2023), partner = r() < .62;
-    const gb1 = int(1956, 1993), gb2 = partner ? gb1 + int(-4, 4) : null;
-    const ink1 = Math.round(between(34000, 98000) / 500) * 500, ink2 = partner ? (r() < .15 ? 0 : Math.round(between(18000, 62000) / 500) * 500) : 0;
-    const orig = Math.round(Math.min(between(170000, 480000), (ink1 + ink2) * between(3.2, 4.6)) / 1000) * 1000;
-    const verstreken = PARAMS.jaar - start, rest = Math.max(12, (30 - verstreken) * 12);
-    const afvr = start < 2013 && r() < .55 ? Math.round(orig * between(.3, .5) / 1000) * 1000 : 0;
-    const ann = orig - afvr, annSaldo = Math.round(ann * Math.max(.08, 1 - Math.pow(verstreken / 30, 1.4)) / 100) * 100;
-    const rvp = Math.min(int(PARAMS.jaar, PARAMS.jaar + 9), start + 29), aftrekEind = start + 30;
-    const rente = +(start > 2015 && start < 2022 ? between(1.4, 2.4) : between(2.2, 4.9)).toFixed(2);
-    const delen = [{ vorm: 'annuitair', saldo: annSaldo, rente, restLooptijd: rest, rvpEindJaar: rvp, aftrekEindJaar: aftrekEind, box: 1 }];
-    if (afvr) delen.push({ vorm: 'aflossingsvrij', saldo: afvr, rente: +(rente + .2).toFixed(2), restLooptijd: rest, rvpEindJaar: rvp, aftrekEindJaar: aftrekEind, box: 1 });
-    const bouwjaar = r() < .45 ? int(1895, 1969) : int(1970, 2021);
-    const waarde = Math.round(orig * between(1.05, 1.9) / 1000) * 1000;
-    const wjaar = int(2017, 2026), wbron = wjaar >= 2024 ? pick(['Calcasa (AVM)', 'PandWise (indicatief)', 'Taxatierapport']) : pick(['Taxatierapport', 'WOZ-geïndexeerd']);
-    const fundering = bouwjaar < 1970 && grond !== 'zand' ? (r() < .7 ? 'hout' : 'onbekend') : (bouwjaar < 1970 ? 'staal' : 'beton');
-    const k = { naam1: `${pick(VOORN)} ${pick(ACHTERN)}`, partner, naam2: partner ? `${pick(VOORN)} ${pick(ACHTERN)}` : '', geboortejaar1: gb1, geboortejaar2: gb2,
-      inkomen1: ink1, inkomen2: ink2, pensioen1: '', pensioen2: '', orv1: 0, orv2: partner && r() < .6 ? Math.round(orig * .5 / 5000) * 5000 : 0, nabestaanden: 0, nabestaanden2: 0,
-      waarde, waardeDatum: `${wjaar}-${String(int(1, 12)).padStart(2, '0')}`, waardeBron: wbron, woz: Math.round(waarde * .94 / 1000) * 1000,
-      bouwjaar, grond, aandachtsgebied: aand, grondwater: grond === 'veen' && r() < .7 ? 'ja' : 'nee', fundering, schade: r() < .05 ? 'ja' : 'nee', funderingExtern: '',
-      onderhoud: '', onderhoudDoor: '', renteHerfin: PARAMS.renteHerfinDefault, herRvp: 10, energielabel: 'geen', nhg: orig <= 400000 && r() < .45 ? 'ja' : 'nee', inkomensdaling: 20, delen, startJaar: start };
-    const adv = ADVISEURS[int(0, ADVISEURS.length - 1)];
-    let status = pick(['niet', 'niet', 'niet', 'uitgenodigd', 'behandeling', 'afgerond', 'afgerond']), monitoring = null;
-    if (status === 'afgerond') monitoring = `${int(2021, 2026)}-${String(int(1, 11)).padStart(2, '0')}-15`;
-    if (status === 'afgerond' && r() < .5) k.onderhoud = pick(['goed', 'redelijk', 'matig', 'uitstekend']);
-    out.push({ id: `HL-${String(240100 + i * 37)}`, klant: k.naam1 + (partner ? ' & ' + k.naam2.split(' ').slice(1).join(' ') : ''),
-      adviseur: adv.naam, plaats, k, status, monitoring, brondata: status === 'behandeling' ? ISO(new Date(TODAY - int(3, 40) * 864e5)) : null, cijferDef: null });
+const ST = { view: 'login', rol: null, adv: null, klantId: null, stap: 0, k: leegDossier(), loginTab: 'consument', toonUitn: null };
+const STAPPEN = ['Over jou', 'Je hypotheek', 'Je woning', 'Als het tegenzit', 'Je cijfer'];
+const klant = () => DB.klanten.find(x => x.id === ST.klantId);
+const advVan = id => ADVISEURS.find(a => a.id === id);
+const go = v => { ST.view = v; render(); window.scrollTo(0, 0); };
+
+function renderWho() {
+  const el = document.getElementById('who');
+  if (!ST.rol || ST.rol === 'anoniem') { el.innerHTML = ST.rol === 'anoniem' ? '<button class="btn s" id="uit">Inloggen</button>' : ''; }
+  else {
+    const n = ST.rol === 'adviseur' ? advVan(ST.adv).naam + ' · adviseur' : (klant().k.naam1 || klant().naam) + ' · consument';
+    el.innerHTML = `<span class="muted" style="font-size:13px">${esc(n)}</span> <button class="btn s" id="uit">Uitloggen</button>`;
   }
-  out.forEach(p => { refresh(p); if (p.status === 'afgerond') p.cijferDef = p.res.totaal; });
-  return out;
+  const u = el.querySelector('#uit'); if (u) u.onclick = () => { Object.assign(ST, { rol: null, adv: null, klantId: null, k: leegDossier(), stap: 0 }); go('login'); };
 }
-
-function refresh(p) {
-  p.res = berekenDossier(p.k);
-  if (p.status === 'afgerond' && p.monitoring && PARAMS.jaar - +p.monitoring.slice(0, 4) >= S.cyclus) p.status = 'herhaling';
-  const last = p.monitoring ? +p.monitoring.slice(0, 4) : null;
-  p.volgende = last ? last + S.cyclus : PARAMS.jaar;
-  const sig = p.res.signalen;
-  p.prio = sig.filter(s => s.ernst === 'hoog').length * 3 + sig.filter(s => s.ernst === 'middel').length + (p.status === 'afgerond' ? -4 : 0) + (p.res.samenloop ? 2 : 0);
-  p.rvp = Math.min(...p.k.delen.map(d => d.rvpEindJaar || 9999));
-  p.aftrek = Math.min(...p.k.delen.map(d => d.aftrekEindJaar || 9999));
-  p.saldo = p.res.schuld;
-}
-
-/* ---------- Gedeelde UI-stukjes ---------- */
-const cls = c => kleur(c);
-const cBadge = (c, voorlopig) => `<span class="c ${cls(c)} ${voorlopig ? 'vl' : ''}" title="${voorlopig ? 'Voorlopig: berekend op geldverstrekkerdata, nog niet met klant geverifieerd' : 'Vastgesteld met klant en adviseur'}">${fmtNum(c)}</span>`;
-const ernstB = e => e === 'hoog' ? 'risico' : e === 'middel' ? 'krap' : 'neu';
-const sigBadges = sig => sig.map(s => `<span class="b ${ernstB(s.ernst)}" title="${esc(s.tekst)}">${s.code.replace('EWI-', '')}</span>`).join(' ') || '<span class="muted">–</span>';
-const fundB = f => `<span class="b ${f.niveau === 'hoog' ? 'risico' : f.niveau === 'middel' ? 'krap' : 'goed'}">${fmtNum(f.cijfer)}</span>`;
-const ltvB = l => l == null ? '–' : `<span class="${l > 1 ? 'b risico' : l > .9 ? 'b krap' : ''}">${fmtPct(l * 100, 0)}</span>`;
-const advInfo = n => ADVISEURS.find(a => a.naam === n) || { naam: n, kantoor: '', cert: false };
-
-function setView(v) {
-  S.view = v; document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
-  render(); window.scrollTo(0, 0);
-}
-document.getElementById('nav').addEventListener('click', e => { if (e.target.dataset.v) setView(e.target.dataset.v); });
 
 function render() {
+  renderWho();
   const app = document.getElementById('app');
-  ({ gv: renderGV, adv: renderAdv, klant: renderKlant, kader: renderKader })[S.view](app);
-}
-
-/* ================= Geldverstrekker ================= */
-function filtered() {
-  const f = S.filter, q = f.q.toLowerCase();
-  let a = S.portfolio.filter(p => (!q || (p.id + p.klant + p.plaats + p.adviseur).toLowerCase().includes(q))
-    && (!f.status || p.status === f.status) && (!f.adviseur || p.adviseur === f.adviseur)
-    && (!f.signaal || p.res.signalen.some(s => s.code === f.signaal)));
-  const k = S.sort.k, d = S.sort.d;
-  const val = p => ({ prio: p.prio, id: p.id, klant: p.klant, adviseur: p.adviseur, plaats: p.plaats, saldo: p.saldo, ltv: p.res.ltv, waarde: p.k.waardeDatum, rvp: p.rvp, aftrek: p.aftrek,
-    fund: p.res.fund.cijfer, cijfer: p.cijferDef ?? p.res.totaal, status: p.status, volgende: p.volgende })[k];
-  return a.sort((x, y) => { const A = val(x), B = val(y); return (A > B ? 1 : A < B ? -1 : 0) * d; });
-}
-
-function kpis(list) {
-  const n = list.length, saldo = list.reduce((s, p) => s + p.saldo, 0);
-  const binnen = list.filter(p => p.status === 'afgerond').length;
-  const herw = list.filter(p => PARAMS.jaar - +p.k.waardeDatum.slice(0, 4) < 3).length;
-  const wltv = list.reduce((s, p) => s + p.saldo * (p.res.ltv || 0), 0) / (saldo || 1);
-  const sam = list.filter(p => p.res.samenloop).length, fund = list.filter(p => p.res.fund.niveau === 'hoog').length;
-  const laag = list.filter(p => (p.cijferDef ?? p.res.totaal) < 5.5).length;
-  const ltv100 = list.filter(p => p.res.ltv > 1 || p.res.ltvStress > 1).length;
-  return { n, saldo, binnen, herw, wltv, sam, fund, laag, ltv100 };
-}
-
-function renderGV(app) {
-  const K = kpis(S.portfolio), list = filtered();
-  const statusOpts = Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${S.filter.status === k ? 'selected' : ''}>${v}</option>`).join('');
-  const advOpts = ADVISEURS.map(a => `<option ${S.filter.adviseur === a.naam ? 'selected' : ''}>${a.naam}</option>`).join('');
-  const sigOpts = [['EWI-BET', 'Betaalbaarheid'], ['EWI-SAM', 'Samenloop'], ['EWI-LTV', 'LTV / onderpand'], ['EWI-FUN', 'Fundering'], ['EWI-VAL', 'Waardering verouderd']]
-    .map(([k, v]) => `<option value="${k}" ${S.filter.signaal === k ? 'selected' : ''}>${v}</option>`).join('');
-  const col = (k, t, r) => `<th data-s="${k}" class="${r ? 'r' : ''}">${t}${S.sort.k === k ? (S.sort.d > 0 ? ' ▲' : ' ▼') : ''}</th>`;
+  if (ST.view === 'login') return renderLogin(app);
+  if (ST.view === 'adv') return renderAdvDash(app);
+  if (ST.view === 'welkom') return renderWelkom(app);
+  if (ST.view === 'intro') { app.innerHTML = intro(); app.querySelector('#start').onclick = () => { ST.stap = 0; go('wizard'); }; return; }
+  if (ST.view === 'result') return renderResultaat(app);
   app.innerHTML = `
-  <div class="row"><div><h1>Portefeuillemonitoring</h1><p class="sub">${esc(S.gv)} · peiljaar ${PARAMS.jaar} · uitvraagcyclus elke ${S.cyclus} jaar</p></div><div class="sp"></div>
-    <label class="f" style="width:150px">Cyclus (jaar)<select id="cyc">${[3, 4, 5].map(c => `<option ${c === S.cyclus ? 'selected' : ''}>${c}</option>`).join('')}</select></label></div>
-  <div class="grid kpis">
-    ${kpi('Leningen', fmtInt(K.n), fmtEUR(K.saldo) + ' uitstaand')}
-    ${kpi('Monitoringdekking', fmtPct(K.binnen / K.n * 100, 0), `${K.binnen} afgerond binnen ${S.cyclus} jaar`)}
-    ${kpi('Waardering < 3 jaar', fmtPct(K.herw / K.n * 100, 0), 'actuele onderpandwaarde')}
-    ${kpi('Gewogen LTV', fmtPct(K.wltv * 100, 0), `${K.ltv100} met (stress-)LTV > 100%`)}
-    ${kpi('Samenloop ≤ 5 jaar', fmtInt(K.sam), 'renteschok · aftrek · pensioen')}
-    ${kpi('Funderingsrisico hoog', fmtInt(K.fund), 'funderingscijfer ≤ 4')}
-    ${kpi('Cijfer < 5,5', fmtInt(K.laag), 'voorlopig of vastgesteld')}
-    ${kpi('NHG', fmtPct(S.portfolio.filter(p => p.k.nhg === 'ja').length / K.n * 100, 0), 'aandeel leningen met NHG')}
-  </div>
-  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-top:14px">
-    <div class="card"><h3>Uitvraagplanning per jaar</h3>${planChart()}<p class="note">Volgende uitvraag = laatste monitoring + cyclus; nooit gemonitord = direct.</p></div>
-    <div class="card"><h3>Verdeling hypotheekcijfer</h3>${distChart()}<p class="note">Gestippeld = voorlopig (geldverstrekkerdata), vol = vastgesteld met klant.</p></div>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <div class="row" style="margin-bottom:10px">
-      <input id="q" placeholder="Zoek lening, klant, plaats…" value="${esc(S.filter.q)}" style="flex:1;min-width:180px">
-      <select id="fs"><option value="">Alle statussen</option>${statusOpts}</select>
-      <select id="fa"><option value="">Alle adviseurs</option>${advOpts}</select>
-      <select id="fsig"><option value="">Alle signalen</option>${sigOpts}</select>
-    </div>
-    <div class="row" style="margin-bottom:10px">
-      <span class="note">${list.length} van ${S.portfolio.length} leningen · klik op een regel om het dossier te openen</span><div class="sp"></div>
-      <button class="btn s" id="inv">Selectie uitnodigen via adviseur</button>
-      <button class="btn s" id="csv">Export CSV</button>
-      <button class="btn s" id="tpl">CSV-sjabloon</button>
-      <label class="btn s">Importeer CSV<input type="file" id="imp" accept=".csv,text/csv" class="hide"></label>
-      <button class="btn s p" id="rap">Toezichtrapportage</button>
-    </div>
-    <div class="scroll"><table class="tbl" id="pt"><thead><tr>
-      ${col('id', 'Lening')}${col('klant', 'Klant')}${col('adviseur', 'Adviseur')}${col('plaats', 'Plaats')}${col('saldo', 'Saldo', 1)}${col('ltv', 'LTV', 1)}
-      ${col('waarde', 'Waardepeil')}${col('rvp', 'Einde RVP')}${col('aftrek', 'Einde aftrek')}${col('fund', 'Fund.')}${col('cijfer', 'Cijfer')}<th>Signalen</th>${col('status', 'Status')}${col('volgende', 'Volgende')}
-    </tr></thead><tbody>
-    ${list.map(p => `<tr class="click" data-id="${p.id}"><td>${p.id}${p.k.nhg === 'ja' ? ' <span class="b neu">NHG</span>' : ''}</td><td>${esc(p.klant)}</td><td>${esc(p.adviseur)}</td><td>${esc(p.plaats)}</td>
-      <td class="r">${fmtEUR(p.saldo)}</td><td class="r">${ltvB(p.res.ltv)}</td><td>${p.k.waardeDatum.slice(0, 4)} <span class="note">${esc(p.k.waardeBron.split(' ')[0])}</span></td>
-      <td>${p.rvp < 9999 ? p.rvp : '–'}</td><td>${p.aftrek < 9999 ? p.aftrek : '–'}</td><td>${fundB(p.res.fund)}</td>
-      <td>${cBadge(p.cijferDef ?? p.res.totaal, p.cijferDef == null)}</td><td>${sigBadges(p.res.signalen)}</td>
-      <td><span class="b ${STATUS_B[p.status]}">${STATUS[p.status]}</span></td><td>${p.volgende <= PARAMS.jaar ? '<b>nu</b>' : p.volgende}</td></tr>`).join('')}
-    </tbody></table></div>
-  </div>`;
-  const re = () => renderGV(app);
-  app.querySelector('#cyc').onchange = e => { S.cyclus = +e.target.value; S.portfolio.forEach(p => { if (p.status === 'herhaling') p.status = 'afgerond'; refresh(p); }); re(); };
-  app.querySelector('#q').oninput = e => { S.filter.q = e.target.value; clearTimeout(window._t); window._t = setTimeout(() => { re(); const q = app.querySelector('#q'); q.focus(); q.setSelectionRange(q.value.length, q.value.length); }, 250); };
-  app.querySelector('#fs').onchange = e => { S.filter.status = e.target.value; re(); };
-  app.querySelector('#fa').onchange = e => { S.filter.adviseur = e.target.value; re(); };
-  app.querySelector('#fsig').onchange = e => { S.filter.signaal = e.target.value; re(); };
-  app.querySelectorAll('th[data-s]').forEach(th => th.onclick = () => { const k = th.dataset.s; S.sort = { k, d: S.sort.k === k ? -S.sort.d : (k === 'prio' ? -1 : 1) }; re(); });
-  app.querySelectorAll('tr.click').forEach(tr => tr.onclick = () => openCase(tr.dataset.id));
-  app.querySelector('#csv').onclick = () => download(`monitoring_${ISO(TODAY)}.csv`, toCSV(list));
-  app.querySelector('#tpl').onclick = () => download('portefeuille_sjabloon.csv', CSV_HEAD.join(';') + '\n' + 'HL-1;A. Voorbeeld;J. de Vries;Gouda;1964;52000;ja;1966;30000;410000;2022-05;Taxatierapport;395000;1931;veen;ja;hout;annuitair;180000;1,9;168;2028;2031;;nee\n');
-  app.querySelector('#imp').onchange = e => importCSV(e.target.files[0]);
-  app.querySelector('#rap').onclick = () => printWin(rapportageHTML(list));
-  app.querySelector('#inv').onclick = () => {
-    const n = list.filter(p => p.status === 'niet' || p.status === 'herhaling'); n.forEach(p => p.status = 'uitgenodigd');
-    alert(`${n.length} klant(en) klaargezet voor activatie door de eigen adviseur.`); re();
+    <div class="steps">${STAPPEN.map((_, i) => `<span class="${i <= ST.stap ? 'on' : ''}"></span>`).join('')}</div>
+    <div class="stepl">Stap ${ST.stap + 1} van ${STAPPEN.length} · ${STAPPEN[ST.stap]}${ST.rol === 'adviseur' ? ` · samen met ${esc(klant().naam)}` : ''}</div>
+    <div class="card" id="form">${[stapJij, stapHypotheek, stapWoning, stapTegenzit][ST.stap]()}
+      <div class="err" id="err"></div>
+      <div class="nav"><button class="btn" id="terug">${ST.stap === 0 ? 'Terug' : '← Vorige'}</button>
+      <button class="btn p" id="verder">${ST.stap === 3 ? 'Bekijk het hypotheekcijfer' : 'Volgende →'}</button></div>
+    </div>`;
+  bind(app);
+  app.querySelector('#terug').onclick = () => {
+    if (ST.stap > 0) { ST.stap--; render(); window.scrollTo(0, 0); return; }
+    go(ST.rol === 'adviseur' ? 'adv' : ST.rol === 'consument' ? 'welkom' : 'intro');
+  };
+  app.querySelector('#verder').onclick = () => {
+    const e = valideer(ST.stap); if (e) { app.querySelector('#err').textContent = e; return; }
+    if (ST.stap === 3) return go('result');
+    ST.stap++; render(); window.scrollTo(0, 0);
   };
 }
-const kpi = (l, v, h) => `<div class="card kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="h">${h}</div></div>`;
 
-function planChart() {
-  const yrs = Array.from({ length: 6 }, (_, i) => PARAMS.jaar + i), cnt = yrs.map(y => S.portfolio.filter(p => Math.max(PARAMS.jaar, p.volgende) === y).length);
-  const max = Math.max(1, ...cnt), W = 360, H = 140, bw = W / yrs.length;
-  return `<svg viewBox="0 0 ${W} ${H + 20}" width="100%" role="img" aria-label="Uitvraagplanning">${yrs.map((y, i) => {
-    const h = cnt[i] / max * (H - 22); return `<rect x="${i * bw + 10}" y="${H - h}" width="${bw - 20}" height="${h}" fill="${i ? 'var(--y)' : 'var(--ink)'}"/>
-    <text x="${i * bw + bw / 2}" y="${H - h - 5}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">${cnt[i]}</text>
-    <text x="${i * bw + bw / 2}" y="${H + 15}" text-anchor="middle" font-size="11" fill="var(--muted)">${y}</text>`;
-  }).join('')}</svg>`;
-}
-function distChart() {
-  const b = [['< 4', 0, 4, 'risico'], ['4–5,5', 4, 5.5, 'krap'], ['5,5–7', 5.5, 7, 'let'], ['≥ 7', 7, 11, 'goed']];
-  const cnt = b.map(([, lo, hi]) => ({ d: S.portfolio.filter(p => p.cijferDef != null && p.cijferDef >= lo && p.cijferDef < hi).length, v: S.portfolio.filter(p => p.cijferDef == null && p.res.totaal >= lo && p.res.totaal < hi).length }));
-  const max = Math.max(1, ...cnt.map(c => c.d + c.v)), W = 360, H = 140, bw = W / b.length;
-  return `<svg viewBox="0 0 ${W} ${H + 20}" width="100%" role="img" aria-label="Verdeling cijfers">${b.map(([l, , , k], i) => {
-    const hd = cnt[i].d / max * (H - 22), hv = cnt[i].v / max * (H - 22), x = i * bw + 14, w = bw - 28;
-    return `<rect x="${x}" y="${H - hd}" width="${w}" height="${hd}" fill="var(--${k})"/>
-    <rect x="${x}" y="${H - hd - hv}" width="${w}" height="${hv}" fill="var(--${k}-bg)" stroke="var(--${k})" stroke-dasharray="3 2"/>
-    <text x="${x + w / 2}" y="${H - hd - hv - 5}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">${cnt[i].d + cnt[i].v}</text>
-    <text x="${x + w / 2}" y="${H + 15}" text-anchor="middle" font-size="11" fill="var(--muted)">${l}</text>`;
-  }).join('')}</svg>`;
-}
-
-/* ---------- CSV ---------- */
-const CSV_HEAD = ['lening', 'klant', 'adviseur', 'plaats', 'geboortejaar1', 'inkomen1', 'partner', 'geboortejaar2', 'inkomen2', 'waarde', 'waardeDatum', 'waardeBron', 'woz', 'bouwjaar', 'grond', 'aandachtsgebied', 'fundering',
-  'vorm', 'saldo', 'rente', 'restLooptijdMnd', 'rvpEindJaar', 'aftrekEindJaar', 'laatsteMonitoring', 'nhg'];
-function toCSV(list) {
-  const h = ['lening', 'klant', 'adviseur', 'plaats', 'saldo', 'waarde', 'waardeDatum', 'waardeBron', 'ltv', 'stressLtv', 'eindeRvp', 'eindeAftrek', 'funderingscijfer', 'funderingsniveau',
-    'nhg', 'maxHypotheekLeennorm', 'ruimteLeennorm', 'hypotheekcijfer', 'cijferType', 'laagsteScenario', 'samenloop', 'signalen', 'status', 'laatsteMonitoring', 'volgendeUitvraag'];
-  const n = x => typeof x === 'number' ? String(Math.round(x * 100) / 100).replace('.', ',') : `"${String(x ?? '').replace(/"/g, '""')}"`;
-  return '﻿' + h.join(';') + '\n' + list.map(p => [p.id, p.klant, p.adviseur, p.plaats, p.saldo, p.k.waarde, p.k.waardeDatum, p.k.waardeBron, p.res.ltv, p.res.ltvStress, p.rvp, p.aftrek,
-    p.res.fund.cijfer, p.res.fund.niveau, p.k.nhg || 'nee', p.res.scen[0].maxH, p.res.scen[0].ruimte, p.cijferDef ?? p.res.totaal, p.cijferDef == null ? 'voorlopig' : 'vastgesteld', p.res.laagste.titel,
-    p.res.samenloop ? `${p.res.samenloop.van}-${p.res.samenloop.tot}` : '', p.res.signalen.map(s => s.code).join(' '), STATUS[p.status], p.monitoring || '', p.volgende].map(n).join(';')).join('\n');
-}
-function download(name, text) {
-  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-}
-function importCSV(file) {
-  if (!file) return;
-  const fr = new FileReader();
-  fr.onload = () => {
-    const lines = String(fr.result).replace(/^﻿/, '').split(/\r?\n/).filter(l => l.trim());
-    const sep = lines[0].includes(';') ? ';' : ',', head = lines[0].split(sep).map(h => h.trim());
-    const idx = h => head.indexOf(h), map = new Map(); let fout = 0;
-    lines.slice(1).forEach(l => {
-      const c = l.split(sep).map(x => x.trim().replace(/^"|"$/g, '')), g = h => idx(h) >= 0 ? c[idx(h)] : '';
-      if (!g('lening') || !g('saldo')) { fout++; return; }
-      const deel = { vorm: g('vorm') || 'annuitair', saldo: parseNum(g('saldo')), rente: parseNum(g('rente')), restLooptijd: parseNum(g('restLooptijdMnd')) || 360,
-        rvpEindJaar: parseNum(g('rvpEindJaar')) || null, aftrekEindJaar: parseNum(g('aftrekEindJaar')) || null, box: 1 };
-      if (map.has(g('lening'))) { map.get(g('lening')).k.delen.push(deel); return; }
-      const partner = /^(ja|j|1|true)$/i.test(g('partner'));
-      const k = { naam1: g('klant'), partner, naam2: partner ? 'partner' : '', geboortejaar1: parseNum(g('geboortejaar1')) || 1970, geboortejaar2: partner ? parseNum(g('geboortejaar2')) || 1970 : null,
-        inkomen1: parseNum(g('inkomen1')), inkomen2: partner ? parseNum(g('inkomen2')) : 0, pensioen1: '', pensioen2: '', orv1: 0, orv2: 0, nabestaanden: 0, nabestaanden2: 0,
-        waarde: parseNum(g('waarde')), waardeDatum: g('waardeDatum') || String(PARAMS.jaar), waardeBron: g('waardeBron') || 'Onbekend', woz: parseNum(g('woz')) || parseNum(g('waarde')),
-        bouwjaar: parseNum(g('bouwjaar')), grond: g('grond') || 'zand', aandachtsgebied: g('aandachtsgebied') || 'nee', grondwater: 'nee', fundering: g('fundering') || 'onbekend', schade: 'nee', funderingExtern: '',
-        onderhoud: '', onderhoudDoor: '', renteHerfin: PARAMS.renteHerfinDefault, herRvp: 10, energielabel: 'geen', nhg: /^(ja|j|1|true)$/i.test(g('nhg')) ? 'ja' : 'nee', inkomensdaling: 20, delen: [deel] };
-      const lm = g('laatsteMonitoring');
-      map.set(g('lening'), { id: g('lening'), klant: g('klant'), adviseur: g('adviseur') || ADVISEURS[0].naam, plaats: g('plaats'), k, status: lm ? 'afgerond' : 'niet', monitoring: lm || null, brondata: null, cijferDef: null });
-    });
-    if (!map.size) { alert('Geen geldige regels gevonden. Gebruik het CSV-sjabloon (scheidingsteken ;).'); return; }
-    if (!confirm(`${map.size} leningen gevonden${fout ? `, ${fout} regel(s) overgeslagen` : ''}. Demo-portefeuille vervangen?`)) return;
-    S.portfolio = [...map.values()]; S.portfolio.forEach(refresh); S.filter = { q: '', status: '', signaal: '', adviseur: '' }; render();
+function renderLogin(app) {
+  const c = ST.loginTab === 'consument';
+  app.innerHTML = `<section class="hero"><h1>Scoor je <mark>hypotheekcijfer</mark>, en zie hoe jij ervoor staat.</h1>
+    <p>Log in met de uitnodiging van je adviseur, of doe de check zonder inlog.</p></section>
+  <div class="demo"><b>Demo-omgeving</b> · inloggen is gesimuleerd en gegevens staan alleen in deze browsertab. Gebruik geen echte persoonsgegevens.</div>
+  <div class="card"><div class="seg" style="max-width:420px;margin-bottom:18px"><button data-tab="consument" class="${c ? 'on' : ''}">Ik ben consument</button><button data-tab="adviseur" class="${!c ? 'on' : ''}">Ik ben adviseur</button></div>
+    ${c ? `<h2>Inloggen als consument</h2><p class="lead">Je hebt een uitnodigingscode gekregen van je adviseur.</p>
+      <div class="fg"><label class="f">Uitnodigingscode<input id="lc" placeholder="HC-0000" autocomplete="off"></label><label class="f">Je geboortejaar<input id="lg" inputmode="numeric" placeholder="bijv. 1964"></label></div>
+      <div class="hint">Demo: code <b>HC-4821</b> met geboortejaar <b>1964</b>, of <b>HC-7350</b> met <b>1979</b>.</div>`
+    : `<h2>Inloggen als adviseur</h2><p class="lead">Bekijk je klanten, nodig ze uit en vul het hypotheekcijfer samen in.</p>
+      <div class="fg"><label class="f">E-mailadres<input id="le" type="email" placeholder="naam@kantoor.nl" autocomplete="username"></label><label class="f">Wachtwoord<input id="lw" type="password" autocomplete="current-password"></label></div>
+      <div class="hint">Demo: <b>jdevries@demo.nl</b> of <b>sbakker@demo.nl</b>, wachtwoord <b>demo</b>.</div>`}
+    <div class="err" id="err"></div>
+    <div class="nav" style="justify-content:flex-start"><button class="btn p" id="login">Inloggen</button></div></div>
+  <div class="card"><h3>Liever zonder inlog?</h3><p class="lead" style="margin-bottom:12px">Doe de check anoniem. Je uitkomst wordt dan niet gedeeld met een adviseur.</p><button class="btn" id="anon">Check zonder inlog</button></div>`;
+  app.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { ST.loginTab = b.dataset.tab; render(); });
+  app.querySelector('#anon').onclick = () => { Object.assign(ST, { rol: 'anoniem', k: leegDossier(), stap: 0 }); go('intro'); };
+  const doLogin = () => {
+    const err = app.querySelector('#err');
+    if (c) {
+      const code = app.querySelector('#lc').value.trim().toUpperCase(), gj = +app.querySelector('#lg').value.trim();
+      const kl = DB.klanten.find(x => x.code === code && (+x.k.geboortejaar1 === gj || +x.k.geboortejaar2 === gj));
+      if (!kl) { err.textContent = 'Code en geboortejaar horen niet bij elkaar. Controleer je uitnodiging.'; return; }
+      Object.assign(ST, { rol: 'consument', klantId: kl.id, k: kl.k, stap: 0 }); go('welkom');
+    } else {
+      const a = ADVISEURS.find(x => x.email === app.querySelector('#le').value.trim().toLowerCase());
+      if (!a || app.querySelector('#lw').value !== DEMO_WW) { err.textContent = 'E-mailadres of wachtwoord onjuist.'; return; }
+      Object.assign(ST, { rol: 'adviseur', adv: a.id }); go('adv');
+    }
   };
-  fr.readAsText(file, 'utf-8');
+  app.querySelector('#login').onclick = doLogin;
+  app.querySelectorAll('input').forEach(i => i.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); }));
 }
 
-/* ================= Adviseur ================= */
-function renderAdv(app) {
-  if (!S.adv) S.adv = ADVISEURS[0].naam;
-  const a = advInfo(S.adv), mine = S.portfolio.filter(p => p.adviseur === S.adv).sort((x, y) => y.prio - x.prio);
-  const K = kpis(mine.length ? mine : [{ saldo: 0, res: { ltv: 0, fund: {}, signalen: [] }, k: { waardeDatum: '0' }, status: '' }]);
-  app.innerHTML = `
-  <div class="row"><div><h1>Werklijst adviseur</h1><p class="sub">De geldverstrekker levert de klantdata; u activeert de klant en doorloopt het Hypotheekcijfer samen. Het advies blijft bij u.</p></div><div class="sp"></div>
-    <label class="f" style="min-width:240px">Adviseur<select id="as">${ADVISEURS.map(x => `<option ${x.naam === S.adv ? 'selected' : ''} value="${esc(x.naam)}">${esc(x.naam)} — ${esc(x.kantoor)}</option>`).join('')}</select></label></div>
-  <div class="grid kpis">
-    ${kpi('Klanten', mine.length, esc(a.kantoor))}
-    ${kpi('Te activeren', mine.filter(p => ['niet', 'uitgenodigd', 'herhaling'].includes(p.status)).length, 'niet gestart, uitgenodigd of herhaling')}
-    ${kpi('In behandeling', mine.filter(p => p.status === 'behandeling').length, 'brondata opgehaald')}
-    ${kpi('Met signaal "hoog"', mine.filter(p => p.res.signalen.some(s => s.ernst === 'hoog')).length, 'prioriteit voor contact')}
-    <div class="card kpi"><div class="l">Onderhoudssignalering</div><label class="row" style="margin-top:6px;font-weight:600"><input type="checkbox" id="cert" ${a.cert ? 'checked' : ''}> Cursus afgerond</label><div class="h">Bevoegd om onderhoudstoestand vast te leggen</div></div>
-  </div>
-  <div class="card" style="margin-top:14px"><div class="scroll"><table class="tbl"><thead><tr><th>Prio</th><th>Klant</th><th>Lening</th><th>Plaats</th><th>Waarom nu</th><th>Cijfer</th><th>Status</th><th>Brondata</th><th></th></tr></thead><tbody>
-  ${mine.map(p => {
-    const bd = p.brondata ? Math.round((TODAY - new Date(p.brondata)) / 864e5) : null;
-    return `<tr><td><span class="b ${p.prio >= 6 ? 'risico' : p.prio >= 3 ? 'krap' : 'neu'}">${p.prio >= 6 ? 'Hoog' : p.prio >= 3 ? 'Middel' : 'Laag'}</span></td>
-    <td><b>${esc(p.klant)}</b></td><td>${p.id}</td><td>${esc(p.plaats)}</td>
-    <td style="white-space:normal;min-width:260px">${p.res.signalen.map(s => `<div class="note">• ${esc(s.tekst)}</div>`).join('') || '<span class="note">Reguliere cyclus</span>'}</td>
-    <td>${cBadge(p.cijferDef ?? p.res.totaal, p.cijferDef == null)}</td><td><span class="b ${STATUS_B[p.status]}">${STATUS[p.status]}</span></td>
-    <td>${bd == null ? '<span class="note">–</span>' : bd <= 90 ? `<span class="b goed">geldig · ${90 - bd} dg</span>` : '<span class="b krap">verlopen</span>'}</td>
-    <td style="white-space:nowrap">${['niet', 'herhaling'].includes(p.status) ? `<button class="btn s" data-a="inv" data-id="${p.id}">Uitnodigen</button> ` : ''}
-      ${p.status !== 'afgerond' ? `<button class="btn s" data-a="ockto" data-id="${p.id}" title="Simulatie van de Procesversneller (Ockto)">Brondata</button> ` : ''}
-      <button class="btn s p" data-a="open" data-id="${p.id}">Open cijfer</button></td></tr>`;
-  }).join('') || '<tr><td colspan="9" class="note">Geen klanten voor deze adviseur.</td></tr>'}
-  </tbody></table></div>
-  <p class="note">"Brondata ophalen" simuleert de Procesversneller: de klant logt in met DigiD bij Ockto, inkomen en hypotheekgegevens worden geverifieerd opgehaald (90 dagen bruikbaar). In deze demo wordt geen echte koppeling gelegd.</p></div>`;
-  app.querySelector('#as').onchange = e => { S.adv = e.target.value; renderAdv(app); };
-  app.querySelector('#cert').onchange = e => { advInfo(S.adv).cert = e.target.checked; };
-  app.querySelectorAll('button[data-a]').forEach(b => b.onclick = () => {
-    const p = S.portfolio.find(x => x.id === b.dataset.id);
-    if (b.dataset.a === 'inv') p.status = 'uitgenodigd';
-    if (b.dataset.a === 'ockto') { p.brondata = ISO(TODAY); p.status = 'behandeling'; }
-    if (b.dataset.a === 'open') return openCase(p.id);
-    renderAdv(app);
+function renderWelkom(app) {
+  const kl = klant(), a = advVan(kl.adviseur);
+  app.innerHTML = `<section class="hero"><h1>Welkom${kl.k.naam1 ? ', ' + esc(kl.k.naam1) : ''}</h1>
+    <p>${esc(a.naam)} van ${esc(a.kantoor)} heeft je uitgenodigd om je hypotheekcijfer te scoren. Een deel van je gegevens is al ingevuld; controleer en vul aan.</p></section>
+  ${kl.bericht ? `<div class="card"><h3>Bericht van je adviseur</h3><p style="margin:0;white-space:pre-wrap">${esc(kl.bericht)}</p></div>` : ''}
+  <div class="card"><div class="kv"><span>Status</span><span>${STATUS[kl.status][0]}</span>${kl.res ? `<span>Je laatste cijfer</span><span>${fmtNum(kl.res.totaal)}</span>` : ''}</div>
+    <div class="nav" style="justify-content:flex-start">
+      <button class="btn p" id="start">${kl.res ? 'Gegevens bijwerken' : 'Start de check'}</button>
+      ${kl.res ? '<button class="btn" id="bekijk">Bekijk mijn cijfer</button>' : ''}</div>
+    <p class="disc" style="margin-top:14px">Je adviseur ziet je uitkomst pas als je die zelf deelt.</p></div>`;
+  app.querySelector('#start').onclick = () => { if (kl.status === 'uitgenodigd') kl.status = 'behandeling'; ST.stap = 0; go('wizard'); };
+  const b = app.querySelector('#bekijk'); if (b) b.onclick = () => go('result');
+}
+
+function uitnodigingTekst(kl) {
+  const a = advVan(kl.adviseur);
+  return `Beste ${kl.naam},\n\nGraag nodig ik je uit om je hypotheekcijfer te scoren: zie hoe jij ervoor staat bij belangrijke momenten zoals het einde van je rentevaste periode en je pensioen.\n\nGa naar ${location.href.split('#')[0].split('?')[0]} en log in met:\nCode: ${kl.code}\nJe geboortejaar\n\nDaarna bespreken we samen de uitkomst.\n\nMet vriendelijke groet,\n${a.naam}\n${a.kantoor}`;
+}
+
+function renderAdvDash(app) {
+  const a = advVan(ST.adv), mijn = DB.klanten.filter(x => x.adviseur === a.id);
+  mijn.forEach(x => { if (!x.res && x.k.delen.every(d => d.bedrag > 0 && d.eindJaar > J) && +x.k.geboortejaar1) { ST.k = x.k; x.voorlopig = berekenDossier(naarDossier()); } });
+  app.innerHTML = `<section class="hero"><h1>Mijn klanten</h1><p>${esc(a.naam)} · ${esc(a.kantoor)}</p></section>
+  <div class="demo"><b>Demo-omgeving</b> · gesimuleerde inlog, fictieve klanten.</div>
+  ${mijn.map(x => {
+    const c = x.res ? x.res.totaal : x.voorlopig ? x.voorlopig.totaal : null;
+    return `<div class="card" style="padding:16px 18px"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px"><div style="font-weight:700">${esc(x.naam)}</div><div class="muted" style="font-size:13px">Code ${x.code}${x.bijgewerkt ? ' · bijgewerkt ' + x.bijgewerkt : ''}</div></div>
+      <span class="badge ${STATUS[x.status][1]}">${STATUS[x.status][0]}</span>
+      ${c != null ? `<span class="c ${kleur(c)}" title="${x.res ? 'Vastgesteld' : 'Voorlopig, op bekende gegevens'}" style="${x.res ? '' : 'opacity:.7;border:1px dashed currentColor'}">${fmtNum(c)}</span>` : ''}
+    </div>
+    <div class="nav" style="justify-content:flex-start;margin-top:12px">
+      <button class="btn s p" data-a="samen" data-id="${x.id}">Samen invullen</button>
+      ${x.res ? `<button class="btn s" data-a="cijfer" data-id="${x.id}">Bekijk cijfer</button>` : ''}
+      <button class="btn s" data-a="uitn" data-id="${x.id}">Uitnodiging</button></div>
+    ${ST.toonUitn === x.id ? `<textarea readonly rows="11" style="width:100%;margin-top:12px;font:13px/1.5 inherit;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);color:var(--ink)">${esc(uitnodigingTekst(x))}</textarea>
+      <button class="btn s" data-a="kopie" data-id="${x.id}" style="margin-top:6px">Kopieer tekst</button>` : ''}
+    </div>`;
+  }).join('') || '<div class="card">Nog geen klanten.</div>'}
+  <div class="card"><h3>Nieuwe klant uitnodigen</h3><div class="fg"><label class="f">Naam<input id="nn" placeholder="bijv. Fam. Jansen"></label><label class="f">Geboortejaar klant<input id="ng" inputmode="numeric" placeholder="bijv. 1975"></label></div>
+    <div class="err" id="err"></div><div class="nav" style="justify-content:flex-start"><button class="btn p" id="nieuw">Maak uitnodiging</button></div></div>`;
+  app.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => {
+    const x = DB.klanten.find(y => y.id === b.dataset.id);
+    if (b.dataset.a === 'samen') { Object.assign(ST, { klantId: x.id, k: x.k, stap: 0 }); if (x.status === 'uitgenodigd') x.status = 'behandeling'; return go('wizard'); }
+    if (b.dataset.a === 'cijfer') { Object.assign(ST, { klantId: x.id, k: x.k }); return go('result'); }
+    if (b.dataset.a === 'uitn') { ST.toonUitn = ST.toonUitn === x.id ? null : x.id; return render(); }
+    if (b.dataset.a === 'kopie') { try { await navigator.clipboard.writeText(uitnodigingTekst(x)); b.textContent = 'Gekopieerd ✓'; } catch { b.textContent = 'Selecteer en kopieer handmatig'; } }
   });
+  app.querySelector('#nieuw').onclick = () => {
+    const n = app.querySelector('#nn').value.trim(), g = +app.querySelector('#ng').value.trim();
+    if (!n || !(g >= 1930 && g <= J - 18)) { app.querySelector('#err').textContent = 'Vul een naam en een geldig geboortejaar in.'; return; }
+    const kl = nieuweKlant(a.id, n, { naam1: n.split(' ')[0], geboortejaar1: g }); ST.toonUitn = kl.id; render();
+  };
 }
 
-/* ================= Hypotheekcijfer (klant + adviseur) ================= */
-function nieuwDossier() {
-  return { naam1: '', partner: true, naam2: '', geboortejaar1: 1965, geboortejaar2: 1967, inkomen1: 52000, inkomen2: 30000, pensioen1: '', pensioen2: '', orv1: 0, orv2: 0, nabestaanden: 0, nabestaanden2: 0,
-    waarde: 400000, waardeDatum: `${PARAMS.jaar}-01`, waardeBron: 'PandWise (indicatief)', woz: 385000, bouwjaar: 1965, grond: 'klei', aandachtsgebied: 'nee', grondwater: 'nee', fundering: 'onbekend', schade: 'nee', funderingExtern: '',
-    onderhoud: '', onderhoudDoor: '', renteHerfin: PARAMS.renteHerfinDefault, herRvp: 10, energielabel: 'geen', nhg: 'nee', inkomensdaling: 20,
-    delen: [{ vorm: 'annuitair', saldo: 220000, rente: 2.1, restLooptijd: 180, rvpEindJaar: PARAMS.jaar + 2, aftrekEindJaar: PARAMS.jaar + 15, box: 1 }] };
-}
-function openCase(id) {
-  const p = S.portfolio.find(x => x.id === id);
-  S.cur = { id, k: clone(p.k), adviseur: p.adviseur };
-  if (p.status === 'uitgenodigd' || p.status === 'niet' || p.status === 'herhaling') p.status = 'behandeling';
-  setView('klant');
+function intro() {
+
+  return `<section class="hero">
+    <h1>Scoor je <mark>hypotheekcijfer</mark>, en zie hoe jij ervoor staat.</h1>
+    <p>Kun je je hypotheek blijven betalen als je rente straks omhooggaat, de renteaftrek stopt of je met pensioen gaat? En wat als er iets onverwachts gebeurt?</p>
+    <p>Je krijgt een cijfer van 1 tot 10, plus een cijfer per belangrijk moment en per life event, met tips wat je kunt doen.</p>
+    <div class="pills"><span class="pill">± 5 minuten</span><span class="pill">Leennormen ${PARAMS.normJaar}</span><span class="pill">Gegevens blijven in je browser</span><span class="pill">Gratis en vrijblijvend</span></div>
+  </section>
+  <div class="card"><h3>Wat heb je nodig?</h3>
+    <ul style="margin:0 0 14px;padding-left:20px"><li>Je bruto jaarinkomen (en dat van je partner)</li><li>Je hypotheekgegevens: bedrag, rente en tot wanneer de rente vaststaat (staat op je jaaroverzicht)</li>
+    <li>Een schatting van je woningwaarde</li><li>Eventueel: je verwachte pensioen (via mijnpensioenoverzicht.nl)</li></ul>
+    <button class="btn p" id="start">Start de check</button>
+    <p class="disc" style="margin-top:14px">Dit is een indicatie, geen hypotheekadvies. Wil je advies? Bespreek je uitkomst met je hypotheekadviseur.</p></div>`;
 }
 
-function renderKlant(app) {
-  if (!S.cur) S.cur = { id: null, k: nieuwDossier(), adviseur: S.adv || ADVISEURS[0].naam };
-  const c = S.cur, p = c.id ? S.portfolio.find(x => x.id === c.id) : null, a = advInfo(c.adviseur);
-  app.innerHTML = `
-  <div class="card" style="margin-bottom:14px;background:var(--brand);border-color:var(--brand);color:#fff"><div style="font-size:20px;font-weight:800">Scoor je hypotheekcijfer, en zie hoe jij ervoor staat.</div>
-    <div style="opacity:.85;font-size:13px">Getoetst aan de leennormen ${PARAMS.normJaar} — per belangrijk moment en per life event.</div></div>
-  <div class="row"><div><h1>Hypotheekcijfer ${p ? `· ${esc(p.klant)}` : '· nieuw dossier'}</h1>
-    <p class="sub">${p ? `${p.id} · ${esc(p.plaats)} · ` : ''}adviseur ${esc(a.naam)}${a.kantoor ? ' (' + esc(a.kantoor) + ')' : ''} · namens ${esc(S.gv)}</p></div><div class="sp"></div>
-    ${p ? `<button class="btn" id="bk">← Terug naar portefeuille</button>` : ''}<button class="btn" id="nw">Nieuw leeg dossier</button></div>
-  <div class="two">
-    <div class="card" id="form"></div>
-    <div class="sticky" id="res"></div>
-  </div>`;
-  if (p) app.querySelector('#bk').onclick = () => setView('gv');
-  app.querySelector('#nw').onclick = () => { S.cur = null; renderKlant(app); };
-  renderForm(); renderRes();
-}
-
-const F = {
-  t: (key, lbl, o = {}) => `<label class="f">${lbl}<input data-k="${key}" ${o.type ? `type="${o.type}"` : ''} value="${esc(S.cur.k[key] ?? '')}" ${o.ph ? `placeholder="${o.ph}"` : ''}></label>`,
-  e: (key, lbl, o = {}) => `<label class="f">${lbl}<input data-k="${key}" data-eur inputmode="numeric" value="${S.cur.k[key] === '' || S.cur.k[key] == null ? '' : fmtInt(S.cur.k[key])}" placeholder="${o.ph || '€ 0'}"></label>`,
-  n: (key, lbl, o = {}) => `<label class="f">${lbl}<input data-k="${key}" data-num inputmode="decimal" value="${String(S.cur.k[key] ?? '').replace('.', ',')}" ${o.ph ? `placeholder="${o.ph}"` : ''}></label>`,
-  s: (key, lbl, opts, o = {}) => `<label class="f">${lbl}<select data-k="${key}" ${o.dis ? 'disabled' : ''}>${opts.map(x => { const [v, t] = Array.isArray(x) ? x : [x, x]; return `<option value="${esc(v)}" ${String(S.cur.k[key]) === String(v) ? 'selected' : ''}>${esc(t)}</option>`; }).join('')}</select></label>`
+/* ---------- velden ---------- */
+const f = {
+  eur: (key, lbl, help = '', ph = '€ 0') => `<label class="f">${lbl}<input data-k="${key}" data-eur inputmode="numeric" placeholder="${ph}" value="${ST.k[key] === '' ? '' : fmtInt(ST.k[key])}">${help ? `<small>${help}</small>` : ''}</label>`,
+  num: (key, lbl, help = '', ph = '') => `<label class="f">${lbl}<input data-k="${key}" data-num inputmode="decimal" placeholder="${ph}" value="${String(ST.k[key] ?? '').replace('.', ',')}">${help ? `<small>${help}</small>` : ''}</label>`,
+  txt: (key, lbl, ph = '') => `<label class="f">${lbl}<input data-k="${key}" placeholder="${ph}" value="${esc(ST.k[key])}"></label>`,
+  sel: (key, lbl, opts, help = '') => `<label class="f">${lbl}<select data-k="${key}">${opts.map(([v, t]) => `<option value="${v}" ${String(ST.k[key]) === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${help ? `<small>${help}</small>` : ''}</label>`,
+  seg: (key, lbl, opts) => `<div class="f" style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600">${lbl}<div class="seg">${opts.map(([v, t]) => `<button type="button" data-seg="${key}" data-v="${v}" class="${String(ST.k[key]) === v ? 'on' : ''}">${t}</button>`).join('')}</div></div>`
 };
-const JN = [['nee', 'Nee'], ['ja', 'Ja']];
 
-function renderForm() {
-  const k = S.cur.k, a = advInfo(S.cur.adviseur), el = document.getElementById('form');
-  el.innerHTML = `
-  <div class="sect"><h2>1 · Huishouden &amp; inkomen</h2>
-    <p class="note" style="margin-top:-6px">In de praktijk via de Procesversneller (Ockto) geverifieerd opgehaald; hier handmatig aan te passen.</p>
-    <div class="fg">
-      ${F.t('naam1', 'Naam aanvrager 1')}${F.n('geboortejaar1', 'Geboortejaar 1')}${F.e('inkomen1', 'Bruto jaarinkomen 1')}${F.e('pensioen1', 'Pensioeninkomen 1 (incl. AOW)', { ph: 'leeg = 70%' })}
-      ${F.s('partner', 'Partner', [['true', 'Ja'], ['false', 'Nee']])}
-      ${k.partner ? F.t('naam2', 'Naam partner') + F.n('geboortejaar2', 'Geboortejaar 2') + F.e('inkomen2', 'Bruto jaarinkomen 2') + F.e('pensioen2', 'Pensioeninkomen 2 (incl. AOW)', { ph: 'leeg = 70%' })
-        + F.e('orv1', 'ORV-dekking op leven 1') + F.e('orv2', 'ORV-dekking op leven 2') + F.e('nabestaanden2', 'Nabestaandenpensioen voor 2 /jr') + F.e('nabestaanden', 'Nabestaandenpensioen voor 1 /jr') : ''}
-    </div></div>
-  <div class="sect"><div class="row"><h2 style="margin:0">2 · Hypotheek</h2><div class="sp"></div><button class="btn s" id="addd">+ Leningdeel</button></div>
-    <div class="scroll" style="margin-top:10px"><table class="tbl" id="delen"><thead><tr><th>Vorm</th><th>Saldo</th><th>Rente %</th><th>Restlooptijd (jr)</th><th>Einde RVP</th><th>Einde aftrek</th><th></th></tr></thead><tbody>
-    ${k.delen.map((d, i) => `<tr data-i="${i}">
-      <td><select data-d="vorm">${['annuitair', 'lineair', 'aflossingsvrij'].map(v => `<option ${d.vorm === v ? 'selected' : ''}>${v}</option>`).join('')}</select></td>
-      <td><input data-d="saldo" data-eur value="${fmtInt(d.saldo)}" style="width:110px"></td>
-      <td><input data-d="rente" data-num value="${String(d.rente).replace('.', ',')}" style="width:64px"></td>
-      <td><input data-d="restJ" data-num value="${String(Math.round(d.restLooptijd / 12 * 10) / 10).replace('.', ',')}" style="width:64px"></td>
-      <td><input data-d="rvpEindJaar" data-num value="${d.rvpEindJaar ?? ''}" style="width:70px"></td>
-      <td><input data-d="aftrekEindJaar" data-num value="${d.aftrekEindJaar ?? ''}" style="width:70px" title="Startjaar renteaftrek + 30"></td>
-      <td>${k.delen.length > 1 ? `<button class="btn s" data-rm="${i}" title="Verwijder">✕</button>` : ''}</td></tr>`).join('')}
-    </tbody></table></div>
-    <div class="fg" style="margin-top:10px">${F.n('renteHerfin', 'Herfinancieringsrente % (aanname)')}${F.n('herRvp', 'Nieuwe rentevaste periode (jr)')}${F.n('inkomensdaling', 'Scenario inkomensdaling %')}
-      ${F.s('nhg', 'Nationale Hypotheek Garantie', [['nee', 'Nee'], ['ja', 'Ja']])}</div></div>
-  <div class="sect"><h2>3 · Woning &amp; onderpand</h2>
-    <div class="fg">
-      ${F.e('waarde', 'Actuele woningwaarde')}${F.t('waardeDatum', 'Peildatum waarde', { type: 'month' })}
-      ${F.s('energielabel', 'Energielabel (extra leenruimte)', Object.keys(LEENNORMEN_2027.energielabel).map(x => [x, x === 'geen' ? 'Geen geldig label / niet meenemen' : 'Label ' + x]))}
-      ${F.s('waardeBron', 'Bron waardering', ['PandWise (indicatief)', 'Calcasa (AVM)', 'Taxatierapport', 'WOZ-geïndexeerd', 'Onbekend'])}${F.e('woz', 'WOZ-waarde')}
-    </div>
-    ${/PandWise|WOZ/.test(k.waardeBron) ? `<div class="flag"><b>Compliance:</b> een indicatieve woningwaarde (PandWise, WOZ-index) is géén taxatie. Geschikt als klantcadeau en signaal, maar onderbouw de collateral-herwaardering richting toezicht met een gevalideerd model (AVM) of taxatie.</div>` : ''}
-    <h3 style="margin-top:14px">Funderingsrisico</h3>
-    <div class="fg">
-      ${F.n('bouwjaar', 'Bouwjaar')}${F.s('grond', 'Bodem', [['zand', 'Zand'], ['klei', 'Klei'], ['veen', 'Veen']])}${F.s('aandachtsgebied', 'RVO-aandachtsgebied', JN)}
-      ${F.s('grondwater', 'Lage/dalende grondwaterstand', JN)}${F.s('fundering', 'Funderingstype', [['onbekend', 'Onbekend'], ['hout', 'Houten palen'], ['staal', 'Op staal'], ['beton', 'Betonpalen']])}
-      ${F.s('schade', 'Zichtbare scheuren/scheefstand', JN)}${F.n('funderingExtern', 'Funderingscijfer extern (1–10)', { ph: 'bv. uit Funderingscijfer.nl' })}
-    </div>
-    <h3 style="margin-top:14px">Onderhoudstoestand <span class="b neu">optionele module</span></h3>
-    <div class="fg">
-      ${F.s('onderhoud', 'Onderhoudsniveau', [['', 'Niet beoordeeld'], ['uitstekend', 'Uitstekend'], ['goed', 'Goed'], ['redelijk', 'Redelijk'], ['matig', 'Matig'], ['slecht', 'Slecht']], { dis: !a.cert && k.onderhoudDoor !== 'taxateur' })}
-      ${F.s('onderhoudDoor', 'Beoordeeld door', [['', '–'], ['taxateur', 'Taxateur (inspectie)'], ['adviseur', 'Adviseur (gecertificeerd)']])}
-    </div>
-    ${!a.cert && k.onderhoudDoor !== 'taxateur' ? '<p class="note">Deze adviseur heeft de cursus onderhoudssignalering niet afgerond: kies "Taxateur" of schakel de cursus in bij de werklijst.</p>' : ''}
-  </div>`;
-  // bindings
-  el.querySelectorAll('[data-k]').forEach(inp => inp.addEventListener(inp.tagName === 'SELECT' ? 'change' : 'input', () => {
-    const key = inp.dataset.k; let v = inp.value;
-    if (inp.hasAttribute('data-eur')) v = inp.value.trim() === '' ? '' : parseNum(inp.value);
-    else if (inp.hasAttribute('data-num')) v = inp.value.trim() === '' ? '' : parseNum(inp.value.replace('.', ','));
-    if (key === 'partner') v = v === 'true';
-    k[key] = v;
-    if (['partner', 'waardeBron', 'onderhoudDoor'].includes(key)) renderForm();
-    renderRes();
-  }));
-  el.querySelectorAll('[data-d]').forEach(inp => inp.addEventListener(inp.tagName === 'SELECT' ? 'change' : 'input', () => {
-    const d = k.delen[+inp.closest('tr').dataset.i], key = inp.dataset.d;
-    if (key === 'vorm') d.vorm = inp.value;
-    else if (key === 'restJ') d.restLooptijd = Math.max(1, Math.round(parseNum(inp.value.replace('.', ',')) * 12));
-    else if (key === 'saldo') d.saldo = parseNum(inp.value);
-    else d[key] = inp.value === '' ? null : parseNum(inp.value.replace('.', ','));
-    renderRes();
-  }));
-  el.querySelectorAll('[data-eur]').forEach(inp => inp.addEventListener('blur', () => { if (inp.value.trim() !== '') inp.value = fmtInt(parseNum(inp.value)); }));
-  el.querySelector('#addd').onclick = () => { k.delen.push({ vorm: 'aflossingsvrij', saldo: 50000, rente: 3.5, restLooptijd: 240, rvpEindJaar: PARAMS.jaar + 5, aftrekEindJaar: PARAMS.jaar + 20, box: 1 }); renderForm(); renderRes(); };
-  el.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { k.delen.splice(+b.dataset.rm, 1); renderForm(); renderRes(); });
+function stapJij() {
+  const k = ST.k;
+  return `<h2>Over jou</h2><p class="lead">Je inkomen bepaalt hoeveel hypotheek bij je past. Vul het bruto jaarinkomen in, inclusief vakantiegeld en vaste 13e maand.</p>
+  <div class="fg">${f.seg('partner', 'Koop je samen?', [['false', 'Alleen'], ['true', 'Met partner']])}</div>
+  <h3 style="margin-top:20px">Jij</h3>
+  <div class="fg">${f.txt('naam1', 'Voornaam (optioneel)', 'bijv. Sanne')}${f.num('geboortejaar1', 'Geboortejaar', '', 'bijv. 1968')}
+    ${f.eur('inkomen1', 'Bruto jaarinkomen')}${f.eur('pensioen1', 'Verwacht pensioen per jaar (incl. AOW)', 'Leeg laten? Dan rekenen we met 70% van je inkomen.', 'optioneel')}</div>
+  ${k.partner ? `<h3 style="margin-top:20px">Je partner</h3>
+  <div class="fg">${f.txt('naam2', 'Voornaam (optioneel)', 'bijv. Daan')}${f.num('geboortejaar2', 'Geboortejaar', '', 'bijv. 1970')}
+    ${f.eur('inkomen2', 'Bruto jaarinkomen')}${f.eur('pensioen2', 'Verwacht pensioen per jaar (incl. AOW)', 'Leeg = 70% van het inkomen.', 'optioneel')}</div>` : ''}
+  <div class="hint">Tip: je verwachte pensioen vind je op mijnpensioenoverzicht.nl.</div>`;
 }
 
-function timeline(res) {
+function stapHypotheek() {
+  const k = ST.k;
+  return `<h2>Je hypotheek</h2><p class="lead">Kijk op je jaaroverzicht van de geldverstrekker. Heb je meerdere leningdelen? Voeg ze apart toe.</p>
+  ${k.delen.map((d, i) => `<div class="deel" data-i="${i}">${k.delen.length > 1 ? `<button class="btn s x" data-rm="${i}">Verwijder</button>` : ''}
+    <h3>Leningdeel ${i + 1}</h3>
+    <div class="fg">
+      <label class="f">Soort<select data-d="vorm">${[['annuitair', 'Annuïteit'], ['lineair', 'Lineair'], ['aflossingsvrij', 'Aflossingsvrij']].map(([v, t]) => `<option value="${v}" ${d.vorm === v ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
+      <label class="f">Openstaand bedrag<input data-d="bedrag" data-eur inputmode="numeric" placeholder="€ 0" value="${d.bedrag === '' ? '' : fmtInt(d.bedrag)}"></label>
+      <label class="f">Rente %<input data-d="rente" data-num inputmode="decimal" placeholder="bijv. 2,1" value="${String(d.rente).replace('.', ',')}"></label>
+      <label class="f">Rente staat vast tot (jaar)<input data-d="rvpJaar" data-num inputmode="numeric" placeholder="bijv. ${J + 3}" value="${d.rvpJaar}"></label>
+      <label class="f">Einde looptijd (jaar)<input data-d="eindJaar" data-num inputmode="numeric" placeholder="bijv. ${J + 18}" value="${d.eindJaar}"></label>
+      <label class="f">Afgesloten in (jaar)<input data-d="startJaar" data-num inputmode="numeric" placeholder="bijv. ${J - 12}" value="${d.startJaar}"><small>Voor het einde van je renteaftrek (30 jaar na start).</small></label>
+    </div></div>`).join('')}
+  <button class="btn s" id="add">+ Leningdeel toevoegen</button>
+  <div class="fg" style="margin-top:18px">${f.sel('nhg', 'Heb je Nationale Hypotheek Garantie (NHG)?', [['nee', 'Nee / weet ik niet'], ['ja', 'Ja']])}</div>
+  <div class="hint">Aflossingsvrij deel afgesloten vanaf 2013? Dan is de rente meestal niet aftrekbaar; daar rekenen we mee.</div>`;
+}
+
+function stapWoning() {
+  return `<h2>Je woning</h2><p class="lead">De waarde van je woning laat zien hoeveel je hypotheek gedekt is. Een schatting is prima.</p>
+  <div class="fg">${f.eur('waarde', 'Geschatte woningwaarde', 'Weet je het niet? Neem je WOZ-waarde.')}${f.eur('woz', 'WOZ-waarde', 'Staat op je aanslag gemeentebelastingen.', 'optioneel')}
+    ${f.num('bouwjaar', 'Bouwjaar', '', 'bijv. 1965')}
+    ${f.sel('energielabel', 'Energielabel', Object.keys(LEENNORMEN_2027.energielabel).map(x => [x, x === 'geen' ? 'Weet ik niet / geen' : 'Label ' + x]), 'Een zuinig label geeft extra leenruimte.')}</div>
+  <h3 style="margin-top:20px">Fundering <span class="muted" style="font-weight:400;font-size:14px">(vooral bij woningen van vóór 1970)</span></h3>
+  <div class="fg">${f.sel('grond', 'Ondergrond', [['zand', 'Zand / weet ik niet'], ['klei', 'Klei'], ['veen', 'Veen']])}
+    ${f.sel('aandachtsgebied', 'Gemeente met bekende funderingsproblemen?', [['nee', 'Nee / weet ik niet'], ['ja', 'Ja']], 'Bijv. delen van Gouda, Zaanstad, Dordrecht, Schiedam.')}
+    ${f.sel('schade', 'Zie je scheuren of scheefstand?', [['nee', 'Nee'], ['ja', 'Ja']])}</div>
+  <div class="hint">Een indicatie van je woningwaarde, funderings- en klimaatrisico kun je ook gratis opvragen via PandWise.nl of Funderingscijfer.nl. Let op: een indicatieve waarde is geen taxatie.</div>`;
+}
+
+function stapTegenzit() {
+  const k = ST.k;
+  return `<h2>Als het tegenzit</h2><p class="lead">We rekenen ook uit wat er gebeurt bij werkloosheid, arbeidsongeschiktheid, overlijden of scheiding. Heb je verzekeringen? Vul ze in, dan tellen ze mee.</p>
+  ${k.partner ? `<div class="fg">${f.eur('orv1', `Overlijdensrisicoverzekering op leven ${esc(k.naam1 || 'jij')}`, 'Uitkering verlaagt de hypotheek.', 'optioneel')}
+    ${f.eur('orv2', `Overlijdensrisicoverzekering op leven ${esc(k.naam2 || 'partner')}`, '', 'optioneel')}
+    ${f.eur('nabestaanden2', `Nabestaandenpensioen voor ${esc(k.naam2 || 'partner')} per jaar`, '', 'optioneel')}
+    ${f.eur('nabestaanden', `Nabestaandenpensioen voor ${esc(k.naam1 || 'jou')} per jaar`, '', 'optioneel')}</div>`
+    : '<p class="muted">Je koopt alleen; overlijden en scheiding laten we daarom buiten beschouwing.</p>'}
+  <details style="margin-top:18px"><summary>Aannames aanpassen</summary><div class="fg" style="margin-top:12px">
+    ${f.num('renteHerfin', 'Rente na einde rentevaste periode %', 'Onze aanname voor de toekomstige rente.')}
+    ${f.num('herRvp', 'Nieuwe rentevaste periode (jaar)', 'Korter dan 10 jaar? Dan toetsen we met minimaal 5%.')}
+    ${f.num('inkomensdaling', 'Scenario inkomensdaling %')}</div></details>`;
+}
+
+function bind(app) {
+  app.querySelectorAll('[data-k]').forEach(el => el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', () => {
+    let v = el.value;
+    if (el.hasAttribute('data-eur')) v = el.value.trim() === '' ? '' : parseNum(el.value);
+    else if (el.hasAttribute('data-num')) v = el.value.trim() === '' ? '' : parseNum(el.value.replace('.', ','));
+    ST.k[el.dataset.k] = v;
+  }));
+  app.querySelectorAll('[data-eur]').forEach(el => el.addEventListener('blur', () => { if (el.value.trim() !== '') el.value = fmtInt(parseNum(el.value)); }));
+  app.querySelectorAll('[data-seg]').forEach(b => b.onclick = () => { ST.k[b.dataset.seg] = b.dataset.v === 'true' ? true : b.dataset.v === 'false' ? false : b.dataset.v; render(); });
+  app.querySelectorAll('[data-d]').forEach(el => el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', () => {
+    const d = ST.k.delen[+el.closest('.deel').dataset.i], key = el.dataset.d;
+    d[key] = key === 'vorm' ? el.value : (el.value.trim() === '' ? '' : parseNum(el.value.replace(key === 'rente' ? '.' : '\u0000', ',')));
+  }));
+  const add = app.querySelector('#add');
+  if (add) add.onclick = () => { ST.k.delen.push({ vorm: 'aflossingsvrij', bedrag: '', rente: '', rvpJaar: '', eindJaar: '', startJaar: '' }); render(); };
+  app.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { ST.k.delen.splice(+b.dataset.rm, 1); render(); });
+}
+
+function valideer(stap) {
+  const k = ST.k, gj = x => x >= 1930 && x <= J - 18;
+  if (stap === 0) {
+    if (!gj(+k.geboortejaar1)) return 'Vul een geldig geboortejaar in.';
+    if (!(k.inkomen1 > 0) && !(k.partner && k.inkomen2 > 0)) return 'Vul een bruto jaarinkomen in.';
+    if (k.partner && !gj(+k.geboortejaar2)) return 'Vul het geboortejaar van je partner in.';
+  }
+  if (stap === 1) {
+    for (const [i, d] of k.delen.entries()) {
+      const n = `Leningdeel ${i + 1}: `;
+      if (!(d.bedrag > 0)) return n + 'vul het openstaande bedrag in.';
+      if (!(d.rente >= 0 && d.rente < 15) || d.rente === '') return n + 'vul de rente in (bijv. 2,1).';
+      if (!(d.eindJaar > J)) return n + `het einde van de looptijd moet na ${J} liggen.`;
+      if (d.rvpJaar !== '' && (d.rvpJaar < J || d.rvpJaar > d.eindJaar)) return n + 'het einde van de rentevaste periode ligt niet tussen nu en het einde van de looptijd.';
+      if (d.startJaar !== '' && (d.startJaar < 1970 || d.startJaar > J)) return n + 'controleer het jaar van afsluiten.';
+    }
+  }
+  if (stap === 2 && !(k.waarde > 0) && !(k.woz > 0)) return 'Vul een (geschatte) woningwaarde of WOZ-waarde in.';
+  return '';
+}
+
+/* Consumentgegevens → dossier voor de rekenkern */
+function naarDossier() {
+  const k = ST.k;
+  const delen = k.delen.map(d => {
+    const start = d.startJaar || null, box3 = d.vorm === 'aflossingsvrij' && start && start >= 2013;
+    return { vorm: d.vorm, saldo: +d.bedrag, rente: +d.rente, restLooptijd: Math.max(12, (+d.eindJaar - J) * 12),
+      rvpEindJaar: d.rvpJaar || +d.eindJaar, aftrekEindJaar: start ? start + 30 : null, box: box3 ? 3 : 1 };
+  });
+  const bj = +k.bouwjaar || 0;
+  return { ...k, partner: !!k.partner, geboortejaar1: +k.geboortejaar1, geboortejaar2: k.partner ? +k.geboortejaar2 : null,
+    inkomen1: +k.inkomen1 || 0, inkomen2: k.partner ? (+k.inkomen2 || 0) : 0, waarde: +k.waarde || +k.woz, woz: +k.woz || +k.waarde,
+    fundering: bj && bj < 1970 && k.grond !== 'zand' ? 'onbekend' : 'beton', delen };
+}
+
+/* ---------- Resultaat ---------- */
+const UITLEG = {
+  rente: 'Na afloop betaal je de rente die dan geldt. Die kan hoger zijn dan nu.',
+  aftrek: 'Je kunt de hypotheekrente maximaal 30 jaar aftrekken. Daarna stijgen je netto lasten.',
+  pensioen: 'Bij pensioen daalt je inkomen meestal, terwijl de hypotheek doorloopt.',
+  samenloop: 'Een paar grote veranderingen vallen kort na elkaar. Dat maakt het extra spannend.',
+  looptijd: 'Aan het einde van de looptijd moet het aflossingsvrije deel worden afgelost of opnieuw gefinancierd.',
+  ww1: 'Bij werkloosheid krijg je WW: ongeveer 70% van je loon, tot een maximum.', ww2: 'Bij werkloosheid krijg je WW: ongeveer 70% van je loon, tot een maximum.',
+  ao1: 'Na 2 jaar ziekte krijg je een WIA-uitkering. Die is vaak lager dan je loon.',
+  overlijden1: 'Valt een inkomen weg, dan moet het andere inkomen de lasten dragen.', overlijden: 'Valt een inkomen weg, dan moet het andere inkomen de lasten dragen.',
+  scheiding: 'Blijft één van jullie in het huis wonen, dan moet die de hypotheek alleen kunnen betalen.',
+  daling: 'Bijvoorbeeld als je minder gaat werken of een lager betaalde baan neemt.'
+};
+function tip(s, k) {
+  const t = {
+    rente: 'Begin 1 tot 2 jaar vooraf met oriënteren. Rentemiddeling of extra aflossen kan de klap verzachten.',
+    aftrek: 'Extra aflossen vóór het einde van de aftrek verlaagt je netto lasten daarna.',
+    pensioen: 'Check je pensioen op mijnpensioenoverzicht.nl en kijk of aflossen vóór je pensioen verstandig is.',
+    samenloop: 'Bespreek dit tijdig met je adviseur: één plan voor rente, aflossen en pensioen werkt het best.',
+    looptijd: 'Maak een aflosplan of spaar voor het aflossingsvrije deel, zodat je niet afhankelijk bent van oversluiten op latere leeftijd.',
+    ww1: 'Een buffer van 3 tot 6 maanden woonlasten geeft rust. Een woonlastenverzekering kan helpen.',
+    ao1: 'Vraag je werkgever naar een WIA-hiaatverzekering, of overweeg een arbeidsongeschiktheids- of woonlastenverzekering.',
+    overlijden: 'Controleer of je overlijdensrisicoverzekering en nabestaandenpensioen genoeg zijn.',
+    scheiding: 'Leg afspraken vast, bijvoorbeeld in een samenlevingscontract, en weet wat er met de hypotheek gebeurt.',
+    daling: 'Breng je vaste lasten in kaart en kijk welke ruimte je hebt.'
+  };
+  const id = s.id === 'ww2' ? 'ww1' : s.id === 'overlijden1' ? 'overlijden' : s.id;
+  let x = t[id] || '';
+  if (k.nhg === 'ja' && ['ww1', 'ao1', 'overlijden', 'scheiding', 'daling'].includes(id)) x += ' Je hebt NHG: neem bij betalingsproblemen tijdig contact op met je geldverstrekker.';
+  return x;
+}
+function zin(c) {
+  return c >= 7 ? 'Je hypotheek is ruim betaalbaar.' : c >= 5.5 ? 'Je hypotheek is betaalbaar, maar let op de momenten hieronder.' : c >= 4 ? 'Je hypotheek kan krap worden. Het loont om nu al actie te ondernemen.' : 'Je hypotheek kan in de knel komen. Bespreek dit met je adviseur.';
+}
+
+function tijdlijn(res) {
   const pts = res.scen.filter(s => s.groep === 'moment' && /^\d{4}/.test(s.wanneer));
   if (!pts.length) return '';
-  const y0 = PARAMS.jaar, y1 = Math.max(y0 + 10, ...pts.map(s => +s.wanneer.slice(-4))) + 1, pos = y => ((y - y0) / (y1 - y0) * 100).toFixed(1) + '%';
-  const ticks = []; for (let y = y0; y <= y1; y += Math.ceil((y1 - y0) / 6)) ticks.push(y);
-  return `<div class="tl"><div class="ax"></div>${ticks.map(y => `<span class="y" style="left:${pos(y)}">${y}</span>`).join('')}
-    ${pts.map((s, i) => `<span class="m" style="left:${pos(+s.wanneer.slice(0, 4))};top:${i % 2 ? 0 : 4}px" title="${esc(s.titel)}: ${fmtNum(s.cijfer)}"><i style="background:var(--${cls(s.cijfer)})"></i></span>`).join('')}</div>`;
+  const y0 = J, y1 = Math.max(y0 + 10, ...pts.map(s => +s.wanneer.slice(-4))) + 1, pos = y => ((y - y0) / (y1 - y0) * 100).toFixed(1) + '%';
+  const tk = []; for (let y = y0; y <= y1; y += Math.ceil((y1 - y0) / 5)) tk.push(y);
+  return `<div class="tl"><div class="ax"></div>${tk.map(y => `<span class="y" style="left:${pos(y)}">${y}</span>`).join('')}
+    ${pts.map(s => `<span class="m" style="left:${pos(+s.wanneer.slice(0, 4))}" title="${esc(s.titel)}"><i style="background:var(--${kleur(s.cijfer)})"></i></span>`).join('')}</div>
+    <p class="disc" style="text-align:center;margin:0">Belangrijke momenten in de tijd, gekleurd naar cijfer</p>`;
 }
 
-function scenCard(s, k, res) {
-  return `<div class="s"><div class="row" style="gap:6px;align-items:flex-start"><div style="flex:1"><div class="t">${esc(s.titel)}</div><div class="w">${esc(s.wanneer)}</div></div>${cBadge(s.cijfer)}</div>
-    <div class="n"><span>Netto maandlast</span><b style="color:var(--ink)">${fmtEUR(s.netto)}</b></div>
-    <div class="n"><span>Verschil t.o.v. nu</span><span>${s.deltaNetto >= 0 ? '+' : ''}${fmtEUR(s.deltaNetto)}</span></div>
-    <div class="n"><span>Toetsinkomen /jr</span><span>${fmtEUR(s.toetsinkomen)}</span></div>
-    <div class="n"><span>Max. hypotheek leennorm</span><span>${fmtEUR(s.maxH)}</span></div>
-    <div class="n"><span>${s.ruimte >= 0 ? 'Ruimte' : 'Tekort'} t.o.v. leennorm</span><b style="color:var(--${s.ruimte >= 0 ? 'goed' : 'risico'})">${fmtEUR(Math.abs(s.ruimte))}</b></div>
-    <div class="note">Toetsrente ${s.toetsrente != null ? fmtPct(s.toetsrente) : '–'} · tabel ${s.tabel}</div>
-    <div class="note" style="margin-top:4px">${esc(s.toelichting)}</div>
-    ${s.cijfer < 7 && s.id !== 'huidig' ? `<div class="hp"><b>Handelingsperspectief:</b> ${handelingsperspectief(s, k, res).join(' ')}</div>` : ''}</div>`;
+function kaart(s, k) {
+  const ruimte = isFinite(s.ruimte) ? s.ruimte : -Infinity;
+  return `<div class="s"><div style="display:flex;gap:8px;align-items:flex-start"><div style="flex:1"><div class="t">${esc(s.titel)}</div><div class="w">${esc(s.wanneer)}</div></div><span class="c ${kleur(s.cijfer)}">${fmtNum(s.cijfer)}</span></div>
+    <p style="font-size:14px;margin:8px 0 0">${UITLEG[s.id] || ''}</p>
+    <div class="n"><span>Netto per maand</span><b style="color:var(--ink)">${fmtEUR(s.netto)}</b></div>
+    ${s.id !== 'huidig' ? `<div class="n"><span>Verschil met nu</span><span>${s.deltaNetto >= 0 ? '+' : ''}${fmtEUR(s.deltaNetto)}</span></div>` : ''}
+    <div class="n"><span>${ruimte >= 0 ? 'Ruimte' : 'Tekort'} volgens leennorm</span><b style="color:var(--${ruimte >= 0 ? 'goed' : 'risico'})">${isFinite(ruimte) ? fmtEUR(Math.abs(ruimte)) : 'geen inkomen'}</b></div>
+    ${s.cijfer < 7 && s.id !== 'huidig' ? `<div class="tip"><b>Wat kun je doen?</b> ${tip(s, k)}</div>` : ''}</div>`;
 }
 
-function renderRes() {
-  const k = S.cur.k, el = document.getElementById('res');
-  if (!k.delen.length || !k.delen.some(d => d.saldo > 0)) { el.innerHTML = '<div class="card">Voer minimaal één leningdeel in.</div>'; return; }
-  const res = berekenDossier(k); S.cur.res = res;
+function renderResultaat(app) {
+  const k = naarDossier(), res = berekenDossier(k), nu = res.scen[0];
   const mom = res.scen.filter(s => s.groep === 'moment'), ev = res.scen.filter(s => s.groep === 'event');
-  el.innerHTML = `
-  <div class="card">
-    <div class="big"><div class="ring ${cls(res.totaal)}">${fmtNum(res.totaal)}</div>
-      <div><div class="note">Hypotheekcijfer · leennormen ${PARAMS.normJaar}</div><div style="font-size:18px;font-weight:700">${label(res.totaal)}</div>
-      <div class="note">Nu ${fmtNum(res.scen[0].cijfer)} · laagste moment ${fmtNum(Math.min(...(mom.length ? mom : res.scen).map(x => x.cijfer)))} · laagste life event ${fmtNum(Math.min(...(ev.length ? ev : res.scen).map(x => x.cijfer)))}</div>
-      <div class="note">Max. hypotheek volgens leennorm nu <b>${fmtEUR(res.scen[0].maxH)}</b> · ${res.scen[0].ruimte >= 0 ? 'ruimte' : 'tekort'} <b>${fmtEUR(Math.abs(res.scen[0].ruimte))}</b></div>
-      <div class="note">Netto maandlast nu <b>${fmtEUR(res.huidigeLast.netto)}</b> (bruto ${fmtEUR(res.huidigeLast.bruto)}) · schuld ${fmtEUR(res.schuld)}</div></div></div>
-    ${timeline(res)}
-    ${res.signalen.length ? `<div class="sect"><h3>Signalen (early warning)</h3>${res.signalen.map(s => `<div class="sig"><span class="b ${ernstB(s.ernst)}">${s.code}</span><span>${esc(s.tekst)}</span></div>`).join('')}</div>` : ''}
-    <div class="sect"><h3>Belangrijke momenten</h3><div class="sc">${mom.map(s => scenCard(s, k, res)).join('') || '<span class="note">Geen toekomstige momenten bekend.</span>'}</div></div>
-    <div class="sect"><h3>Life events</h3><div class="sc">${ev.map(s => scenCard(s, k, res)).join('')}</div></div>
-    <div class="sect"><h3>Onderpand</h3>
-      <table class="tbl"><tbody>
-        <tr><td>Woningwaarde</td><td class="r">${fmtEUR(k.waarde)} <span class="note">${esc(k.waardeBron)} · ${esc(k.waardeDatum)}</span></td></tr>
-        <tr><td>LTV (schuld / waarde)</td><td class="r">${ltvB(res.ltv)}</td></tr>
-        <tr><td>Funderingscijfer <span class="note">(${res.fund.bron})</span></td><td class="r">${fundB(res.fund)} <span class="note">${esc(res.fund.redenen.join(', ') || 'geen indicatoren')}</span></td></tr>
-        <tr><td>Onderhoud</td><td class="r">${k.onderhoud ? esc(k.onderhoud) + (res.onderhoudCorr ? ` (${fmtPct(res.onderhoudCorr * 100, 0)})` : '') : '<span class="note">niet beoordeeld</span>'}</td></tr>
-        <tr><td>Stress-waarde <span class="note">na fundering/onderhoud</span></td><td class="r">${fmtEUR(res.waardeStress)} · stress-LTV ${ltvB(res.ltvStress)}</td></tr>
-      </tbody></table></div>
-    <div class="sect row">
-      <button class="btn" id="prt">Klantrapport (print / PDF)</button>
-      ${S.cur.id ? '<button class="btn a" id="fin">Afronden &amp; terugmelden aan geldverstrekker</button>' : ''}
-    </div>
-    <p class="note">Berekend met de financieringslastpercentages ${PARAMS.normJaar} (Tijdelijke regeling hypothecair krediet), met vereenvoudigde aannames. Geen hypotheekadvies of kredietbeslissing; het advies blijft bij de adviseur.</p>
-  </div>`;
-  el.querySelector('#prt').onclick = () => printWin(klantRapportHTML(k, res));
-  const fin = el.querySelector('#fin');
-  if (fin) fin.onclick = () => {
-    const p = S.portfolio.find(x => x.id === S.cur.id);
-    p.k = clone(k); p.status = 'afgerond'; p.monitoring = ISO(TODAY); refresh(p); p.cijferDef = p.res.totaal;
-    alert(`Dossier ${p.id} afgerond. Cijfer ${fmtNum(p.cijferDef)} en onderpandgegevens zijn teruggemeld aan ${S.gv}. Volgende uitvraag: ${p.volgende}.`);
-    setView('gv');
-  };
-}
-
-/* ---------- Print (via window.open i.v.m. iframe-embed) ---------- */
-function printWin(html) {
-  const w = window.open('', '_blank');
-  if (!w) { alert('Pop-up geblokkeerd: sta pop-ups toe om te printen.'); return; }
-  w.document.write(html); w.document.close(); w.focus(); setTimeout(() => w.print(), 400);
-}
-const PRINT_CSS = `body{font:12px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#13203b;margin:28px}h1{font-size:20px;margin:0}h2{font-size:14px;margin:18px 0 6px;color:#1d3a8a;border-bottom:1px solid #dde;padding-bottom:3px}
-table{width:100%;border-collapse:collapse}td,th{padding:5px 6px;border-bottom:1px solid #e3e6ee;text-align:left;vertical-align:top}th{font-size:10px;text-transform:uppercase;color:#5d6680}.r{text-align:right}
-.c{display:inline-block;min-width:30px;text-align:center;border-radius:4px;font-weight:700;padding:1px 4px}.goed{background:#e2f4ea;color:#17824f}.let{background:#eef4d9;color:#5f7417}.krap{background:#fdefd8;color:#a96400}.risico{background:#fbe4e1;color:#bf2f24}
-.note{color:#5d6680;font-size:11px}.box{border:1px solid #dde;border-radius:8px;padding:10px;margin:8px 0}@page{margin:14mm}`;
-
-function klantRapportHTML(k, res) {
-  const a = advInfo(S.cur.adviseur);
-  const rows = res.scen.map(s => `<tr><td><b>${esc(s.titel)}</b><div class="note">${esc(s.toelichting)}</div></td><td>${esc(s.wanneer)}</td><td class="r">${fmtEUR(s.netto)}</td>
-    <td><span class="c ${cls(s.cijfer)}">${fmtNum(s.cijfer)}</span></td><td>${s.cijfer < 7 && s.id !== 'huidig' ? handelingsperspectief(s, k, res).join(' ') : '–'}</td></tr>`).join('');
-  return `<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Hypotheekcijfer-rapport</title><style>${PRINT_CSS}</style></head><body>
-  <table><tr><td style="border:0"><h1>Uw Hypotheekcijfer</h1><div style="font-weight:700">Scoor je hypotheekcijfer, en zie hoe jij ervoor staat.</div><div class="note">Rapport ${nlDate(ISO(TODAY))} · namens ${esc(a.naam)}${a.kantoor ? ', ' + esc(a.kantoor) : ''} en ${esc(S.gv)}</div></td>
-  <td style="border:0;text-align:right"><span class="c ${cls(res.totaal)}" style="font-size:26px;padding:6px 12px">${fmtNum(res.totaal)}</span><div class="note">${label(res.totaal)}</div></td></tr></table>
-  <div class="box">Beste ${esc(k.naam1 || 'klant')}${k.partner && k.naam2 ? ' en ' + esc(k.naam2) : ''},<br>Samen met uw adviseur hebben we gekeken of uw hypotheek betaalbaar blijft op belangrijke momenten en bij ingrijpende gebeurtenissen.
-  Hieronder ziet u per situatie een cijfer van 1 tot 10 en wat u kunt doen. Uw netto maandlast is nu <b>${fmtEUR(res.huidigeLast.netto)}</b>.</div>
-  <h2>Cijfer per moment en life event</h2><table><tr><th>Situatie</th><th>Wanneer</th><th class="r">Netto p/m</th><th>Cijfer</th><th>Wat kunt u doen?</th></tr>${rows}</table>
-  <h2>Uw woning</h2><table>
-  <tr><td>Woningwaarde (cadeau)</td><td class="r">${fmtEUR(k.waarde)} <span class="note">${esc(k.waardeBron)}, ${esc(k.waardeDatum)}</span></td></tr>
-  <tr><td>Verhouding hypotheek / woningwaarde</td><td class="r">${fmtPct(res.ltv * 100, 0)}</td></tr>
-  <tr><td>Funderingscijfer (indicatief)</td><td class="r">${fmtNum(res.fund.cijfer)} <span class="note">${esc(res.fund.redenen.join(', ') || 'geen bijzonderheden')}</span></td></tr>
-  ${k.onderhoud ? `<tr><td>Onderhoudstoestand</td><td class="r">${esc(k.onderhoud)}</td></tr>` : ''}</table>
-  ${res.fund.niveau !== 'laag' ? '<div class="box"><b>Fundering:</b> uw woning heeft kenmerken die wijzen op een verhoogd funderingsrisico. Bespreek met uw adviseur of een funderingsonderzoek zinvol is; tijdig onderzoek voorkomt hogere herstelkosten.</div>' : ''}
-  <p class="note">Dit rapport is indicatief en geen hypotheekadvies. De cijfers zijn berekend met de leennormen ${PARAMS.normJaar} (Tijdelijke regeling hypothecair krediet), met vereenvoudigde aannames over inkomen en lasten. Een indicatieve woningwaarde is geen taxatie.
-  Fiscale parameters ${PARAMS.fiscaalJaar}: aftrektarief ${fmtPct(PARAMS.aftrekTarief * 100)}, eigenwoningforfait ${fmtPct(PARAMS.ewfPct * 100)}, herfinancieringsrente ${fmtPct(+k.renteHerfin || PARAMS.renteHerfinDefault)}.
-  Over ${S.cyclus} jaar nodigen wij u opnieuw uit voor een update.</p></body></html>`;
-}
-
-function rapportageHTML(list) {
-  const K = kpis(list), n = list.length || 1, by = (f) => list.filter(f).length, pct = x => fmtPct(x / n * 100, 0);
-  const ltvB = [['≤ 60%', 0, .6], ['60–80%', .6, .8], ['80–90%', .8, .9], ['90–100%', .9, 1], ['> 100%', 1, 99]];
-  const age = [['< 1 jaar', 0, 1], ['1–3 jaar', 1, 3], ['3–5 jaar', 3, 5], ['≥ 5 jaar', 5, 99]];
-  const bron = [...new Set(list.map(p => p.k.waardeBron))];
-  const top = list.filter(p => p.res.signalen.some(s => s.ernst === 'hoog')).sort((a, b) => b.prio - a.prio).slice(0, 25);
-  return `<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Rapportage hypotheekmonitoring</title><style>${PRINT_CSS}</style></head><body>
-  <h1>Rapportage hypotheekmonitoring</h1><div class="note">${esc(S.gv)} · peildatum ${nlDate(ISO(TODAY))} · ${list.length} leningen in selectie · opgesteld met Shared Hypotheekcijfer (Blinqx)</div>
-  <h2>1. Scope en methode</h2><table>
-  <tr><td>Doel</td><td>Doorlopende monitoring van kredietkwaliteit en onderpandwaarde gedurende de looptijd (EBA/GL/2020/06; SREP-beoordeling credit risk & risk control).</td></tr>
-  <tr><td>Betaalbaarheid</td><td>Benutting van de maximale hypotheek volgens de leennormen ${PARAMS.normJaar} (financieringslastpercentages, Stcrt. 2026, 38415), vertaald naar een cijfer 1–10 per moment (einde RVP, einde renteaftrek, pensionering, samenloop, einde looptijd) en per life event (werkloosheid, arbeidsongeschiktheid, overlijden, scheiding, inkomensdaling). Brondata via Procesversneller (Ockto) indien vastgesteld; anders voorlopig op geldverstrekkerdata.</td></tr>
-  <tr><td>Onderpand</td><td>Waarderingsbronnen in selectie: ${bron.map(esc).join(', ')}. Aanvullend indicatief funderingscijfer (bouwjaar, bodem, RVO-aandachtsgebied, grondwater) en optionele onderhoudsbeoordeling (taxateur of gecertificeerde adviseur).</td></tr>
-  <tr><td>Frequentie</td><td>Gestructureerde uitvraag elke ${S.cyclus} jaar per klant; eerder bij early-warning-signaal.</td></tr></table>
-  <h2>2. Dekking en frequentie</h2><table>
-  <tr><td>Monitoring afgerond binnen cyclus</td><td class="r">${K.binnen} (${pct(K.binnen)})</td></tr>
-  <tr><td>Herhaling vereist / niet gestart</td><td class="r">${by(p => p.status === 'herhaling')} / ${by(p => p.status === 'niet')}</td></tr>
-  <tr><td>Uitgenodigd / in behandeling</td><td class="r">${by(p => p.status === 'uitgenodigd')} / ${by(p => p.status === 'behandeling')}</td></tr></table>
-  <h2>3. Onderpand</h2><table><tr><th>LTV-klasse</th><th class="r">Aantal</th><th class="r">Saldo</th></tr>
-  ${ltvB.map(([l, lo, hi]) => { const s = list.filter(p => p.res.ltv > lo && p.res.ltv <= hi); return `<tr><td>${l}</td><td class="r">${s.length}</td><td class="r">${fmtEUR(s.reduce((a, p) => a + p.saldo, 0))}</td></tr>`; }).join('')}
-  <tr><td>waarvan met NHG</td><td class="r">${by(p => p.k.nhg === 'ja')}</td><td class="r">${fmtEUR(list.filter(p => p.k.nhg === 'ja').reduce((a, p) => a + p.saldo, 0))}</td></tr>
-  <tr><td><b>Gewogen LTV</b></td><td></td><td class="r"><b>${fmtPct(K.wltv * 100, 1)}</b></td></tr></table>
-  <table style="margin-top:8px"><tr><th>Ouderdom waardering</th><th class="r">Aantal</th></tr>${age.map(([l, lo, hi]) => `<tr><td>${l}</td><td class="r">${by(p => { const a = PARAMS.jaar - +p.k.waardeDatum.slice(0, 4); return a >= lo && a < hi; })}</td></tr>`).join('')}</table>
-  <table style="margin-top:8px"><tr><th>Funderingsrisico</th><th class="r">Aantal</th><th class="r">Saldo</th></tr>${['hoog', 'middel', 'laag'].map(l => { const s = list.filter(p => p.res.fund.niveau === l); return `<tr><td>${l}</td><td class="r">${s.length}</td><td class="r">${fmtEUR(s.reduce((a, p) => a + p.saldo, 0))}</td></tr>`; }).join('')}</table>
-  <h2>4. Betaalbaarheid en early warning</h2><table>
-  <tr><td>Cijfer &lt; 4 / 4–5,5 / ≥ 5,5</td><td class="r">${by(p => (p.cijferDef ?? p.res.totaal) < 4)} / ${by(p => { const c = p.cijferDef ?? p.res.totaal; return c >= 4 && c < 5.5; })} / ${by(p => (p.cijferDef ?? p.res.totaal) >= 5.5)}</td></tr>
-  <tr><td>Samenloop renteschok · aftrekverval · pensioen binnen 5 jaar</td><td class="r">${K.sam}</td></tr>
-  ${['EWI-BET', 'EWI-SAM', 'EWI-LTV', 'EWI-FUN', 'EWI-VAL'].map(c => `<tr><td>Signaal ${c}</td><td class="r">${by(p => p.res.signalen.some(s => s.code === c))}</td></tr>`).join('')}</table>
-  <h2>5. Leningen met signaal "hoog" (top 25)</h2><table><tr><th>Lening</th><th>Adviseur</th><th class="r">Saldo</th><th class="r">LTV</th><th>Cijfer</th><th>Signalen</th><th>Status</th></tr>
-  ${top.map(p => `<tr><td>${p.id}</td><td>${esc(p.adviseur)}</td><td class="r">${fmtEUR(p.saldo)}</td><td class="r">${fmtPct(p.res.ltv * 100, 0)}</td><td><span class="c ${cls(p.cijferDef ?? p.res.totaal)}">${fmtNum(p.cijferDef ?? p.res.totaal)}</span>${p.cijferDef == null ? ' <span class="note">vl</span>' : ''}</td><td>${p.res.signalen.map(s => s.code.replace('EWI-', '')).join(', ')}</td><td>${STATUS[p.status]}</td></tr>`).join('')}</table>
-  <p class="note">Indicatieve rapportage. Cijfers zijn een betaalbaarheidsindicatie op basis van de leennormen ${PARAMS.normJaar} met vereenvoudigde aannames; geen kredietbeoordeling. Indicatieve woningwaarden (PandWise/WOZ) zijn geen taxatie. Klantdata verwerkt onder verwerkersovereenkomst; adviescontact en advies liggen bij de adviseur.</p></body></html>`;
-}
-
-/* ================= Kader & compliance ================= */
-function renderKader(app) {
+  const zwak = res.scen.filter(s => s.id !== 'huidig').sort((a, b) => a.cijfer - b.cijfer)[0];
+  ST.res = res; ST.dossier = k;
   app.innerHTML = `
-  <h1>Kader &amp; compliance</h1><p class="sub">Waarom structurele monitoring, hoe de keten loopt, en welke claims vóór externe inzet getoetst moeten worden.</p>
-  <div class="card"><h2>Het monitoringproces</h2><div class="flow">
-    <div><b>1 · Geldverstrekker</b>levert klantdata; per klant is de adviseur bekend</div>
-    <div><b>2 · Blinqx</b>koppelt adviseur en klant, plant uitvraag (cyclus ${S.cyclus} jr)</div>
-    <div><b>3 · Adviseur</b>activeert klant in het Hypotheekcijfer</div>
-    <div><b>4 · Procesversneller</b>Ockto haalt brondata op (DigiD, 90 dagen geldig)</div>
-    <div><b>5 · Klant + adviseur</b>cijfer per moment en life event, handelingsperspectief</div>
-    <div><b>6 · Klantrapport</b>cijfer + woningwaarde (cadeau), namens adviseur en geldverstrekker</div>
-    <div><b>7 · Rapportage</b>dekking, frequentie, onderpand en EWI's richting ECB/DNB/AFM</div>
-  </div></div>
-  <div class="card" style="margin-top:14px"><h2>Regelgeving → wat de tool levert</h2><div class="scroll"><table class="tbl"><thead><tr><th>Kader</th><th>Vraag van de toezichthouder</th><th>Invulling in de tool</th></tr></thead><tbody>
-    <tr><td><b>EBA/GL/2020/06</b><div class="note">Loan origination &amp; monitoring, van toepassing sinds 30-06-2021</div></td><td>Kredietkwaliteit en onderpand volgen gedurende de hele looptijd; tijdige signalering van verslechtering; herwaardering van onderpand.</td><td>Cyclische uitvraag, cijfer per scenario als early warning indicator, waarderingsbron en -datum per lening, funderings- en onderhoudsindicatoren.</td></tr>
-    <tr><td><b>SREP (ECB, methodologie 2026)</b></td><td>Credit risk: portefeuillekwaliteit, mitigants en coverage; risk control: hoe de instelling exposures monitort.</td><td>Toezichtrapportage met dekking, frequentie, LTV-verdeling, ouderdom waarderingen en EWI-overzicht.</td></tr>
-    <tr><td><b>ECB-prioriteiten / klimaatrisico</b></td><td>Prudente kredietstandaarden; klimaat- en natuurrisico in onderpandwaarde.</td><td>Funderingscijfer, stress-waarde en stress-LTV.</td></tr>
-    <tr><td><b>Tijdelijke regeling hypothecair krediet 2027</b><div class="note">Stcrt. 2026, 38415 · in werking 1-1-2027</div></td><td>Maximale hypotheek ten opzichte van het inkomen (financieringslastpercentages, AFM-minimale toetsrente bij een rentevaste periode korter dan 10 jaar).</td><td>Per scenario: toetsinkomen, toetsrente, AOW- of niet-AOW-tabel, aftrekbaar of niet-aftrekbaar deel → maximale hypotheek, ruimte of tekort, cijfer.</td></tr>
-    <tr><td><b>NHG Voorwaarden &amp; normen 2027</b><div class="note">per 1-1-2027</div></td><td>NHG-grens € 500.000 (€ 530.000 met energiebesparende voorzieningen), borgtochtprovisie 0,4%, nieuw toetskader voor funderingsrisico bij aankoop, verhogen en oversluiten.</td><td>NHG-kenmerk per lening (portefeuille en rapportage), funderingscijfer als signaal, handelingsperspectief bij betalingsproblemen.</td></tr>
-    <tr><td><b>Wft / MCD (AFM)</b></td><td>Zorgplicht: tijdig en begrijpelijk informeren, zorgvuldig omgaan met betalingsproblemen.</td><td>Handelingsperspectief per scenario, klantrapport, advies blijft bij de adviseur.</td></tr>
-  </tbody></table></div></div>
-  <div class="card" style="margin-top:14px"><h2>Compliance-aandachtspunten</h2>
-    <div class="flag"><b>AFM · cijfer is geen advies of kredietbeslissing.</b> Het cijfer toetst aan de leennormen ${PARAMS.normJaar} (financieringslastpercentages uit de Tijdelijke regeling hypothecair krediet). Juist daardoor lijkt het op een kredietwaardigheidstoets. Vereenvoudigingen: geen studieschuld of andere financiële verplichtingen, geen verhoging van € 18.000 voor alleenstaanden, pensioeninkomen als aanname (70%), de AOW-tabel volgt de partner met het hoogste inkomen, en een vaste AOW-leeftijd van 67. Risico: klant of geldverstrekker leest een voldoende als "u mag lenen" of als advies. Houd de disclaimer zichtbaar en laat het advies bij de adviseur.</div>
-    <div class="flag"><b>Marketing · "Scoor je hypotheekcijfer".</b> De slogan is prima als uitnodiging, maar mag geen indruk van een officieel oordeel of goedkeuring geven. Vermeld steeds "indicatief, geen advies" (zorgplicht en art. 4:19 Wft: informatie moet correct, duidelijk en niet misleidend zijn).</div>
-    <div class="flag"><b>SREP-claim "Loan monitoring"-module.</b> De onderliggende notitie verwijst naar een SREP-module "Loan monitoring". In de gepubliceerde SREP-methodologie 2026 is geen aparte module met die naam aangetroffen; monitoring valt onder credit risk en risk control. Ook de claim "lagere P2R" is niet hard te maken. Risico: overclaimen richting geldverstrekkers. Formuleer als "ondersteunt" en laat dit verifiëren.</div>
-    <div class="flag"><b>Woningwaarde ≠ taxatie.</b> PandWise noemt de waarde zelf "geen taxatie" en "niet geschikt voor financiering". De notitie stelt dat het rapport de onderpandkant van de SREP-eis "direct dekt". Risico: onvoldoende onderbouwde herwaardering (CRR III-bevindingen). Gebruik voor de toezichtrapportage een gevalideerde AVM (bijv. Calcasa) of taxatie; PandWise als cadeau/signaal.</div>
-    <div class="flag"><b>AVG · datadeling geldverstrekker → Blinqx → adviseur.</b> Er is een grondslag, een verwerkersovereenkomst (of afspraken over gezamenlijke verwerkingsverantwoordelijkheid), dataminimalisatie en transparantie richting de klant nodig. Ockto-brondata alleen met toestemming van de klant.</div>
-    <div class="flag"><b>Provisieverbod (art. 86c Bgfo).</b> Een vergoeding per dossier mag alleen aan Blinqx toekomen, moet marktconform zijn en mag niet afhangen van productafzet. Zodra de adviseur er (mede) van profiteert, is er risico op verkapte provisie. Laat dit vooraf juridisch toetsen.</div>
-    <div class="flag"><b>Funderingscijfer.nl.</b> De site noemt zich een "onafhankelijk initiatief", terwijl hypotheekcijfer.nl het onder "Andere cijfers van Blinqx" noemt. Stem de positionering af vóór externe communicatie.</div>
+  <div class="steps">${STAPPEN.map(() => '<span class="on"></span>').join('')}</div>
+  <div class="card">
+    <div class="score"><div class="ring ${kleur(res.totaal)}"><b>${fmtNum(res.totaal)}</b><small>${label(res.totaal)}</small></div>
+      <div style="flex:1;min-width:240px"><div class="muted" style="font-size:14px">Jouw hypotheekcijfer${k.naam1 ? ', ' + esc(k.naam1) : ''}</div>
+        <h2 style="margin:2px 0 8px">${zin(res.totaal)}</h2>
+        <div class="kv"><span>Cijfer nu</span><span>${fmtNum(nu.cijfer)}</span>
+          <span>Netto maandlast nu</span><span>${fmtEUR(nu.netto)}</span>
+          <span>Maximale hypotheek volgens leennorm ${PARAMS.normJaar}</span><span>${fmtEUR(nu.maxH)}</span>
+          ${zwak ? `<span>Waar het het meest knelt</span><span>${esc(zwak.titel)} (${fmtNum(zwak.cijfer)})</span>` : ''}</div></div></div>
+    ${tijdlijn(res)}
   </div>
-  <div class="card" style="margin-top:14px"><details><summary>Rekenparameters en aannames (leennormen ${PARAMS.normJaar}, fiscaal ${PARAMS.fiscaalJaar})</summary><table class="tbl" style="margin-top:8px"><tbody>
-    <tr><td>Aftrektarief hypotheekrente</td><td class="r">${fmtPct(PARAMS.aftrekTarief * 100)}</td></tr>
-    <tr><td>Eigenwoningforfait</td><td class="r">${fmtPct(PARAMS.ewfPct * 100)} van de WOZ tot ${fmtEUR(PARAMS.ewfVillaGrens)}; daarboven ${fmtPct(PARAMS.ewfVillaPct * 100)}</td></tr>
-    <tr><td>Wet Hillen</td><td class="r">${fmtPct(PARAMS.hillenPct * 100, 3)} van het negatieve saldo</td></tr>
-    <tr><td>Status fiscaal</td><td class="r">Belastingplan ${PARAMS.fiscaalJaar} (wetsvoorstel; definitief na stemming Eerste Kamer)</td></tr>
-    <tr><td>AOW-leeftijd</td><td class="r">67 jaar (geboren t/m 1960) · 67 jaar en 3 maanden (AOW-datum 2028–2032)</td></tr>
-    <tr><td>Pensioeninkomen als niet opgegeven</td><td class="r">${fmtPct(PARAMS.pensioenPctDefault * 100, 0)} van het huidige inkomen</td></tr>
-    <tr><td>WW / AO</td><td class="r">${fmtPct(PARAMS.wwPct * 100, 0)} van het loon, max. ${fmtEUR(PARAMS.wwMaxJaar)} (dagloon per 1-7-2026; 2027 nog niet bekend)</td></tr>
-    <tr><td>Herfinancieringsrente (standaard)</td><td class="r">${fmtPct(PARAMS.renteHerfinDefault)}</td></tr>
-    <tr><td>Leennormen</td><td class="r">Financieringslastpercentages ${PARAMS.normJaar}: tabellen 1–4 (niet-AOW, AOW, niet-aftrekbaar niet-AOW en AOW); toetsinkomen in stappen van € 1.000; boven de tabel geldt de hoogste rij</td></tr>
-    <tr><td>Toetsrente</td><td class="r">werkelijke rente; minimaal ${fmtPct(LEENNORMEN_2027.minToetsrente)} bij een rentevaste periode korter dan 10 jaar of een resterende looptijd korter dan 10 jaar · annuïtair over 30 jaar</td></tr>
-    <tr><td>Tweede inkomen</td><td class="r">telt voor ${fmtPct(LEENNORMEN_2027.tweedeInkomenFactor * 100, 0)} mee</td></tr>
-    <tr><td>Energielabel (extra leenruimte)</td><td class="r">${Object.entries(LEENNORMEN_2027.energielabel).filter(([k]) => k !== 'geen').map(([k, v]) => `${k} ${fmtEUR(v)}`).join(' · ')}</td></tr>
-    <tr><td>Cijfer</td><td class="r">benutting = schuld / maximale hypotheek volgens leennorm: ${PARAMS.cijferSchaal.map(([r, c]) => `${fmtNum(r * 100, 0)}% → ${c}`).join(' · ')}</td></tr>
-    <tr><td>Totaalcijfer</td><td class="r">gemiddelde van: cijfer nu, laagste moment, laagste life event</td></tr>
-    <tr><td>Stress-aftrek fundering (middel / hoog)</td><td class="r">${fmtEUR(PARAMS.funderingHerstel.middel)} / ${fmtEUR(PARAMS.funderingHerstel.hoog)}</td></tr>
-    <tr><td>Onderhoudscorrectie</td><td class="r">${Object.entries(PARAMS.onderhoudCorrectie).map(([k, v]) => `${k} ${fmtPct(v * 100, 0)}`).join(' · ')}</td></tr>
-  </tbody></table><p class="note">Alle parameters zijn indicatief en staan centraal in PARAMS, zodat ze jaarlijks bij te werken zijn.</p></details></div>`;
+  <div class="card"><h2>Belangrijke momenten</h2><p class="lead">Momenten die zeker komen. Hier kun je je goed op voorbereiden.</p>
+    <div class="sc">${mom.map(s => kaart(s, k)).join('') || '<p class="muted">Er vallen geen belangrijke momenten binnen de looptijd van je hypotheek.</p>'}</div></div>
+  <div class="card"><h2>Als het tegenzit</h2><p class="lead">Life events die je niet kunt plannen. Hoe sta je ervoor als het toch gebeurt?</p>
+    <div class="sc">${ev.map(s => kaart(s, k)).join('')}</div></div>
+  <div class="card"><h2>Je woning</h2>
+    <div class="kv"><span>Woningwaarde (jouw schatting)</span><span>${fmtEUR(k.waarde)}</span>
+      <span>Hypotheek ten opzichte van woningwaarde</span><span>${res.ltv != null ? fmtPct(res.ltv * 100, 0) : '–'}</span>
+      <span>Funderingscijfer (indicatief)</span><span><span class="c ${res.fund.niveau === 'hoog' ? 'risico' : res.fund.niveau === 'middel' ? 'krap' : 'goed'}" style="height:24px;min-width:36px;font-size:13px">${fmtNum(res.fund.cijfer)}</span></span></div>
+    ${res.fund.niveau !== 'laag' ? `<div class="hint">Je woning heeft kenmerken die wijzen op een verhoogd funderingsrisico (${esc(res.fund.redenen.join(', '))}). Een funderingsonderzoek geeft duidelijkheid; tijdig onderzoek voorkomt hogere kosten.</div>` : ''}
+    ${res.ltv > 1 ? '<div class="hint">Je hypotheek is hoger dan de geschatte waarde van je woning. Extra aflossen verkleint dit risico.</div>' : ''}
+  </div>
+  ${rolBlok()}
+  <div class="card"><h2>Hoe nu verder?</h2>
+    <p>Je cijfer is een momentopname. Bespreek de uitkomst met je hypotheekadviseur: die kan met je meekijken naar extra aflossen, rentemiddeling, verzekeringen of een andere hypotheekvorm.</p>
+    <div class="nav" style="justify-content:flex-start"><button class="btn a" id="pdf">Download rapport (PDF)</button><button class="btn" id="aanp">Gegevens aanpassen</button>${ST.rol === 'anoniem' ? '<button class="btn" id="opn">Opnieuw beginnen</button>' : ''}</div>
+    <details style="margin-top:16px"><summary>Hoe berekenen we je cijfer?</summary>
+      <p class="disc">Per situatie berekenen we hoeveel hypotheek volgens de leennormen ${PARAMS.normJaar} (Tijdelijke regeling hypothecair krediet) bij je inkomen past, en vergelijken dat met je hypotheek op dat moment. Precies op de norm geeft een 6; ruim eronder een hoger cijfer, erboven een lager cijfer. Je totaalcijfer is het gemiddelde van je cijfer nu, je laagste cijfer bij een belangrijk moment en je laagste cijfer bij een life event.
+      We gaan uit van vereenvoudigingen: AOW-leeftijd 67 jaar (geboren t/m 1960) of 67 jaar en 3 maanden, WW/WIA ongeveer 70% van je loon, pensioen 70% van je inkomen als je niets invult, rente na de rentevaste periode ${fmtPct(+k.renteHerfin || PARAMS.renteHerfinDefault)}. Studieschuld en andere leningen tellen niet mee. Netto lasten zijn indicatief (fiscale regels ${PARAMS.fiscaalJaar}, Belastingplan ${PARAMS.fiscaalJaar}).</p></details>
+    <p class="disc">Dit is een indicatie en geen hypotheekadvies of kredietbeslissing. Aan de uitkomst kun je geen rechten ontlenen.</p>
+  </div>`;
+  app.querySelector('#pdf').onclick = () => printRapport(k, res);
+  app.querySelector('#aanp').onclick = () => { ST.stap = 0; go('wizard'); };
+  const opn = app.querySelector('#opn'); if (opn) opn.onclick = () => { if (confirm('Alle ingevulde gegevens wissen?')) { ST.k = leegDossier(); ST.stap = 0; go('intro'); } };
+  bindRol(app, res);
 }
 
-/* ---------- Start ---------- */
-S.portfolio = genPortfolio();
+function rolBlok() {
+  if (ST.rol === 'consument') {
+    const kl = klant(), a = advVan(kl.adviseur), gedeeld = kl.status === 'gedeeld' || kl.status === 'besproken';
+    return `<div class="card" style="border-color:var(--brand)"><h2>Deel met je adviseur</h2>
+      <p class="lead">${gedeeld ? `Je cijfer is gedeeld met ${esc(a.naam)}. Heb je iets aangepast? Deel dan opnieuw.` : `Wil je dat ${esc(a.naam)} met je meekijkt? Deel je uitkomst; je adviseur neemt daarna contact met je op.`}</p>
+      <button class="btn p" id="deel">${gedeeld ? 'Opnieuw delen' : 'Deel met mijn adviseur'}</button> <span id="deelok" class="muted"></span></div>`;
+  }
+  if (ST.rol === 'adviseur') {
+    const kl = klant();
+    return `<div class="card" style="border-color:var(--brand)"><h2>Adviseur · ${esc(kl.naam)}</h2>
+      <div class="fg" style="grid-template-columns:1fr">
+        <label class="f">Adviesnotitie <small>Alleen zichtbaar voor de adviseur.</small><textarea id="notitie" rows="3" style="border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--card);color:var(--ink)">${esc(kl.notitie)}</textarea></label>
+        <label class="f">Bericht aan klant <small>Ziet de klant na inloggen.</small><textarea id="bericht" rows="3" style="border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--card);color:var(--ink)">${esc(kl.bericht)}</textarea></label></div>
+      <div class="nav" style="justify-content:flex-start"><button class="btn p" id="besproken">Opslaan &amp; markeer als besproken</button><button class="btn" id="naarklanten">← Mijn klanten</button></div></div>`;
+  }
+  return `<div class="card"><h3>Heb je een hypotheekadviseur?</h3><p class="lead" style="margin:0">Vraag om een uitnodiging. Dan kun je je cijfer veilig delen en samen bespreken.</p></div>`;
+}
+function bindRol(app, res) {
+  const kl = ST.klantId ? klant() : null, stamp = () => new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' });
+  const d = app.querySelector('#deel');
+  if (d) d.onclick = () => { kl.res = res; kl.status = 'gedeeld'; kl.bijgewerkt = stamp(); app.querySelector('#deelok').textContent = 'Gedeeld ✓'; d.textContent = 'Opnieuw delen'; };
+  const b = app.querySelector('#besproken');
+  if (b) b.onclick = () => { kl.notitie = app.querySelector('#notitie').value; kl.bericht = app.querySelector('#bericht').value; kl.res = res; kl.status = 'besproken'; kl.bijgewerkt = stamp(); go('adv'); };
+  const n = app.querySelector('#naarklanten'); if (n) n.onclick = () => go('adv');
+}
+
+function printRapport(k, res) {
+  const w = window.open('', '_blank'); if (!w) { alert('Sta pop-ups toe om het rapport te openen.'); return; }
+  const row = s => `<tr><td><b>${esc(s.titel)}</b><div class="n">${UITLEG[s.id] || ''}</div></td><td>${esc(s.wanneer)}</td><td class="r">${fmtEUR(s.netto)}</td><td><span class="c ${kleur(s.cijfer)}">${fmtNum(s.cijfer)}</span></td><td>${s.cijfer < 7 && s.id !== 'huidig' ? tip(s, k) : '–'}</td></tr>`;
+  w.document.write(`<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Mijn hypotheekcijfer</title><style>
+  body{font:12px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#13203b;margin:28px}h1{font-size:22px;margin:0}h2{font-size:14px;color:#1d3a8a;border-bottom:1px solid #dde;padding-bottom:3px;margin:18px 0 6px}
+  table{width:100%;border-collapse:collapse}td,th{padding:5px 6px;border-bottom:1px solid #e3e6ee;text-align:left;vertical-align:top}th{font-size:10px;text-transform:uppercase;color:#5d6680}.r{text-align:right}.n{color:#5d6680;font-size:11px}
+  .c{display:inline-block;min-width:30px;text-align:center;border-radius:4px;font-weight:700;padding:1px 4px}.goed{background:#e2f4ea;color:#17824f}.let{background:#eef4d9;color:#5f7417}.krap{background:#fdefd8;color:#a96400}.risico{background:#fbe4e1;color:#bf2f24}@page{margin:14mm}</style></head><body>
+  <table><tr><td style="border:0"><h1>Mijn hypotheekcijfer</h1><b>Scoor je hypotheekcijfer, en zie hoe jij ervoor staat.</b><div class="n">${new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })} · leennormen ${PARAMS.normJaar}</div></td>
+  <td style="border:0;text-align:right"><span class="c ${kleur(res.totaal)}" style="font-size:28px;padding:6px 14px">${fmtNum(res.totaal)}</span><div class="n">${label(res.totaal)}</div></td></tr></table>
+  ${ST.klantId ? `<p class="n">Adviseur: ${esc(advVan(klant().adviseur).naam)}, ${esc(advVan(klant().adviseur).kantoor)}</p>` : ''}<p>${zin(res.totaal)} Je netto maandlast is nu ${fmtEUR(res.scen[0].netto)}.</p>
+  <h2>Cijfer per moment en life event</h2><table><tr><th>Situatie</th><th>Wanneer</th><th class="r">Netto p/m</th><th>Cijfer</th><th>Wat kun je doen?</th></tr>${res.scen.map(row).join('')}</table>
+  <h2>Je woning</h2><table><tr><td>Woningwaarde (eigen schatting)</td><td class="r">${fmtEUR(k.waarde)}</td></tr><tr><td>Hypotheek / woningwaarde</td><td class="r">${fmtPct(res.ltv * 100, 0)}</td></tr><tr><td>Funderingscijfer (indicatief)</td><td class="r">${fmtNum(res.fund.cijfer)}</td></tr></table>
+  <p class="n" style="margin-top:16px">Dit rapport is een indicatie en geen hypotheekadvies of kredietbeslissing. Berekend met de leennormen ${PARAMS.normJaar} (Tijdelijke regeling hypothecair krediet) en vereenvoudigde aannames. Bespreek de uitkomst met je hypotheekadviseur.</p></body></html>`);
+  w.document.close(); w.focus(); setTimeout(() => w.print(), 400);
+}
+
 render();
 </script>
 </body>
