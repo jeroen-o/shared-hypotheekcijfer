@@ -19,6 +19,17 @@ if (blok('geldverstrekker.html') !== blok('index.html')) { console.error('FAIL: 
   await pg.click('#verder'); await pg.click('#verder');
   const c = await pg.textContent('.ring b'), w = await pg.evaluate(() => document.documentElement.scrollWidth);
   if (process.argv[2]) await pg.screenshot({ path: process.argv[2], fullPage: true });
+  // Demo-pagina: inlog bovenaan, homepage: inlog onderaan
+  const volgorde = async u => { await pg.goto(u); return pg.evaluate(() => { const a = document.getElementById('login'), b = document.getElementById('anon'); return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? 'inlog-eerst' : 'anon-eerst'; }); };
+  const base = 'file://' + path.resolve(__dirname, '../index.html');
+  await pg.goto('about:blank');
+  if (await volgorde(base + '#demo') !== 'inlog-eerst') errs.push('demo: inlog niet bovenaan');
+  await pg.goto('about:blank');
+  if (await volgorde(base) !== 'anon-eerst') errs.push('homepage: inlog niet onderaan');
+  await pg.click('#anon'); await pg.click('#start'); await pg.click('[data-seg="partner"][data-v="true"]');
+  await pg.fill('[data-k="geboortejaar1"]', '1964'); await pg.fill('[data-k="inkomen1"]', '58000'); await pg.fill('[data-k="geboortejaar2"]', '1966'); await pg.fill('[data-k="inkomen2"]', '24000'); await pg.click('#verder');
+  await pg.fill('[data-d="bedrag"]', '240000'); await pg.fill('[data-d="rente"]', '1,9'); await pg.fill('[data-d="rvpJaar"]', '2028'); await pg.fill('[data-d="eindJaar"]', '2041'); await pg.click('#verder');
+  await pg.fill('[data-k="waarde"]', '425000'); await pg.click('#verder'); await pg.click('#verder');
   // Inlogflow: consument deelt, adviseur ziet en bespreekt
   await pg.click('#uit'); await pg.click('[data-tab="consument"]');
   await pg.fill('#lc', 'hc-9999'); await pg.fill('#lg', '1964'); await pg.click('#login');
