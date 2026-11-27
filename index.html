@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shared Hypotheekcijfer</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#13203b;--muted:#5d6680;--line:#e1e5ef;--brand:#1d3a8a;--brand-2:#e8eefb;--accent:#ff6a3d;--accent-2:#fff0ea;
+--goed:#17824f;--goed-bg:#e2f4ea;--let:#5f7417;--let-bg:#eef4d9;--krap:#a96400;--krap-bg:#fdefd8;--risico:#bf2f24;--risico-bg:#fbe4e1;--shadow:0 1px 2px rgba(19,32,59,.06),0 4px 14px rgba(19,32,59,.05)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1424;--card:#161e33;--ink:#e7ebf5;--muted:#9aa4bd;--line:#29324b;--brand:#8fb0ff;--brand-2:#1d2847;--accent:#ff8a63;--accent-2:#3a2219;
+--goed:#58c98f;--goed-bg:#163626;--let:#b9cf63;--let-bg:#2a331a;--krap:#f0a845;--krap-bg:#3a2b12;--risico:#ff7a6e;--risico-bg:#3d1b18;--shadow:none}}
+:root[data-theme="dark"]{--bg:#0e1424;--card:#161e33;--ink:#e7ebf5;--muted:#9aa4bd;--line:#29324b;--brand:#8fb0ff;--brand-2:#1d2847;--accent:#ff8a63;--accent-2:#3a2219;
+--goed:#58c98f;--goed-bg:#163626;--let:#b9cf63;--let-bg:#2a331a;--krap:#f0a845;--krap-bg:#3a2b12;--risico:#ff7a6e;--risico-bg:#3d1b18;--shadow:none}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px}
+.top{display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
+.logo i{width:30px;height:30px;border-radius:8px;background:var(--brand);display:grid;place-items:center;color:#fff;font-style:normal;font-size:15px}
+.logo small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav button{border:0;background:none;color:var(--muted);padding:8px 12px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer}
+nav button.on{background:var(--brand-2);color:var(--brand)}
+main{padding:20px 0 60px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:0 0 12px}h3{font-size:14px;margin:0 0 8px}
+.sub{color:var(--muted);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
+.grid{display:grid;gap:14px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.kpi .v{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}.kpi .l{color:var(--muted);font-size:12px}.kpi .h{font-size:12px;color:var(--muted);margin-top:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sp{flex:1}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 12px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--brand)}
+.btn.p{background:var(--brand);border-color:var(--brand);color:#fff}
+:root[data-theme="dark"] .btn.p{color:#0e1424}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.p{color:#0e1424}}
+.btn.a{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.s{padding:4px 8px;font-size:12px}
+select,input{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 9px;min-width:0}
+input:focus,select:focus{outline:2px solid var(--brand);outline-offset:-1px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
+label.f input,label.f select{width:100%;font-weight:400}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px 12px}
+.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.tbl th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);padding:8px;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+.tbl td{white-space:nowrap;padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr.click{cursor:pointer}.tbl tr.click:hover td{background:var(--brand-2)}
+.tbl .r{text-align:right}
+.scroll{overflow-x:auto}
+.b{display:inline-block;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
+.goed{background:var(--goed-bg);color:var(--goed)}.let{background:var(--let-bg);color:var(--let)}.krap{background:var(--krap-bg);color:var(--krap)}.risico{background:var(--risico-bg);color:var(--risico)}
+.neu{background:var(--brand-2);color:var(--brand)}.ghost{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+.c{display:inline-grid;place-items:center;min-width:36px;height:24px;border-radius:6px;font-weight:700;font-size:13px;padding:0 6px}
+.c.vl{opacity:.75;border:1px dashed currentColor}
+.two{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:16px;align-items:start}
+@media(max-width:960px){.two{grid-template-columns:1fr}}
+.sticky{position:sticky;top:74px}
+@media(max-width:960px){.sticky{position:static}}
+.big{display:flex;gap:16px;align-items:center}
+.ring{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:32px;font-weight:800;flex:none}
+.sc{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.s{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--card)}
+.s .t{font-weight:700;font-size:13px}.s .w{font-size:12px;color:var(--muted)}
+.s .n{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px}
+.s .hp{font-size:12px;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line)}
+.sig{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px}.sig:last-child{border:0}
+.note{font-size:12px;color:var(--muted)}
+.warn{background:var(--accent-2);border-left:3px solid var(--accent);padding:10px 12px;border-radius:6px;font-size:13px}
+.flag{background:var(--krap-bg);border-left:3px solid var(--krap);padding:10px 12px;border-radius:6px;font-size:13px;margin:8px 0}
+.flag b{color:var(--krap)}
+.sect{margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.sect:first-child{margin-top:0;padding-top:0;border:0}
+details summary{cursor:pointer;font-weight:700}
+.tl{position:relative;height:56px;margin:8px 4px 0}
+.tl .ax{position:absolute;left:0;right:0;top:26px;height:2px;background:var(--line)}
+.tl .m{position:absolute;top:18px;transform:translateX(-50%);text-align:center;font-size:10px;color:var(--muted);white-space:nowrap}
+.tl .m i{display:block;width:14px;height:14px;border-radius:50%;margin:0 auto 4px;border:2px solid var(--card)}
+.tl .y{position:absolute;top:36px;font-size:10px;color:var(--muted);transform:translateX(-50%)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.flow div{border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;background:var(--card)}
+.flow b{display:block;font-size:13px;color:var(--brand)}
+.muted{color:var(--muted)}
+.hide{display:none!important}
+footer{color:var(--muted);font-size:12px;padding:20px 0;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header><div class="wrap top">
+  <div class="logo"><i>H</i><div>Shared Hypotheekcijfer<small>Structurele hypotheekmonitoring · geldverstrekker · adviseur · klant</small></div></div>
+  <nav id="nav">
+    <button data-v="gv" class="on">Geldverstrekker</button>
+    <button data-v="adv">Adviseur</button>
+    <button data-v="klant">Hypotheekcijfer</button>
+    <button data-v="kader">Kader &amp; compliance</button>
+  </nav>
+</div></header>
+<main class="wrap" id="app"></main>
+<footer class="wrap">Indicatieve monitoringtool — geen hypotheekadvies, geen leennormtoets en geen taxatie. Demo-portefeuille is fictief. Gegevens blijven in het geheugen van deze pagina (geen opslag, geen externe API's).</footer>
+
+<script>
+/* Rekenkern Shared Hypotheekcijfer — indicatief, geen advies of leennormtoets.
+   Alle parameters staan in PARAMS zodat ze jaarlijks bij te werken zijn. */
+const PARAMS = {
+  jaar: 2026,
+  aftrekTarief: 0.3756,      // max. tarief hypotheekrenteaftrek 2026 (parameter)
+  ewfPct: 0.0035,            // eigenwoningforfait (WOZ 75k–1,33 mln)
+  aowLeeftijd: 67,           // vereenvoudigd
+  wwPct: 0.70,               // WW na 2 maanden
+  wwMaxJaar: 79000,          // indicatief maximum dagloon x 261 (parameter)
+  aoPct: 0.70,               // indicatief WIA/WGA-niveau
+  pensioenPctDefault: 0.70,
+  renteHerfinDefault: 4.2,
+  // Indicatieve woonquote-benadering (bruto woonlast / bruto inkomen) per inkomensniveau.
+  woonquote: [[20000, .16], [30000, .19], [40000, .22], [60000, .255], [80000, .28], [100000, .30], [150000, .32], [250000, .33]],
+  funderingHerstel: { laag: 0, middel: 25000, hoog: 75000 }, // indicatieve stress-aftrek (parameter)
+  // Onderhoudsscenario's (zelfde schaal als PandWise); prudente waardecorrectie
+  onderhoudCorrectie: { uitstekend: 0, goed: 0, redelijk: -0.02, matig: -0.06, slecht: -0.12 }
+};
+
+function interp(table, x) {
+  if (x <= table[0][0]) return table[0][1];
+  for (let i = 1; i < table.length; i++) {
+    if (x <= table[i][0]) {
+      const [x0, y0] = table[i - 1], [x1, y1] = table[i];
+      return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
+    }
+  }
+  return table[table.length - 1][1];
+}
+
+function annuiteit(schuld, rentePct, maanden) {
+  if (schuld <= 0 || maanden <= 0) return 0;
+  const r = rentePct / 100 / 12;
+  if (r === 0) return schuld / maanden;
+  return schuld * r / (1 - Math.pow(1 + r, -maanden));
+}
+
+/* Maandlast van één leningdeel op een gegeven moment. */
+function deelLast(d, rentePct, restMaanden) {
+  const schuld = d.saldo;
+  const rente = schuld * rentePct / 100 / 12;
+  let aflossing = 0;
+  if (d.vorm === 'annuitair') aflossing = annuiteit(schuld, rentePct, restMaanden) - rente;
+  else if (d.vorm === 'lineair') aflossing = restMaanden > 0 ? schuld / restMaanden : 0;
+  return { rente, aflossing, bruto: rente + aflossing };
+}
+
+/* Saldo-projectie van een deel na n maanden (bij huidige rente). */
+function projecteerSaldo(d, n) {
+  let s = d.saldo; const r = d.rente / 100 / 12; let rest = d.restLooptijd;
+  for (let i = 0; i < n && rest > 0; i++, rest--) {
+    if (d.vorm === 'annuitair') { const a = annuiteit(s, d.rente, rest); s -= (a - s * r); }
+    else if (d.vorm === 'lineair') s -= s / rest;
+  }
+  return Math.max(0, s);
+}
+
+function score(woonlastJaar, inkomenJaar) {
+  if (inkomenJaar <= 0) return { cijfer: 1, ratio: Infinity, norm: 0 };
+  const norm = interp(PARAMS.woonquote, inkomenJaar);
+  const ratio = (woonlastJaar / inkomenJaar) / norm; // 1,0 = precies op de indicatieve norm
+  // 0,6 → 10 ; 1,0 → 6 ; 1,3 → 3,5 ; ≥1,7 → 1
+  const pts = [[0.6, 10], [1.0, 6], [1.3, 3.5], [1.7, 1]];
+  let c = ratio <= .6 ? 10 : interp(pts, ratio);
+  return { cijfer: Math.round(Math.max(1, Math.min(10, c)) * 10) / 10, ratio, norm };
+}
+
+function leeftijdOp(geboortejaar, jaar) { return jaar - geboortejaar; }
+
+/* Bereken alle scenario's voor één dossier. */
+function berekenDossier(k) {
+  const jaar = PARAMS.jaar;
+  const ink1 = +k.inkomen1 || 0, ink2 = k.partner ? (+k.inkomen2 || 0) : 0;
+  const pens1 = k.pensioen1 != null && k.pensioen1 !== '' ? +k.pensioen1 : ink1 * PARAMS.pensioenPctDefault;
+  const pens2 = k.partner ? (k.pensioen2 != null && k.pensioen2 !== '' ? +k.pensioen2 : ink2 * PARAMS.pensioenPctDefault) : 0;
+  const delen = k.delen || [];
+  const schuld = delen.reduce((s, d) => s + d.saldo, 0);
+  const woz = +k.woz || +k.waarde || 0;
+  const aftrekActief = d => d.aftrekEindJaar ? d.aftrekEindJaar > jaar : true;
+
+  function maandlast(opts) {
+    // opts: {rente: override%|null, aftrek: bool|null(per deel), jarenVooruit}
+    let bruto = 0, rente = 0, aftrekbareRente = 0;
+    const n = (opts.jarenVooruit || 0) * 12;
+    delen.forEach(d => {
+      const saldo = n ? projecteerSaldo(d, n) : d.saldo;
+      const rest = Math.max(1, d.restLooptijd - n);
+      const r = opts.rente != null ? opts.rente : d.rente;
+      const l = deelLast({ ...d, saldo }, r, rest);
+      bruto += l.bruto; rente += l.rente;
+      const aftrek = opts.aftrek === false ? false : (opts.aftrek === true ? true : (d.aftrekEindJaar ? d.aftrekEindJaar > jaar + (opts.jarenVooruit || 0) : true));
+      if (aftrek && d.box !== 3) aftrekbareRente += l.rente;
+    });
+    const ewf = woz * PARAMS.ewfPct / 12;
+    const voordeel = Math.max(0, (aftrekbareRente - ewf) * PARAMS.aftrekTarief);
+    return { bruto, rente, netto: bruto - voordeel, voordeel };
+  }
+
+  const huidigeLast = maandlast({});
+  const scen = [];
+  const push = (id, titel, wanneer, inkomen, last, toelichting) => {
+    const s = score(last.bruto * 12, inkomen);
+    scen.push({ id, titel, wanneer, inkomen, bruto: last.bruto, netto: last.netto, ...s, toelichting,
+      deltaNetto: last.netto - huidigeLast.netto });
+  };
+
+  push('huidig', 'Huidige situatie', 'Nu', ink1 + ink2, huidigeLast, 'Huidig inkomen en huidige rente.');
+
+  // Momenten na het einde van de looptijd tellen niet mee (lening is dan afgelost)
+  const eindJaar = jaar + Math.ceil(Math.max(...delen.map(d => d.restLooptijd)) / 12);
+  const binnen = y => y < eindJaar ? y : 9999;
+  // Renteschok bij einde rentevaste periode
+  const rvpJaar = binnen(Math.min(...delen.map(d => d.rvpEindJaar || 9999)));
+  const jrRvp = Math.max(0, rvpJaar - jaar);
+  const herRente = +k.renteHerfin || PARAMS.renteHerfinDefault;
+  if (rvpJaar < 9999) push('rente', 'Einde rentevaste periode', String(rvpJaar), ink1 + ink2,
+    maandlast({ rente: herRente, jarenVooruit: jrRvp }), `Herfinanciering tegen ${fmtPct(herRente)} (aanname).`);
+
+  // Aftrekverval
+  const aftrekEind = binnen(Math.min(...delen.map(d => d.aftrekEindJaar || 9999)));
+  if (aftrekEind < 9999 && aftrekEind <= jaar + 30) {
+    const jr = Math.max(0, aftrekEind - jaar);
+    push('aftrek', 'Einde hypotheekrenteaftrek', String(aftrekEind), ink1 + ink2,
+      maandlast({ aftrek: false, jarenVooruit: jr }), 'De 30-jaarstermijn voor renteaftrek loopt af.');
+  }
+
+  // Pensioen (eerste AOW in huishouden)
+  const aowJaren = [k.geboortejaar1 + PARAMS.aowLeeftijd];
+  if (k.partner && k.geboortejaar2) aowJaren.push(k.geboortejaar2 + PARAMS.aowLeeftijd);
+  const aow1 = aowJaren[0], aow2 = aowJaren[1] || 9999;
+  const pensJaar = binnen(Math.min(aow1, aow2));
+  if (pensJaar >= jaar && pensJaar < 9999) {
+    const inkP = (aow1 <= pensJaar ? pens1 : ink1) + (k.partner ? (aow2 <= pensJaar ? pens2 : ink2) : 0);
+    push('pensioen', 'Pensionering', String(pensJaar), inkP, maandlast({ jarenVooruit: pensJaar - jaar }),
+      'Inkomen daalt naar AOW + pensioen (opgave of 70%-aanname).');
+  }
+
+  // Samenloop: binnen 5 jaar van elkaar
+  const momenten = [rvpJaar, aftrekEind, pensJaar].filter(x => x < 9999 && x >= jaar);
+  let samenloop = null;
+  if (momenten.length >= 2) {
+    const span = Math.max(...momenten) - Math.min(...momenten);
+    if (span <= 5) {
+      const peil = Math.max(...momenten);
+      const inkS = (aow1 <= peil ? pens1 : ink1) + (k.partner ? (aow2 <= peil ? pens2 : ink2) : 0);
+      push('samenloop', 'Samenloop renteschok · aftrek · pensioen', `${Math.min(...momenten)}–${peil}`, inkS,
+        maandlast({ rente: rvpJaar <= peil ? herRente : null, aftrek: aftrekEind <= peil ? false : null, jarenVooruit: peil - jaar }),
+        `${momenten.length} schokken vallen binnen ${span} jaar samen.`);
+      samenloop = { van: Math.min(...momenten), tot: peil, aantal: momenten.length };
+    }
+  }
+
+  // Einde looptijd: resterende (aflossingsvrije) schuld moet worden afgelost of geherfinancierd
+  const restEind = delen.filter(d => d.vorm === 'aflossingsvrij').reduce((s, d) => s + d.saldo, 0);
+  if (restEind > 0) {
+    const inkE = (aow1 <= eindJaar ? pens1 : ink1) + (k.partner ? (aow2 <= eindJaar ? pens2 : ink2) : 0);
+    const r = restEind * herRente / 100 / 12;
+    push('looptijd', 'Einde looptijd', String(eindJaar), inkE, { bruto: r, netto: r },
+      `${fmtEUR(restEind)} aflossingsvrij resteert; herfinanciering tegen ${fmtPct(herRente)} zonder aftrek.`);
+  }
+
+  // Werkloosheid aanvrager 1
+  const ww = x => Math.min(x, PARAMS.wwMaxJaar) * PARAMS.wwPct;
+  push('ww1', `Werkloosheid ${k.naam1 || 'aanvrager 1'}`, 'Direct', ww(ink1) + ink2, huidigeLast, 'WW 70% van het (gemaximeerde) loon.');
+  if (k.partner) push('ww2', `Werkloosheid ${k.naam2 || 'partner'}`, 'Direct', ink1 + ww(ink2), huidigeLast, 'WW 70% van het (gemaximeerde) loon.');
+  push('ao1', `Arbeidsongeschiktheid ${k.naam1 || 'aanvrager 1'}`, 'Na 2 jaar ziekte', Math.min(ink1, PARAMS.wwMaxJaar) * PARAMS.aoPct + ink2, huidigeLast,
+    'Indicatief 70% van het gemaximeerde loon; zonder AOV/WIA-hiaatverzekering.');
+
+  if (k.partner) {
+    const orv1 = +k.orv1 || 0;
+    const f1 = schuld > 0 ? Math.max(0, schuld - orv1) / schuld : 1;
+    push('overlijden1', `Overlijden ${k.naam1 || 'aanvrager 1'}`, 'Direct', ink2 + (+k.nabestaanden2 || 0),
+      { bruto: huidigeLast.bruto * f1, netto: huidigeLast.netto * f1 },
+      orv1 ? `ORV-uitkering ${fmtEUR(orv1)} verlaagt de schuld.` : 'Geen overlijdensrisicoverzekering opgegeven.');
+    const orv = +k.orv2 || 0; // ORV op leven partner, uitkering verlaagt schuld
+    const fact = schuld > 0 ? Math.max(0, schuld - orv) / schuld : 1;
+    const l = maandlast({}); const lo = { bruto: l.bruto * fact, netto: l.netto * fact };
+    push('overlijden', `Overlijden ${k.naam2 || 'partner'}`, 'Direct', ink1 + (+k.nabestaanden || 0), lo,
+      orv ? `ORV-uitkering ${fmtEUR(orv)} verlaagt de schuld.` : 'Geen overlijdensrisicoverzekering opgegeven.');
+    push('scheiding', 'Scheiding (blijver neemt hypotheek over)', 'Direct', ink1, huidigeLast, 'Eén inkomen draagt de volledige hypotheek.');
+  }
+
+  const daling = +k.inkomensdaling || 20;
+  push('daling', `Inkomensdaling ${daling}%`, 'Direct', (ink1 + ink2) * (1 - daling / 100), huidigeLast, 'Bijvoorbeeld minder uren of lager loon.');
+
+  // Onderpand
+  const waarde = +k.waarde || 0;
+  const fund = funderingsRisico(k);
+  const onderhoudCorr = k.onderhoud ? (PARAMS.onderhoudCorrectie[k.onderhoud] || 0) : 0;
+  const waardeStress = Math.max(1, waarde * (1 + onderhoudCorr) - PARAMS.funderingHerstel[fund.niveau]);
+  const ltv = waarde > 0 ? schuld / waarde : null;
+  const ltvStress = waarde > 0 ? schuld / waardeStress : null;
+
+  const MOM = ['rente', 'aftrek', 'pensioen', 'samenloop', 'looptijd'];
+  const mom = scen.filter(x => MOM.includes(x.id)), ev = scen.filter(x => x.id !== 'huidig' && !MOM.includes(x.id));
+  const minC = a => a.length ? Math.min(...a.map(x => x.cijfer)) : scen[0].cijfer;
+  const totaal = Math.round(((scen[0].cijfer + minC(mom) + minC(ev)) / 3) * 10) / 10;
+  scen.forEach(x => x.groep = x.id === 'huidig' ? 'nu' : MOM.includes(x.id) ? 'moment' : 'event');
+  const laagste = scen.reduce((m, s) => s.cijfer < m.cijfer ? s : m, scen[0]);
+  return { totaal, scen, huidigeLast, schuld, ltv, ltvStress, waardeStress, fund, onderhoudCorr, samenloop, laagste,
+    signalen: signalen({ scen, ltv, ltvStress, fund, samenloop, k }) };
+}
+
+/* Indicatief funderingscijfer 1–10 (hoger = beter), zelfde indicatoren als Funderingscijfer.nl/PandWise.
+   Is er een extern cijfer ingevoerd, dan wint dat. */
+function funderingsRisico(k) {
+  const r = [];
+  if (k.funderingExtern) {
+    const c = Math.max(1, Math.min(10, +k.funderingExtern));
+    return { cijfer: c, niveau: c <= 4 ? 'hoog' : c <= 6.5 ? 'middel' : 'laag', redenen: ['extern funderingscijfer ingevoerd'], bron: 'extern' };
+  }
+  let p = 0; const bj = +k.bouwjaar || 0;
+  if (bj && bj < 1925) { p += 3; r.push('bouwjaar vóór 1925'); }
+  else if (bj && bj < 1970) { p += 2; r.push('bouwjaar 1925–1970'); }
+  if (k.grond === 'veen') { p += 2; r.push('veengrond'); } else if (k.grond === 'klei') { p += 1; r.push('kleigrond'); }
+  if (k.aandachtsgebied === 'ja') { p += 2; r.push('RVO-aandachtsgebied funderingsproblematiek'); }
+  if (k.grondwater === 'ja') { p += 1; r.push('lage/dalende grondwaterstand'); }
+  if (k.fundering === 'hout') { p += 2; r.push('houten palen'); } else if (k.fundering === 'staal') { p += 1; r.push('fundering op staal'); }
+  if (k.schade === 'ja') { p += 3; r.push('zichtbare scheurvorming/scheefstand'); }
+  const c = Math.round(Math.max(1, 10 - p * 0.75) * 10) / 10;
+  return { cijfer: c, niveau: c <= 4 ? 'hoog' : c <= 6.5 ? 'middel' : 'laag', redenen: r, bron: 'indicatief' };
+}
+
+function signalen({ scen, ltv, ltvStress, fund, samenloop, k }) {
+  const s = [];
+  // Momenten (zeker in de tijd) wegen zwaarder dan life events (onzeker)
+  const MOM = ['rente', 'aftrek', 'pensioen', 'samenloop', 'looptijd'];
+  const minMom = Math.min(10, ...scen.filter(x => x.id === 'huidig' || MOM.includes(x.id)).map(x => x.cijfer));
+  const minEv = Math.min(10, ...scen.filter(x => x.id !== 'huidig' && !MOM.includes(x.id)).map(x => x.cijfer));
+  if (minMom < 4) s.push({ ernst: 'hoog', code: 'EWI-BET', tekst: 'Betaalbaarheid op een toekomstig moment onvoldoende (cijfer < 4).' });
+  else if (minMom < 5.5) s.push({ ernst: 'middel', code: 'EWI-BET', tekst: 'Betaalbaarheid op een toekomstig moment krap (cijfer < 5,5).' });
+  else if (minEv < 4) s.push({ ernst: 'middel', code: 'EWI-BET', tekst: 'Kwetsbaar bij een life event (cijfer < 4): controleer dekking/buffer.' });
+  if (samenloop) s.push({ ernst: 'hoog', code: 'EWI-SAM', tekst: `Samenloop van ${samenloop.aantal} schokken tussen ${samenloop.van} en ${samenloop.tot}.` });
+  if (ltv != null && ltv > 1) s.push({ ernst: 'hoog', code: 'EWI-LTV', tekst: `LTV ${fmtPct(ltv * 100, 0)}: onderpand dekt de schuld niet volledig.` });
+  else if (ltvStress != null && ltvStress > 1) s.push({ ernst: 'middel', code: 'EWI-LTV', tekst: `Stress-LTV ${fmtPct(ltvStress * 100, 0)} na fundering/onderhoud-correctie.` });
+  if (fund.niveau === 'hoog') s.push({ ernst: 'hoog', code: 'EWI-FUN', tekst: 'Verhoogd funderingsrisico: nader onderzoek aanbevolen.' });
+  else if (fund.niveau === 'middel') s.push({ ernst: 'middel', code: 'EWI-FUN', tekst: 'Funderingsrisico-indicatoren aanwezig.' });
+  if (k.waardeDatum) {
+    const jr = PARAMS.jaar - +String(k.waardeDatum).slice(0, 4);
+    if (jr >= 3) s.push({ ernst: 'middel', code: 'EWI-VAL', tekst: `Laatste waardebepaling ${jr} jaar oud.` });
+  }
+  return s;
+}
+
+function handelingsperspectief(sc, k, res) {
+  const t = [];
+  switch (sc.id) {
+    case 'rente': t.push('Bespreek tijdig (12–24 maanden vooraf) renteverlenging, rentemiddeling of extra aflossen vóór de rentevaste periode afloopt.'); break;
+    case 'aftrek': t.push('Overweeg extra aflossen of het omzetten naar een aflossingsvrij deel in box 3; reken het netto effect van het aftrekverval door.'); break;
+    case 'pensioen': t.push('Vraag een pensioenoverzicht op (mijnpensioenoverzicht.nl) en toets of aflossen vóór pensioen of een lagere hypotheek nodig is.'); break;
+    case 'samenloop': t.push('Plan een integraal adviesgesprek: de schokken versterken elkaar. Maak een aflosplan en stem rentevast op pensioendatum af.'); break;
+    case 'ww1': case 'ww2': t.push('Bouw een buffer op van minimaal 3–6 netto maandlasten en overweeg een woonlastenverzekering.'); break;
+    case 'looptijd': t.push('Maak een aflosplan voor het aflossingsvrije deel of bespreek tijdig verlengen/oversluiten; let op uw leeftijd en inkomen op dat moment.'); break;
+    case 'ao1': t.push('Controleer het WIA-hiaat via de werkgever; overweeg een AOV of woonlastenverzekering.'); break;
+    case 'overlijden1': case 'overlijden': t.push('Toets of de overlijdensrisicodekking (ORV) en het nabestaandenpensioen toereikend zijn.'); break;
+    case 'scheiding': t.push('Bespreek wat er gebeurt bij uit elkaar gaan: overname, verkoop of hoofdelijke aansprakelijkheid.'); break;
+    case 'daling': t.push('Breng uw vaste lasten in kaart en bespreek mogelijkheden zoals een langere looptijd of rentemiddeling.'); break;
+    default: t.push('Geen directe actie nodig; blijf uw situatie periodiek monitoren.');
+  }
+  return t;
+}
+
+function kleur(c) { return c >= 7 ? 'goed' : c >= 5.5 ? 'let' : c >= 4 ? 'krap' : 'risico'; }
+function label(c) { return c >= 7 ? 'Ruim betaalbaar' : c >= 5.5 ? 'Betaalbaar' : c >= 4 ? 'Krap' : 'Onvoldoende'; }
+
+const nfEUR = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+function fmtEUR(x) { return isFinite(x) ? nfEUR.format(Math.round(x)) : '–'; }
+function fmtPct(x, d = 2) { return isFinite(x) ? x.toLocaleString('nl-NL', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%' : '–'; }
+function fmtNum(x, d = 1) { return isFinite(x) ? x.toLocaleString('nl-NL', { minimumFractionDigits: d, maximumFractionDigits: d }) : '–'; }
+
+if (typeof module !== 'undefined') module.exports = { PARAMS, berekenDossier, annuiteit, score, funderingsRisico, fmtEUR };
+
+</script>
+<script>
+/* ================= Applicatie ================= */
+const TODAY = new Date();
+const ISO = d => d.toISOString().slice(0, 10);
+const nlDate = s => s ? new Date(s).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }) : '–';
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const clone = o => JSON.parse(JSON.stringify(o));
+const parseNum = v => { if (typeof v === 'number') return v; const s = String(v || '').replace(/\s|€/g, '').replace(/\./g, '').replace(',', '.'); const n = parseFloat(s); return isFinite(n) ? n : 0; };
+const fmtInt = n => Math.round(n || 0).toLocaleString('nl-NL');
+const STATUS = { niet: 'Niet gestart', uitgenodigd: 'Uitgenodigd', behandeling: 'In behandeling', afgerond: 'Afgerond', herhaling: 'Herhaling vereist' };
+const STATUS_B = { niet: 'ghost', uitgenodigd: 'neu', behandeling: 'let', afgerond: 'goed', herhaling: 'krap' };
+
+const S = {
+  view: 'gv', gv: 'Voorbeeldbank Hypotheken N.V.', cyclus: 4,
+  portfolio: [], adviseurs: [], filter: { q: '', status: '', signaal: '', adviseur: '' }, sort: { k: 'prio', d: -1 },
+  adv: '', cur: null /* {id|null, k, adviseur} */
+};
+
+/* ---------- Demo-portefeuille (fictief, deterministisch) ---------- */
+function rng(seed) { return () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296; }
+const PLAATSEN = [['Gouda', 'veen', 'ja'], ['Zaanstad', 'veen', 'ja'], ['Dordrecht', 'klei', 'ja'], ['Schiedam', 'klei', 'ja'], ['Rotterdam', 'klei', 'ja'],
+  ['Utrecht', 'klei', 'nee'], ['Leiden', 'klei', 'nee'], ['Amersfoort', 'zand', 'nee'], ['Eindhoven', 'zand', 'nee'], ['Zwolle', 'zand', 'nee'], ['Haarlem', 'zand', 'nee'], ['Groningen', 'klei', 'nee']];
+const ADVISEURS = [
+  { naam: 'J. de Vries', kantoor: 'Hypotheekhuis Oost', cert: true },
+  { naam: 'S. Bakker', kantoor: 'Bakker Advies', cert: false },
+  { naam: 'M. Jansen', kantoor: 'Jansen & Co Financieel', cert: true },
+  { naam: 'R. El Amrani', kantoor: 'Woonadvies Zuid', cert: false },
+  { naam: 'L. Visser', kantoor: 'Visser Hypotheken', cert: false }];
+const VOORN = ['A.', 'B.', 'C.', 'D.', 'E.', 'F.', 'G.', 'H.', 'I.', 'K.', 'L.', 'M.', 'N.', 'P.', 'R.', 'S.', 'T.', 'W.'];
+const ACHTERN = ['Smit', 'Meijer', 'de Boer', 'Mulder', 'de Groot', 'Bos', 'Vos', 'Peters', 'Hendriks', 'van Leeuwen', 'Dekker', 'Brouwer', 'de Wit', 'Dijkstra', 'Kok', 'Jacobs', 'van der Berg', 'Vermeulen', 'Willems', 'Kaya', 'Yilmaz', 'Schouten', 'Hoekstra', 'Koster'];
+
+function genPortfolio(n = 48) {
+  const r = rng(20261127), pick = a => a[Math.floor(r() * a.length)], between = (a, b) => a + r() * (b - a), int = (a, b) => Math.floor(between(a, b + 1));
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const [plaats, grond, aand] = pick(PLAATSEN);
+    const start = int(1997, 2023), partner = r() < .62;
+    const gb1 = int(1956, 1993), gb2 = partner ? gb1 + int(-4, 4) : null;
+    const ink1 = Math.round(between(34000, 98000) / 500) * 500, ink2 = partner ? (r() < .15 ? 0 : Math.round(between(18000, 62000) / 500) * 500) : 0;
+    const orig = Math.round(Math.min(between(170000, 480000), (ink1 + ink2) * between(3.2, 4.6)) / 1000) * 1000;
+    const verstreken = PARAMS.jaar - start, rest = Math.max(12, (30 - verstreken) * 12);
+    const afvr = start < 2013 && r() < .55 ? Math.round(orig * between(.3, .5) / 1000) * 1000 : 0;
+    const ann = orig - afvr, annSaldo = Math.round(ann * Math.max(.08, 1 - Math.pow(verstreken / 30, 1.4)) / 100) * 100;
+    const rvp = Math.min(int(PARAMS.jaar, PARAMS.jaar + 9), start + 29), aftrekEind = start + 30;
+    const rente = +(start > 2015 && start < 2022 ? between(1.4, 2.4) : between(2.2, 4.9)).toFixed(2);
+    const delen = [{ vorm: 'annuitair', saldo: annSaldo, rente, restLooptijd: rest, rvpEindJaar: rvp, aftrekEindJaar: aftrekEind, box: 1 }];
+    if (afvr) delen.push({ vorm: 'aflossingsvrij', saldo: afvr, rente: +(rente + .2).toFixed(2), restLooptijd: rest, rvpEindJaar: rvp, aftrekEindJaar: aftrekEind, box: 1 });
+    const bouwjaar = r() < .45 ? int(1895, 1969) : int(1970, 2021);
+    const waarde = Math.round(orig * between(1.05, 1.9) / 1000) * 1000;
+    const wjaar = int(2017, 2026), wbron = wjaar >= 2024 ? pick(['Calcasa (AVM)', 'PandWise (indicatief)', 'Taxatierapport']) : pick(['Taxatierapport', 'WOZ-geïndexeerd']);
+    const fundering = bouwjaar < 1970 && grond !== 'zand' ? (r() < .7 ? 'hout' : 'onbekend') : (bouwjaar < 1970 ? 'staal' : 'beton');
+    const k = { naam1: `${pick(VOORN)} ${pick(ACHTERN)}`, partner, naam2: partner ? `${pick(VOORN)} ${pick(ACHTERN)}` : '', geboortejaar1: gb1, geboortejaar2: gb2,
+      inkomen1: ink1, inkomen2: ink2, pensioen1: '', pensioen2: '', orv1: 0, orv2: partner && r() < .6 ? Math.round(orig * .5 / 5000) * 5000 : 0, nabestaanden: 0, nabestaanden2: 0,
+      waarde, waardeDatum: `${wjaar}-${String(int(1, 12)).padStart(2, '0')}`, waardeBron: wbron, woz: Math.round(waarde * .94 / 1000) * 1000,
+      bouwjaar, grond, aandachtsgebied: aand, grondwater: grond === 'veen' && r() < .7 ? 'ja' : 'nee', fundering, schade: r() < .05 ? 'ja' : 'nee', funderingExtern: '',
+      onderhoud: '', onderhoudDoor: '', renteHerfin: PARAMS.renteHerfinDefault, inkomensdaling: 20, delen, startJaar: start };
+    const adv = ADVISEURS[int(0, ADVISEURS.length - 1)];
+    let status = pick(['niet', 'niet', 'niet', 'uitgenodigd', 'behandeling', 'afgerond', 'afgerond']), monitoring = null;
+    if (status === 'afgerond') monitoring = `${int(2021, 2026)}-${String(int(1, 11)).padStart(2, '0')}-15`;
+    if (status === 'afgerond' && r() < .5) k.onderhoud = pick(['goed', 'redelijk', 'matig', 'uitstekend']);
+    out.push({ id: `HL-${String(240100 + i * 37)}`, klant: k.naam1 + (partner ? ' & ' + k.naam2.split(' ').slice(1).join(' ') : ''),
+      adviseur: adv.naam, plaats, k, status, monitoring, brondata: status === 'behandeling' ? ISO(new Date(TODAY - int(3, 40) * 864e5)) : null, cijferDef: null });
+  }
+  out.forEach(p => { refresh(p); if (p.status === 'afgerond') p.cijferDef = p.res.totaal; });
+  return out;
+}
+
+function refresh(p) {
+  p.res = berekenDossier(p.k);
+  if (p.status === 'afgerond' && p.monitoring && PARAMS.jaar - +p.monitoring.slice(0, 4) >= S.cyclus) p.status = 'herhaling';
+  const last = p.monitoring ? +p.monitoring.slice(0, 4) : null;
+  p.volgende = last ? last + S.cyclus : PARAMS.jaar;
+  const sig = p.res.signalen;
+  p.prio = sig.filter(s => s.ernst === 'hoog').length * 3 + sig.filter(s => s.ernst === 'middel').length + (p.status === 'afgerond' ? -4 : 0) + (p.res.samenloop ? 2 : 0);
+  p.rvp = Math.min(...p.k.delen.map(d => d.rvpEindJaar || 9999));
+  p.aftrek = Math.min(...p.k.delen.map(d => d.aftrekEindJaar || 9999));
+  p.saldo = p.res.schuld;
+}
+
+/* ---------- Gedeelde UI-stukjes ---------- */
+const cls = c => kleur(c);
+const cBadge = (c, voorlopig) => `<span class="c ${cls(c)} ${voorlopig ? 'vl' : ''}" title="${voorlopig ? 'Voorlopig: berekend op geldverstrekkerdata, nog niet met klant geverifieerd' : 'Vastgesteld met klant en adviseur'}">${fmtNum(c)}</span>`;
+const ernstB = e => e === 'hoog' ? 'risico' : e === 'middel' ? 'krap' : 'neu';
+const sigBadges = sig => sig.map(s => `<span class="b ${ernstB(s.ernst)}" title="${esc(s.tekst)}">${s.code.replace('EWI-', '')}</span>`).join(' ') || '<span class="muted">–</span>';
+const fundB = f => `<span class="b ${f.niveau === 'hoog' ? 'risico' : f.niveau === 'middel' ? 'krap' : 'goed'}">${fmtNum(f.cijfer)}</span>`;
+const ltvB = l => l == null ? '–' : `<span class="${l > 1 ? 'b risico' : l > .9 ? 'b krap' : ''}">${fmtPct(l * 100, 0)}</span>`;
+const advInfo = n => ADVISEURS.find(a => a.naam === n) || { naam: n, kantoor: '', cert: false };
+
+function setView(v) {
+  S.view = v; document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  render(); window.scrollTo(0, 0);
+}
+document.getElementById('nav').addEventListener('click', e => { if (e.target.dataset.v) setView(e.target.dataset.v); });
+
+function render() {
+  const app = document.getElementById('app');
+  ({ gv: renderGV, adv: renderAdv, klant: renderKlant, kader: renderKader })[S.view](app);
+}
+
+/* ================= Geldverstrekker ================= */
+function filtered() {
+  const f = S.filter, q = f.q.toLowerCase();
+  let a = S.portfolio.filter(p => (!q || (p.id + p.klant + p.plaats + p.adviseur).toLowerCase().includes(q))
+    && (!f.status || p.status === f.status) && (!f.adviseur || p.adviseur === f.adviseur)
+    && (!f.signaal || p.res.signalen.some(s => s.code === f.signaal)));
+  const k = S.sort.k, d = S.sort.d;
+  const val = p => ({ prio: p.prio, id: p.id, klant: p.klant, adviseur: p.adviseur, plaats: p.plaats, saldo: p.saldo, ltv: p.res.ltv, waarde: p.k.waardeDatum, rvp: p.rvp, aftrek: p.aftrek,
+    fund: p.res.fund.cijfer, cijfer: p.cijferDef ?? p.res.totaal, status: p.status, volgende: p.volgende })[k];
+  return a.sort((x, y) => { const A = val(x), B = val(y); return (A > B ? 1 : A < B ? -1 : 0) * d; });
+}
+
+function kpis(list) {
+  const n = list.length, saldo = list.reduce((s, p) => s + p.saldo, 0);
+  const binnen = list.filter(p => p.status === 'afgerond').length;
+  const herw = list.filter(p => PARAMS.jaar - +p.k.waardeDatum.slice(0, 4) < 3).length;
+  const wltv = list.reduce((s, p) => s + p.saldo * (p.res.ltv || 0), 0) / (saldo || 1);
+  const sam = list.filter(p => p.res.samenloop).length, fund = list.filter(p => p.res.fund.niveau === 'hoog').length;
+  const laag = list.filter(p => (p.cijferDef ?? p.res.totaal) < 5.5).length;
+  const ltv100 = list.filter(p => p.res.ltv > 1 || p.res.ltvStress > 1).length;
+  return { n, saldo, binnen, herw, wltv, sam, fund, laag, ltv100 };
+}
+
+function renderGV(app) {
+  const K = kpis(S.portfolio), list = filtered();
+  const statusOpts = Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${S.filter.status === k ? 'selected' : ''}>${v}</option>`).join('');
+  const advOpts = ADVISEURS.map(a => `<option ${S.filter.adviseur === a.naam ? 'selected' : ''}>${a.naam}</option>`).join('');
+  const sigOpts = [['EWI-BET', 'Betaalbaarheid'], ['EWI-SAM', 'Samenloop'], ['EWI-LTV', 'LTV / onderpand'], ['EWI-FUN', 'Fundering'], ['EWI-VAL', 'Waardering verouderd']]
+    .map(([k, v]) => `<option value="${k}" ${S.filter.signaal === k ? 'selected' : ''}>${v}</option>`).join('');
+  const col = (k, t, r) => `<th data-s="${k}" class="${r ? 'r' : ''}">${t}${S.sort.k === k ? (S.sort.d > 0 ? ' ▲' : ' ▼') : ''}</th>`;
+  app.innerHTML = `
+  <div class="row"><div><h1>Portefeuillemonitoring</h1><p class="sub">${esc(S.gv)} · peiljaar ${PARAMS.jaar} · uitvraagcyclus elke ${S.cyclus} jaar</p></div><div class="sp"></div>
+    <label class="f" style="width:150px">Cyclus (jaar)<select id="cyc">${[3, 4, 5].map(c => `<option ${c === S.cyclus ? 'selected' : ''}>${c}</option>`).join('')}</select></label></div>
+  <div class="grid kpis">
+    ${kpi('Leningen', fmtInt(K.n), fmtEUR(K.saldo) + ' uitstaand')}
+    ${kpi('Monitoringdekking', fmtPct(K.binnen / K.n * 100, 0), `${K.binnen} afgerond binnen ${S.cyclus} jaar`)}
+    ${kpi('Waardering < 3 jaar', fmtPct(K.herw / K.n * 100, 0), 'actuele onderpandwaarde')}
+    ${kpi('Gewogen LTV', fmtPct(K.wltv * 100, 0), `${K.ltv100} met (stress-)LTV > 100%`)}
+    ${kpi('Samenloop ≤ 5 jaar', fmtInt(K.sam), 'renteschok · aftrek · pensioen')}
+    ${kpi('Funderingsrisico hoog', fmtInt(K.fund), 'funderingscijfer ≤ 4')}
+    ${kpi('Cijfer < 5,5', fmtInt(K.laag), 'voorlopig of vastgesteld')}
+  </div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-top:14px">
+    <div class="card"><h3>Uitvraagplanning per jaar</h3>${planChart()}<p class="note">Volgende uitvraag = laatste monitoring + cyclus; nooit gemonitord = direct.</p></div>
+    <div class="card"><h3>Verdeling hypotheekcijfer</h3>${distChart()}<p class="note">Gestippeld = voorlopig (geldverstrekkerdata), vol = vastgesteld met klant.</p></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="row" style="margin-bottom:10px">
+      <input id="q" placeholder="Zoek lening, klant, plaats…" value="${esc(S.filter.q)}" style="flex:1;min-width:180px">
+      <select id="fs"><option value="">Alle statussen</option>${statusOpts}</select>
+      <select id="fa"><option value="">Alle adviseurs</option>${advOpts}</select>
+      <select id="fsig"><option value="">Alle signalen</option>${sigOpts}</select>
+    </div>
+    <div class="row" style="margin-bottom:10px">
+      <span class="note">${list.length} van ${S.portfolio.length} leningen · klik op een regel om het dossier te openen</span><div class="sp"></div>
+      <button class="btn s" id="inv">Selectie uitnodigen via adviseur</button>
+      <button class="btn s" id="csv">Export CSV</button>
+      <button class="btn s" id="tpl">CSV-sjabloon</button>
+      <label class="btn s">Importeer CSV<input type="file" id="imp" accept=".csv,text/csv" class="hide"></label>
+      <button class="btn s p" id="rap">Toezichtrapportage</button>
+    </div>
+    <div class="scroll"><table class="tbl" id="pt"><thead><tr>
+      ${col('id', 'Lening')}${col('klant', 'Klant')}${col('adviseur', 'Adviseur')}${col('plaats', 'Plaats')}${col('saldo', 'Saldo', 1)}${col('ltv', 'LTV', 1)}
+      ${col('waarde', 'Waardepeil')}${col('rvp', 'Einde RVP')}${col('aftrek', 'Einde aftrek')}${col('fund', 'Fund.')}${col('cijfer', 'Cijfer')}<th>Signalen</th>${col('status', 'Status')}${col('volgende', 'Volgende')}
+    </tr></thead><tbody>
+    ${list.map(p => `<tr class="click" data-id="${p.id}"><td>${p.id}</td><td>${esc(p.klant)}</td><td>${esc(p.adviseur)}</td><td>${esc(p.plaats)}</td>
+      <td class="r">${fmtEUR(p.saldo)}</td><td class="r">${ltvB(p.res.ltv)}</td><td>${p.k.waardeDatum.slice(0, 4)} <span class="note">${esc(p.k.waardeBron.split(' ')[0])}</span></td>
+      <td>${p.rvp < 9999 ? p.rvp : '–'}</td><td>${p.aftrek < 9999 ? p.aftrek : '–'}</td><td>${fundB(p.res.fund)}</td>
+      <td>${cBadge(p.cijferDef ?? p.res.totaal, p.cijferDef == null)}</td><td>${sigBadges(p.res.signalen)}</td>
+      <td><span class="b ${STATUS_B[p.status]}">${STATUS[p.status]}</span></td><td>${p.volgende <= PARAMS.jaar ? '<b>nu</b>' : p.volgende}</td></tr>`).join('')}
+    </tbody></table></div>
+  </div>`;
+  const re = () => renderGV(app);
+  app.querySelector('#cyc').onchange = e => { S.cyclus = +e.target.value; S.portfolio.forEach(p => { if (p.status === 'herhaling') p.status = 'afgerond'; refresh(p); }); re(); };
+  app.querySelector('#q').oninput = e => { S.filter.q = e.target.value; clearTimeout(window._t); window._t = setTimeout(() => { re(); const q = app.querySelector('#q'); q.focus(); q.setSelectionRange(q.value.length, q.value.length); }, 250); };
+  app.querySelector('#fs').onchange = e => { S.filter.status = e.target.value; re(); };
+  app.querySelector('#fa').onchange = e => { S.filter.adviseur = e.target.value; re(); };
+  app.querySelector('#fsig').onchange = e => { S.filter.signaal = e.target.value; re(); };
+  app.querySelectorAll('th[data-s]').forEach(th => th.onclick = () => { const k = th.dataset.s; S.sort = { k, d: S.sort.k === k ? -S.sort.d : (k === 'prio' ? -1 : 1) }; re(); });
+  app.querySelectorAll('tr.click').forEach(tr => tr.onclick = () => openCase(tr.dataset.id));
+  app.querySelector('#csv').onclick = () => download(`monitoring_${ISO(TODAY)}.csv`, toCSV(list));
+  app.querySelector('#tpl').onclick = () => download('portefeuille_sjabloon.csv', CSV_HEAD.join(';') + '\n' + 'HL-1;A. Voorbeeld;J. de Vries;Gouda;1964;52000;ja;1966;30000;410000;2022-05;Taxatierapport;395000;1931;veen;ja;hout;annuitair;180000;1,9;168;2028;2031;\n');
+  app.querySelector('#imp').onchange = e => importCSV(e.target.files[0]);
+  app.querySelector('#rap').onclick = () => printWin(rapportageHTML(list));
+  app.querySelector('#inv').onclick = () => {
+    const n = list.filter(p => p.status === 'niet' || p.status === 'herhaling'); n.forEach(p => p.status = 'uitgenodigd');
+    alert(`${n.length} klant(en) klaargezet voor activatie door de eigen adviseur.`); re();
+  };
+}
+const kpi = (l, v, h) => `<div class="card kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="h">${h}</div></div>`;
+
+function planChart() {
+  const yrs = Array.from({ length: 6 }, (_, i) => PARAMS.jaar + i), cnt = yrs.map(y => S.portfolio.filter(p => Math.max(PARAMS.jaar, p.volgende) === y).length);
+  const max = Math.max(1, ...cnt), W = 360, H = 140, bw = W / yrs.length;
+  return `<svg viewBox="0 0 ${W} ${H + 20}" width="100%" role="img" aria-label="Uitvraagplanning">${yrs.map((y, i) => {
+    const h = cnt[i] / max * (H - 22); return `<rect x="${i * bw + 10}" y="${H - h}" width="${bw - 20}" height="${h}" rx="4" fill="var(--brand)" opacity="${i ? .55 : 1}"/>
+    <text x="${i * bw + bw / 2}" y="${H - h - 5}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">${cnt[i]}</text>
+    <text x="${i * bw + bw / 2}" y="${H + 15}" text-anchor="middle" font-size="11" fill="var(--muted)">${y}</text>`;
+  }).join('')}</svg>`;
+}
+function distChart() {
+  const b = [['< 4', 0, 4, 'risico'], ['4–5,5', 4, 5.5, 'krap'], ['5,5–7', 5.5, 7, 'let'], ['≥ 7', 7, 11, 'goed']];
+  const cnt = b.map(([, lo, hi]) => ({ d: S.portfolio.filter(p => p.cijferDef != null && p.cijferDef >= lo && p.cijferDef < hi).length, v: S.portfolio.filter(p => p.cijferDef == null && p.res.totaal >= lo && p.res.totaal < hi).length }));
+  const max = Math.max(1, ...cnt.map(c => c.d + c.v)), W = 360, H = 140, bw = W / b.length;
+  return `<svg viewBox="0 0 ${W} ${H + 20}" width="100%" role="img" aria-label="Verdeling cijfers">${b.map(([l, , , k], i) => {
+    const hd = cnt[i].d / max * (H - 22), hv = cnt[i].v / max * (H - 22), x = i * bw + 14, w = bw - 28;
+    return `<rect x="${x}" y="${H - hd}" width="${w}" height="${hd}" fill="var(--${k})"/>
+    <rect x="${x}" y="${H - hd - hv}" width="${w}" height="${hv}" fill="var(--${k}-bg)" stroke="var(--${k})" stroke-dasharray="3 2"/>
+    <text x="${x + w / 2}" y="${H - hd - hv - 5}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">${cnt[i].d + cnt[i].v}</text>
+    <text x="${x + w / 2}" y="${H + 15}" text-anchor="middle" font-size="11" fill="var(--muted)">${l}</text>`;
+  }).join('')}</svg>`;
+}
+
+/* ---------- CSV ---------- */
+const CSV_HEAD = ['lening', 'klant', 'adviseur', 'plaats', 'geboortejaar1', 'inkomen1', 'partner', 'geboortejaar2', 'inkomen2', 'waarde', 'waardeDatum', 'waardeBron', 'woz', 'bouwjaar', 'grond', 'aandachtsgebied', 'fundering',
+  'vorm', 'saldo', 'rente', 'restLooptijdMnd', 'rvpEindJaar', 'aftrekEindJaar', 'laatsteMonitoring'];
+function toCSV(list) {
+  const h = ['lening', 'klant', 'adviseur', 'plaats', 'saldo', 'waarde', 'waardeDatum', 'waardeBron', 'ltv', 'stressLtv', 'eindeRvp', 'eindeAftrek', 'funderingscijfer', 'funderingsniveau',
+    'hypotheekcijfer', 'cijferType', 'laagsteScenario', 'samenloop', 'signalen', 'status', 'laatsteMonitoring', 'volgendeUitvraag'];
+  const n = x => typeof x === 'number' ? String(Math.round(x * 100) / 100).replace('.', ',') : `"${String(x ?? '').replace(/"/g, '""')}"`;
+  return '﻿' + h.join(';') + '\n' + list.map(p => [p.id, p.klant, p.adviseur, p.plaats, p.saldo, p.k.waarde, p.k.waardeDatum, p.k.waardeBron, p.res.ltv, p.res.ltvStress, p.rvp, p.aftrek,
+    p.res.fund.cijfer, p.res.fund.niveau, p.cijferDef ?? p.res.totaal, p.cijferDef == null ? 'voorlopig' : 'vastgesteld', p.res.laagste.titel,
+    p.res.samenloop ? `${p.res.samenloop.van}-${p.res.samenloop.tot}` : '', p.res.signalen.map(s => s.code).join(' '), STATUS[p.status], p.monitoring || '', p.volgende].map(n).join(';')).join('\n');
+}
+function download(name, text) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+function importCSV(file) {
+  if (!file) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    const lines = String(fr.result).replace(/^﻿/, '').split(/\r?\n/).filter(l => l.trim());
+    const sep = lines[0].includes(';') ? ';' : ',', head = lines[0].split(sep).map(h => h.trim());
+    const idx = h => head.indexOf(h), map = new Map(); let fout = 0;
+    lines.slice(1).forEach(l => {
+      const c = l.split(sep).map(x => x.trim().replace(/^"|"$/g, '')), g = h => idx(h) >= 0 ? c[idx(h)] : '';
+      if (!g('lening') || !g('saldo')) { fout++; return; }
+      const deel = { vorm: g('vorm') || 'annuitair', saldo: parseNum(g('saldo')), rente: parseNum(g('rente')), restLooptijd: parseNum(g('restLooptijdMnd')) || 360,
+        rvpEindJaar: parseNum(g('rvpEindJaar')) || null, aftrekEindJaar: parseNum(g('aftrekEindJaar')) || null, box: 1 };
+      if (map.has(g('lening'))) { map.get(g('lening')).k.delen.push(deel); return; }
+      const partner = /^(ja|j|1|true)$/i.test(g('partner'));
+      const k = { naam1: g('klant'), partner, naam2: partner ? 'partner' : '', geboortejaar1: parseNum(g('geboortejaar1')) || 1970, geboortejaar2: partner ? parseNum(g('geboortejaar2')) || 1970 : null,
+        inkomen1: parseNum(g('inkomen1')), inkomen2: partner ? parseNum(g('inkomen2')) : 0, pensioen1: '', pensioen2: '', orv1: 0, orv2: 0, nabestaanden: 0, nabestaanden2: 0,
+        waarde: parseNum(g('waarde')), waardeDatum: g('waardeDatum') || String(PARAMS.jaar), waardeBron: g('waardeBron') || 'Onbekend', woz: parseNum(g('woz')) || parseNum(g('waarde')),
+        bouwjaar: parseNum(g('bouwjaar')), grond: g('grond') || 'zand', aandachtsgebied: g('aandachtsgebied') || 'nee', grondwater: 'nee', fundering: g('fundering') || 'onbekend', schade: 'nee', funderingExtern: '',
+        onderhoud: '', onderhoudDoor: '', renteHerfin: PARAMS.renteHerfinDefault, inkomensdaling: 20, delen: [deel] };
+      const lm = g('laatsteMonitoring');
+      map.set(g('lening'), { id: g('lening'), klant: g('klant'), adviseur: g('adviseur') || ADVISEURS[0].naam, plaats: g('plaats'), k, status: lm ? 'afgerond' : 'niet', monitoring: lm || null, brondata: null, cijferDef: null });
+    });
+    if (!map.size) { alert('Geen geldige regels gevonden. Gebruik het CSV-sjabloon (scheidingsteken ;).'); return; }
+    if (!confirm(`${map.size} leningen gevonden${fout ? `, ${fout} regel(s) overgeslagen` : ''}. Demo-portefeuille vervangen?`)) return;
+    S.portfolio = [...map.values()]; S.portfolio.forEach(refresh); S.filter = { q: '', status: '', signaal: '', adviseur: '' }; render();
+  };
+  fr.readAsText(file, 'utf-8');
+}
+
+/* ================= Adviseur ================= */
+function renderAdv(app) {
+  if (!S.adv) S.adv = ADVISEURS[0].naam;
+  const a = advInfo(S.adv), mine = S.portfolio.filter(p => p.adviseur === S.adv).sort((x, y) => y.prio - x.prio);
+  const K = kpis(mine.length ? mine : [{ saldo: 0, res: { ltv: 0, fund: {}, signalen: [] }, k: { waardeDatum: '0' }, status: '' }]);
+  app.innerHTML = `
+  <div class="row"><div><h1>Werklijst adviseur</h1><p class="sub">De geldverstrekker levert de klantdata; u activeert de klant en doorloopt het Hypotheekcijfer samen. Het advies blijft bij u.</p></div><div class="sp"></div>
+    <label class="f" style="min-width:240px">Adviseur<select id="as">${ADVISEURS.map(x => `<option ${x.naam === S.adv ? 'selected' : ''} value="${esc(x.naam)}">${esc(x.naam)} — ${esc(x.kantoor)}</option>`).join('')}</select></label></div>
+  <div class="grid kpis">
+    ${kpi('Klanten', mine.length, esc(a.kantoor))}
+    ${kpi('Te activeren', mine.filter(p => ['niet', 'uitgenodigd', 'herhaling'].includes(p.status)).length, 'niet gestart, uitgenodigd of herhaling')}
+    ${kpi('In behandeling', mine.filter(p => p.status === 'behandeling').length, 'brondata opgehaald')}
+    ${kpi('Met signaal "hoog"', mine.filter(p => p.res.signalen.some(s => s.ernst === 'hoog')).length, 'prioriteit voor contact')}
+    <div class="card kpi"><div class="l">Onderhoudssignalering</div><label class="row" style="margin-top:6px;font-weight:600"><input type="checkbox" id="cert" ${a.cert ? 'checked' : ''}> Cursus afgerond</label><div class="h">Bevoegd om onderhoudstoestand vast te leggen</div></div>
+  </div>
+  <div class="card" style="margin-top:14px"><div class="scroll"><table class="tbl"><thead><tr><th>Prio</th><th>Klant</th><th>Lening</th><th>Plaats</th><th>Waarom nu</th><th>Cijfer</th><th>Status</th><th>Brondata</th><th></th></tr></thead><tbody>
+  ${mine.map(p => {
+    const bd = p.brondata ? Math.round((TODAY - new Date(p.brondata)) / 864e5) : null;
+    return `<tr><td><span class="b ${p.prio >= 6 ? 'risico' : p.prio >= 3 ? 'krap' : 'neu'}">${p.prio >= 6 ? 'Hoog' : p.prio >= 3 ? 'Middel' : 'Laag'}</span></td>
+    <td><b>${esc(p.klant)}</b></td><td>${p.id}</td><td>${esc(p.plaats)}</td>
+    <td style="white-space:normal;min-width:260px">${p.res.signalen.map(s => `<div class="note">• ${esc(s.tekst)}</div>`).join('') || '<span class="note">Reguliere cyclus</span>'}</td>
+    <td>${cBadge(p.cijferDef ?? p.res.totaal, p.cijferDef == null)}</td><td><span class="b ${STATUS_B[p.status]}">${STATUS[p.status]}</span></td>
+    <td>${bd == null ? '<span class="note">–</span>' : bd <= 90 ? `<span class="b goed">geldig · ${90 - bd} dg</span>` : '<span class="b krap">verlopen</span>'}</td>
+    <td style="white-space:nowrap">${['niet', 'herhaling'].includes(p.status) ? `<button class="btn s" data-a="inv" data-id="${p.id}">Uitnodigen</button> ` : ''}
+      ${p.status !== 'afgerond' ? `<button class="btn s" data-a="ockto" data-id="${p.id}" title="Simulatie van de Procesversneller (Ockto)">Brondata</button> ` : ''}
+      <button class="btn s p" data-a="open" data-id="${p.id}">Open cijfer</button></td></tr>`;
+  }).join('') || '<tr><td colspan="9" class="note">Geen klanten voor deze adviseur.</td></tr>'}
+  </tbody></table></div>
+  <p class="note">"Brondata ophalen" simuleert de Procesversneller: de klant logt in met DigiD bij Ockto, inkomen en hypotheekgegevens worden geverifieerd opgehaald (90 dagen bruikbaar). In deze demo wordt geen echte koppeling gelegd.</p></div>`;
+  app.querySelector('#as').onchange = e => { S.adv = e.target.value; renderAdv(app); };
+  app.querySelector('#cert').onchange = e => { advInfo(S.adv).cert = e.target.checked; };
+  app.querySelectorAll('button[data-a]').forEach(b => b.onclick = () => {
+    const p = S.portfolio.find(x => x.id === b.dataset.id);
+    if (b.dataset.a === 'inv') p.status = 'uitgenodigd';
+    if (b.dataset.a === 'ockto') { p.brondata = ISO(TODAY); p.status = 'behandeling'; }
+    if (b.dataset.a === 'open') return openCase(p.id);
+    renderAdv(app);
+  });
+}
+
+/* ================= Hypotheekcijfer (klant + adviseur) ================= */
+function nieuwDossier() {
+  return { naam1: '', partner: true, naam2: '', geboortejaar1: 1965, geboortejaar2: 1967, inkomen1: 52000, inkomen2: 30000, pensioen1: '', pensioen2: '', orv1: 0, orv2: 0, nabestaanden: 0, nabestaanden2: 0,
+    waarde: 400000, waardeDatum: `${PARAMS.jaar}-01`, waardeBron: 'PandWise (indicatief)', woz: 385000, bouwjaar: 1965, grond: 'klei', aandachtsgebied: 'nee', grondwater: 'nee', fundering: 'onbekend', schade: 'nee', funderingExtern: '',
+    onderhoud: '', onderhoudDoor: '', renteHerfin: PARAMS.renteHerfinDefault, inkomensdaling: 20,
+    delen: [{ vorm: 'annuitair', saldo: 220000, rente: 2.1, restLooptijd: 180, rvpEindJaar: PARAMS.jaar + 2, aftrekEindJaar: PARAMS.jaar + 15, box: 1 }] };
+}
+function openCase(id) {
+  const p = S.portfolio.find(x => x.id === id);
+  S.cur = { id, k: clone(p.k), adviseur: p.adviseur };
+  if (p.status === 'uitgenodigd' || p.status === 'niet' || p.status === 'herhaling') p.status = 'behandeling';
+  setView('klant');
+}
+
+function renderKlant(app) {
+  if (!S.cur) S.cur = { id: null, k: nieuwDossier(), adviseur: S.adv || ADVISEURS[0].naam };
+  const c = S.cur, p = c.id ? S.portfolio.find(x => x.id === c.id) : null, a = advInfo(c.adviseur);
+  app.innerHTML = `
+  <div class="row"><div><h1>Hypotheekcijfer ${p ? `· ${esc(p.klant)}` : '· nieuw dossier'}</h1>
+    <p class="sub">${p ? `${p.id} · ${esc(p.plaats)} · ` : ''}adviseur ${esc(a.naam)}${a.kantoor ? ' (' + esc(a.kantoor) + ')' : ''} · namens ${esc(S.gv)}</p></div><div class="sp"></div>
+    ${p ? `<button class="btn" id="bk">← Terug naar portefeuille</button>` : ''}<button class="btn" id="nw">Nieuw leeg dossier</button></div>
+  <div class="two">
+    <div class="card" id="form"></div>
+    <div class="sticky" id="res"></div>
+  </div>`;
+  if (p) app.querySelector('#bk').onclick = () => setView('gv');
+  app.querySelector('#nw').onclick = () => { S.cur = null; renderKlant(app); };
+  renderForm(); renderRes();
+}
+
+const F = {
+  t: (key, lbl, o = {}) => `<label class="f">${lbl}<input data-k="${key}" ${o.type ? `type="${o.type}"` : ''} value="${esc(S.cur.k[key] ?? '')}" ${o.ph ? `placeholder="${o.ph}"` : ''}></label>`,
+  e: (key, lbl, o = {}) => `<label class="f">${lbl}<input data-k="${key}" data-eur inputmode="numeric" value="${S.cur.k[key] === '' || S.cur.k[key] == null ? '' : fmtInt(S.cur.k[key])}" placeholder="${o.ph || '€ 0'}"></label>`,
+  n: (key, lbl, o = {}) => `<label class="f">${lbl}<input data-k="${key}" data-num inputmode="decimal" value="${String(S.cur.k[key] ?? '').replace('.', ',')}" ${o.ph ? `placeholder="${o.ph}"` : ''}></label>`,
+  s: (key, lbl, opts, o = {}) => `<label class="f">${lbl}<select data-k="${key}" ${o.dis ? 'disabled' : ''}>${opts.map(x => { const [v, t] = Array.isArray(x) ? x : [x, x]; return `<option value="${esc(v)}" ${String(S.cur.k[key]) === String(v) ? 'selected' : ''}>${esc(t)}</option>`; }).join('')}</select></label>`
+};
+const JN = [['nee', 'Nee'], ['ja', 'Ja']];
+
+function renderForm() {
+  const k = S.cur.k, a = advInfo(S.cur.adviseur), el = document.getElementById('form');
+  el.innerHTML = `
+  <div class="sect"><h2>1 · Huishouden &amp; inkomen</h2>
+    <p class="note" style="margin-top:-6px">In de praktijk via de Procesversneller (Ockto) geverifieerd opgehaald; hier handmatig aan te passen.</p>
+    <div class="fg">
+      ${F.t('naam1', 'Naam aanvrager 1')}${F.n('geboortejaar1', 'Geboortejaar 1')}${F.e('inkomen1', 'Bruto jaarinkomen 1')}${F.e('pensioen1', 'Pensioeninkomen 1 (incl. AOW)', { ph: 'leeg = 70%' })}
+      ${F.s('partner', 'Partner', [['true', 'Ja'], ['false', 'Nee']])}
+      ${k.partner ? F.t('naam2', 'Naam partner') + F.n('geboortejaar2', 'Geboortejaar 2') + F.e('inkomen2', 'Bruto jaarinkomen 2') + F.e('pensioen2', 'Pensioeninkomen 2 (incl. AOW)', { ph: 'leeg = 70%' })
+        + F.e('orv1', 'ORV-dekking op leven 1') + F.e('orv2', 'ORV-dekking op leven 2') + F.e('nabestaanden2', 'Nabestaandenpensioen voor 2 /jr') + F.e('nabestaanden', 'Nabestaandenpensioen voor 1 /jr') : ''}
+    </div></div>
+  <div class="sect"><div class="row"><h2 style="margin:0">2 · Hypotheek</h2><div class="sp"></div><button class="btn s" id="addd">+ Leningdeel</button></div>
+    <div class="scroll" style="margin-top:10px"><table class="tbl" id="delen"><thead><tr><th>Vorm</th><th>Saldo</th><th>Rente %</th><th>Restlooptijd (jr)</th><th>Einde RVP</th><th>Einde aftrek</th><th></th></tr></thead><tbody>
+    ${k.delen.map((d, i) => `<tr data-i="${i}">
+      <td><select data-d="vorm">${['annuitair', 'lineair', 'aflossingsvrij'].map(v => `<option ${d.vorm === v ? 'selected' : ''}>${v}</option>`).join('')}</select></td>
+      <td><input data-d="saldo" data-eur value="${fmtInt(d.saldo)}" style="width:110px"></td>
+      <td><input data-d="rente" data-num value="${String(d.rente).replace('.', ',')}" style="width:64px"></td>
+      <td><input data-d="restJ" data-num value="${String(Math.round(d.restLooptijd / 12 * 10) / 10).replace('.', ',')}" style="width:64px"></td>
+      <td><input data-d="rvpEindJaar" data-num value="${d.rvpEindJaar ?? ''}" style="width:70px"></td>
+      <td><input data-d="aftrekEindJaar" data-num value="${d.aftrekEindJaar ?? ''}" style="width:70px" title="Startjaar renteaftrek + 30"></td>
+      <td>${k.delen.length > 1 ? `<button class="btn s" data-rm="${i}" title="Verwijder">✕</button>` : ''}</td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="fg" style="margin-top:10px">${F.n('renteHerfin', 'Herfinancieringsrente % (aanname)')}${F.n('inkomensdaling', 'Scenario inkomensdaling %')}</div></div>
+  <div class="sect"><h2>3 · Woning &amp; onderpand</h2>
+    <div class="fg">
+      ${F.e('waarde', 'Actuele woningwaarde')}${F.t('waardeDatum', 'Peildatum waarde', { type: 'month' })}
+      ${F.s('waardeBron', 'Bron waardering', ['PandWise (indicatief)', 'Calcasa (AVM)', 'Taxatierapport', 'WOZ-geïndexeerd', 'Onbekend'])}${F.e('woz', 'WOZ-waarde')}
+    </div>
+    ${/PandWise|WOZ/.test(k.waardeBron) ? `<div class="flag"><b>Compliance:</b> een indicatieve woningwaarde (PandWise, WOZ-index) is géén taxatie. Geschikt als klantcadeau en signaal, maar onderbouw de collateral-herwaardering richting toezicht met een gevalideerd model (AVM) of taxatie.</div>` : ''}
+    <h3 style="margin-top:14px">Funderingsrisico</h3>
+    <div class="fg">
+      ${F.n('bouwjaar', 'Bouwjaar')}${F.s('grond', 'Bodem', [['zand', 'Zand'], ['klei', 'Klei'], ['veen', 'Veen']])}${F.s('aandachtsgebied', 'RVO-aandachtsgebied', JN)}
+      ${F.s('grondwater', 'Lage/dalende grondwaterstand', JN)}${F.s('fundering', 'Funderingstype', [['onbekend', 'Onbekend'], ['hout', 'Houten palen'], ['staal', 'Op staal'], ['beton', 'Betonpalen']])}
+      ${F.s('schade', 'Zichtbare scheuren/scheefstand', JN)}${F.n('funderingExtern', 'Funderingscijfer extern (1–10)', { ph: 'bv. uit Funderingscijfer.nl' })}
+    </div>
+    <h3 style="margin-top:14px">Onderhoudstoestand <span class="b neu">optionele module</span></h3>
+    <div class="fg">
+      ${F.s('onderhoud', 'Onderhoudsniveau', [['', 'Niet beoordeeld'], ['uitstekend', 'Uitstekend'], ['goed', 'Goed'], ['redelijk', 'Redelijk'], ['matig', 'Matig'], ['slecht', 'Slecht']], { dis: !a.cert && k.onderhoudDoor !== 'taxateur' })}
+      ${F.s('onderhoudDoor', 'Beoordeeld door', [['', '–'], ['taxateur', 'Taxateur (inspectie)'], ['adviseur', 'Adviseur (gecertificeerd)']])}
+    </div>
+    ${!a.cert && k.onderhoudDoor !== 'taxateur' ? '<p class="note">Deze adviseur heeft de cursus onderhoudssignalering niet afgerond: kies "Taxateur" of schakel de cursus in bij de werklijst.</p>' : ''}
+  </div>`;
+  // bindings
+  el.querySelectorAll('[data-k]').forEach(inp => inp.addEventListener(inp.tagName === 'SELECT' ? 'change' : 'input', () => {
+    const key = inp.dataset.k; let v = inp.value;
+    if (inp.hasAttribute('data-eur')) v = inp.value.trim() === '' ? '' : parseNum(inp.value);
+    else if (inp.hasAttribute('data-num')) v = inp.value.trim() === '' ? '' : parseNum(inp.value.replace('.', ','));
+    if (key === 'partner') v = v === 'true';
+    k[key] = v;
+    if (['partner', 'waardeBron', 'onderhoudDoor'].includes(key)) renderForm();
+    renderRes();
+  }));
+  el.querySelectorAll('[data-d]').forEach(inp => inp.addEventListener(inp.tagName === 'SELECT' ? 'change' : 'input', () => {
+    const d = k.delen[+inp.closest('tr').dataset.i], key = inp.dataset.d;
+    if (key === 'vorm') d.vorm = inp.value;
+    else if (key === 'restJ') d.restLooptijd = Math.max(1, Math.round(parseNum(inp.value.replace('.', ',')) * 12));
+    else if (key === 'saldo') d.saldo = parseNum(inp.value);
+    else d[key] = inp.value === '' ? null : parseNum(inp.value.replace('.', ','));
+    renderRes();
+  }));
+  el.querySelectorAll('[data-eur]').forEach(inp => inp.addEventListener('blur', () => { if (inp.value.trim() !== '') inp.value = fmtInt(parseNum(inp.value)); }));
+  el.querySelector('#addd').onclick = () => { k.delen.push({ vorm: 'aflossingsvrij', saldo: 50000, rente: 3.5, restLooptijd: 240, rvpEindJaar: PARAMS.jaar + 5, aftrekEindJaar: PARAMS.jaar + 20, box: 1 }); renderForm(); renderRes(); };
+  el.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { k.delen.splice(+b.dataset.rm, 1); renderForm(); renderRes(); });
+}
+
+function timeline(res) {
+  const pts = res.scen.filter(s => s.groep === 'moment' && /^\d{4}/.test(s.wanneer));
+  if (!pts.length) return '';
+  const y0 = PARAMS.jaar, y1 = Math.max(y0 + 10, ...pts.map(s => +s.wanneer.slice(-4))) + 1, pos = y => ((y - y0) / (y1 - y0) * 100).toFixed(1) + '%';
+  const ticks = []; for (let y = y0; y <= y1; y += Math.ceil((y1 - y0) / 6)) ticks.push(y);
+  return `<div class="tl"><div class="ax"></div>${ticks.map(y => `<span class="y" style="left:${pos(y)}">${y}</span>`).join('')}
+    ${pts.map((s, i) => `<span class="m" style="left:${pos(+s.wanneer.slice(0, 4))};top:${i % 2 ? 0 : 4}px" title="${esc(s.titel)}: ${fmtNum(s.cijfer)}"><i style="background:var(--${cls(s.cijfer)})"></i></span>`).join('')}</div>`;
+}
+
+function scenCard(s, k, res) {
+  return `<div class="s"><div class="row" style="gap:6px;align-items:flex-start"><div style="flex:1"><div class="t">${esc(s.titel)}</div><div class="w">${esc(s.wanneer)}</div></div>${cBadge(s.cijfer)}</div>
+    <div class="n"><span>Netto maandlast</span><b style="color:var(--ink)">${fmtEUR(s.netto)}</b></div>
+    <div class="n"><span>Verschil t.o.v. nu</span><span>${s.deltaNetto >= 0 ? '+' : ''}${fmtEUR(s.deltaNetto)}</span></div>
+    <div class="n"><span>Bruto inkomen /jr</span><span>${fmtEUR(s.inkomen)}</span></div>
+    <div class="note" style="margin-top:4px">${esc(s.toelichting)}</div>
+    ${s.cijfer < 7 && s.id !== 'huidig' ? `<div class="hp"><b>Handelingsperspectief:</b> ${handelingsperspectief(s, k, res).join(' ')}</div>` : ''}</div>`;
+}
+
+function renderRes() {
+  const k = S.cur.k, el = document.getElementById('res');
+  if (!k.delen.length || !k.delen.some(d => d.saldo > 0)) { el.innerHTML = '<div class="card">Voer minimaal één leningdeel in.</div>'; return; }
+  const res = berekenDossier(k); S.cur.res = res;
+  const mom = res.scen.filter(s => s.groep === 'moment'), ev = res.scen.filter(s => s.groep === 'event');
+  el.innerHTML = `
+  <div class="card">
+    <div class="big"><div class="ring ${cls(res.totaal)}">${fmtNum(res.totaal)}</div>
+      <div><div class="note">Hypotheekcijfer (indicatief)</div><div style="font-size:18px;font-weight:700">${label(res.totaal)}</div>
+      <div class="note">Nu ${fmtNum(res.scen[0].cijfer)} · laagste moment ${fmtNum(Math.min(...(mom.length ? mom : res.scen).map(x => x.cijfer)))} · laagste life event ${fmtNum(Math.min(...(ev.length ? ev : res.scen).map(x => x.cijfer)))}</div>
+      <div class="note">Netto maandlast nu <b>${fmtEUR(res.huidigeLast.netto)}</b> (bruto ${fmtEUR(res.huidigeLast.bruto)}) · schuld ${fmtEUR(res.schuld)}</div></div></div>
+    ${timeline(res)}
+    ${res.signalen.length ? `<div class="sect"><h3>Signalen (early warning)</h3>${res.signalen.map(s => `<div class="sig"><span class="b ${ernstB(s.ernst)}">${s.code}</span><span>${esc(s.tekst)}</span></div>`).join('')}</div>` : ''}
+    <div class="sect"><h3>Belangrijke momenten</h3><div class="sc">${mom.map(s => scenCard(s, k, res)).join('') || '<span class="note">Geen toekomstige momenten bekend.</span>'}</div></div>
+    <div class="sect"><h3>Life events</h3><div class="sc">${ev.map(s => scenCard(s, k, res)).join('')}</div></div>
+    <div class="sect"><h3>Onderpand</h3>
+      <table class="tbl"><tbody>
+        <tr><td>Woningwaarde</td><td class="r">${fmtEUR(k.waarde)} <span class="note">${esc(k.waardeBron)} · ${esc(k.waardeDatum)}</span></td></tr>
+        <tr><td>LTV (schuld / waarde)</td><td class="r">${ltvB(res.ltv)}</td></tr>
+        <tr><td>Funderingscijfer <span class="note">(${res.fund.bron})</span></td><td class="r">${fundB(res.fund)} <span class="note">${esc(res.fund.redenen.join(', ') || 'geen indicatoren')}</span></td></tr>
+        <tr><td>Onderhoud</td><td class="r">${k.onderhoud ? esc(k.onderhoud) + (res.onderhoudCorr ? ` (${fmtPct(res.onderhoudCorr * 100, 0)})` : '') : '<span class="note">niet beoordeeld</span>'}</td></tr>
+        <tr><td>Stress-waarde <span class="note">na fundering/onderhoud</span></td><td class="r">${fmtEUR(res.waardeStress)} · stress-LTV ${ltvB(res.ltvStress)}</td></tr>
+      </tbody></table></div>
+    <div class="sect row">
+      <button class="btn" id="prt">Klantrapport (print / PDF)</button>
+      ${S.cur.id ? '<button class="btn a" id="fin">Afronden &amp; terugmelden aan geldverstrekker</button>' : ''}
+    </div>
+    <p class="note">Indicatieve berekening; geen hypotheekadvies en geen toetsing aan de leennormen (Tijdelijke regeling hypothecair krediet). Het advies blijft bij de adviseur.</p>
+  </div>`;
+  el.querySelector('#prt').onclick = () => printWin(klantRapportHTML(k, res));
+  const fin = el.querySelector('#fin');
+  if (fin) fin.onclick = () => {
+    const p = S.portfolio.find(x => x.id === S.cur.id);
+    p.k = clone(k); p.status = 'afgerond'; p.monitoring = ISO(TODAY); refresh(p); p.cijferDef = p.res.totaal;
+    alert(`Dossier ${p.id} afgerond. Cijfer ${fmtNum(p.cijferDef)} en onderpandgegevens zijn teruggemeld aan ${S.gv}. Volgende uitvraag: ${p.volgende}.`);
+    setView('gv');
+  };
+}
+
+/* ---------- Print (via window.open i.v.m. iframe-embed) ---------- */
+function printWin(html) {
+  const w = window.open('', '_blank');
+  if (!w) { alert('Pop-up geblokkeerd: sta pop-ups toe om te printen.'); return; }
+  w.document.write(html); w.document.close(); w.focus(); setTimeout(() => w.print(), 400);
+}
+const PRINT_CSS = `body{font:12px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#13203b;margin:28px}h1{font-size:20px;margin:0}h2{font-size:14px;margin:18px 0 6px;color:#1d3a8a;border-bottom:1px solid #dde;padding-bottom:3px}
+table{width:100%;border-collapse:collapse}td,th{padding:5px 6px;border-bottom:1px solid #e3e6ee;text-align:left;vertical-align:top}th{font-size:10px;text-transform:uppercase;color:#5d6680}.r{text-align:right}
+.c{display:inline-block;min-width:30px;text-align:center;border-radius:4px;font-weight:700;padding:1px 4px}.goed{background:#e2f4ea;color:#17824f}.let{background:#eef4d9;color:#5f7417}.krap{background:#fdefd8;color:#a96400}.risico{background:#fbe4e1;color:#bf2f24}
+.note{color:#5d6680;font-size:11px}.box{border:1px solid #dde;border-radius:8px;padding:10px;margin:8px 0}@page{margin:14mm}`;
+
+function klantRapportHTML(k, res) {
+  const a = advInfo(S.cur.adviseur);
+  const rows = res.scen.map(s => `<tr><td><b>${esc(s.titel)}</b><div class="note">${esc(s.toelichting)}</div></td><td>${esc(s.wanneer)}</td><td class="r">${fmtEUR(s.netto)}</td>
+    <td><span class="c ${cls(s.cijfer)}">${fmtNum(s.cijfer)}</span></td><td>${s.cijfer < 7 && s.id !== 'huidig' ? handelingsperspectief(s, k, res).join(' ') : '–'}</td></tr>`).join('');
+  return `<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Hypotheekcijfer-rapport</title><style>${PRINT_CSS}</style></head><body>
+  <table><tr><td style="border:0"><h1>Uw Hypotheekcijfer</h1><div class="note">Rapport ${nlDate(ISO(TODAY))} · namens ${esc(a.naam)}${a.kantoor ? ', ' + esc(a.kantoor) : ''} en ${esc(S.gv)}</div></td>
+  <td style="border:0;text-align:right"><span class="c ${cls(res.totaal)}" style="font-size:26px;padding:6px 12px">${fmtNum(res.totaal)}</span><div class="note">${label(res.totaal)}</div></td></tr></table>
+  <div class="box">Beste ${esc(k.naam1 || 'klant')}${k.partner && k.naam2 ? ' en ' + esc(k.naam2) : ''},<br>Samen met uw adviseur hebben we gekeken of uw hypotheek betaalbaar blijft op belangrijke momenten en bij ingrijpende gebeurtenissen.
+  Hieronder ziet u per situatie een cijfer van 1 tot 10 en wat u kunt doen. Uw netto maandlast is nu <b>${fmtEUR(res.huidigeLast.netto)}</b>.</div>
+  <h2>Cijfer per moment en life event</h2><table><tr><th>Situatie</th><th>Wanneer</th><th class="r">Netto p/m</th><th>Cijfer</th><th>Wat kunt u doen?</th></tr>${rows}</table>
+  <h2>Uw woning</h2><table>
+  <tr><td>Woningwaarde (cadeau)</td><td class="r">${fmtEUR(k.waarde)} <span class="note">${esc(k.waardeBron)}, ${esc(k.waardeDatum)}</span></td></tr>
+  <tr><td>Verhouding hypotheek / woningwaarde</td><td class="r">${fmtPct(res.ltv * 100, 0)}</td></tr>
+  <tr><td>Funderingscijfer (indicatief)</td><td class="r">${fmtNum(res.fund.cijfer)} <span class="note">${esc(res.fund.redenen.join(', ') || 'geen bijzonderheden')}</span></td></tr>
+  ${k.onderhoud ? `<tr><td>Onderhoudstoestand</td><td class="r">${esc(k.onderhoud)}</td></tr>` : ''}</table>
+  ${res.fund.niveau !== 'laag' ? '<div class="box"><b>Fundering:</b> uw woning heeft kenmerken die wijzen op een verhoogd funderingsrisico. Bespreek met uw adviseur of een funderingsonderzoek zinvol is; tijdig onderzoek voorkomt hogere herstelkosten.</div>' : ''}
+  <p class="note">Dit rapport is indicatief en geen hypotheekadvies. De berekening is vereenvoudigd en toetst niet aan de wettelijke leennormen. Een indicatieve woningwaarde is geen taxatie.
+  Rekenparameters ${PARAMS.jaar}: aftrektarief ${fmtPct(PARAMS.aftrekTarief * 100)}, eigenwoningforfait ${fmtPct(PARAMS.ewfPct * 100)}, herfinancieringsrente ${fmtPct(+k.renteHerfin || PARAMS.renteHerfinDefault)}.
+  Over ${S.cyclus} jaar nodigen wij u opnieuw uit voor een update.</p></body></html>`;
+}
+
+function rapportageHTML(list) {
+  const K = kpis(list), n = list.length || 1, by = (f) => list.filter(f).length, pct = x => fmtPct(x / n * 100, 0);
+  const ltvB = [['≤ 60%', 0, .6], ['60–80%', .6, .8], ['80–90%', .8, .9], ['90–100%', .9, 1], ['> 100%', 1, 99]];
+  const age = [['< 1 jaar', 0, 1], ['1–3 jaar', 1, 3], ['3–5 jaar', 3, 5], ['≥ 5 jaar', 5, 99]];
+  const bron = [...new Set(list.map(p => p.k.waardeBron))];
+  const top = list.filter(p => p.res.signalen.some(s => s.ernst === 'hoog')).sort((a, b) => b.prio - a.prio).slice(0, 25);
+  return `<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Rapportage hypotheekmonitoring</title><style>${PRINT_CSS}</style></head><body>
+  <h1>Rapportage hypotheekmonitoring</h1><div class="note">${esc(S.gv)} · peildatum ${nlDate(ISO(TODAY))} · ${list.length} leningen in selectie · opgesteld met Shared Hypotheekcijfer (Blinqx)</div>
+  <h2>1. Scope en methode</h2><table>
+  <tr><td>Doel</td><td>Doorlopende monitoring van kredietkwaliteit en onderpandwaarde gedurende de looptijd (EBA/GL/2020/06; SREP-beoordeling credit risk & risk control).</td></tr>
+  <tr><td>Betaalbaarheid</td><td>Per lening een cijfer 1–10 per moment (einde RVP, einde renteaftrek, pensionering, samenloop, einde looptijd) en per life event (werkloosheid, arbeidsongeschiktheid, overlijden, scheiding, inkomensdaling). Brondata via Procesversneller (Ockto) indien vastgesteld; anders voorlopig op geldverstrekkerdata.</td></tr>
+  <tr><td>Onderpand</td><td>Waarderingsbronnen in selectie: ${bron.map(esc).join(', ')}. Aanvullend indicatief funderingscijfer (bouwjaar, bodem, RVO-aandachtsgebied, grondwater) en optionele onderhoudsbeoordeling (taxateur of gecertificeerde adviseur).</td></tr>
+  <tr><td>Frequentie</td><td>Gestructureerde uitvraag elke ${S.cyclus} jaar per klant; eerder bij early-warning-signaal.</td></tr></table>
+  <h2>2. Dekking en frequentie</h2><table>
+  <tr><td>Monitoring afgerond binnen cyclus</td><td class="r">${K.binnen} (${pct(K.binnen)})</td></tr>
+  <tr><td>Herhaling vereist / niet gestart</td><td class="r">${by(p => p.status === 'herhaling')} / ${by(p => p.status === 'niet')}</td></tr>
+  <tr><td>Uitgenodigd / in behandeling</td><td class="r">${by(p => p.status === 'uitgenodigd')} / ${by(p => p.status === 'behandeling')}</td></tr></table>
+  <h2>3. Onderpand</h2><table><tr><th>LTV-klasse</th><th class="r">Aantal</th><th class="r">Saldo</th></tr>
+  ${ltvB.map(([l, lo, hi]) => { const s = list.filter(p => p.res.ltv > lo && p.res.ltv <= hi); return `<tr><td>${l}</td><td class="r">${s.length}</td><td class="r">${fmtEUR(s.reduce((a, p) => a + p.saldo, 0))}</td></tr>`; }).join('')}
+  <tr><td><b>Gewogen LTV</b></td><td></td><td class="r"><b>${fmtPct(K.wltv * 100, 1)}</b></td></tr></table>
+  <table style="margin-top:8px"><tr><th>Ouderdom waardering</th><th class="r">Aantal</th></tr>${age.map(([l, lo, hi]) => `<tr><td>${l}</td><td class="r">${by(p => { const a = PARAMS.jaar - +p.k.waardeDatum.slice(0, 4); return a >= lo && a < hi; })}</td></tr>`).join('')}</table>
+  <table style="margin-top:8px"><tr><th>Funderingsrisico</th><th class="r">Aantal</th><th class="r">Saldo</th></tr>${['hoog', 'middel', 'laag'].map(l => { const s = list.filter(p => p.res.fund.niveau === l); return `<tr><td>${l}</td><td class="r">${s.length}</td><td class="r">${fmtEUR(s.reduce((a, p) => a + p.saldo, 0))}</td></tr>`; }).join('')}</table>
+  <h2>4. Betaalbaarheid en early warning</h2><table>
+  <tr><td>Cijfer &lt; 4 / 4–5,5 / ≥ 5,5</td><td class="r">${by(p => (p.cijferDef ?? p.res.totaal) < 4)} / ${by(p => { const c = p.cijferDef ?? p.res.totaal; return c >= 4 && c < 5.5; })} / ${by(p => (p.cijferDef ?? p.res.totaal) >= 5.5)}</td></tr>
+  <tr><td>Samenloop renteschok · aftrekverval · pensioen binnen 5 jaar</td><td class="r">${K.sam}</td></tr>
+  ${['EWI-BET', 'EWI-SAM', 'EWI-LTV', 'EWI-FUN', 'EWI-VAL'].map(c => `<tr><td>Signaal ${c}</td><td class="r">${by(p => p.res.signalen.some(s => s.code === c))}</td></tr>`).join('')}</table>
+  <h2>5. Leningen met signaal "hoog" (top 25)</h2><table><tr><th>Lening</th><th>Adviseur</th><th class="r">Saldo</th><th class="r">LTV</th><th>Cijfer</th><th>Signalen</th><th>Status</th></tr>
+  ${top.map(p => `<tr><td>${p.id}</td><td>${esc(p.adviseur)}</td><td class="r">${fmtEUR(p.saldo)}</td><td class="r">${fmtPct(p.res.ltv * 100, 0)}</td><td><span class="c ${cls(p.cijferDef ?? p.res.totaal)}">${fmtNum(p.cijferDef ?? p.res.totaal)}</span>${p.cijferDef == null ? ' <span class="note">vl</span>' : ''}</td><td>${p.res.signalen.map(s => s.code.replace('EWI-', '')).join(', ')}</td><td>${STATUS[p.status]}</td></tr>`).join('')}</table>
+  <p class="note">Indicatieve rapportage. Cijfers zijn een vereenvoudigde betaalbaarheidsindicatie, geen leennormtoets of kredietbeoordeling. Indicatieve woningwaarden (PandWise/WOZ) zijn geen taxatie. Klantdata verwerkt onder verwerkersovereenkomst; adviescontact en advies liggen bij de adviseur.</p></body></html>`;
+}
+
+/* ================= Kader & compliance ================= */
+function renderKader(app) {
+  app.innerHTML = `
+  <h1>Kader &amp; compliance</h1><p class="sub">Waarom structurele monitoring, hoe de keten loopt, en welke claims vóór externe inzet getoetst moeten worden.</p>
+  <div class="card"><h2>Het monitoringproces</h2><div class="flow">
+    <div><b>1 · Geldverstrekker</b>levert klantdata; per klant is de adviseur bekend</div>
+    <div><b>2 · Blinqx</b>koppelt adviseur en klant, plant uitvraag (cyclus ${S.cyclus} jr)</div>
+    <div><b>3 · Adviseur</b>activeert klant in het Hypotheekcijfer</div>
+    <div><b>4 · Procesversneller</b>Ockto haalt brondata op (DigiD, 90 dagen geldig)</div>
+    <div><b>5 · Klant + adviseur</b>cijfer per moment en life event, handelingsperspectief</div>
+    <div><b>6 · Klantrapport</b>cijfer + woningwaarde (cadeau), namens adviseur en geldverstrekker</div>
+    <div><b>7 · Rapportage</b>dekking, frequentie, onderpand en EWI's richting ECB/DNB/AFM</div>
+  </div></div>
+  <div class="card" style="margin-top:14px"><h2>Regelgeving → wat de tool levert</h2><div class="scroll"><table class="tbl"><thead><tr><th>Kader</th><th>Vraag van de toezichthouder</th><th>Invulling in de tool</th></tr></thead><tbody>
+    <tr><td><b>EBA/GL/2020/06</b><div class="note">Loan origination &amp; monitoring, van toepassing sinds 30-06-2021</div></td><td>Kredietkwaliteit en onderpand volgen gedurende de hele looptijd; tijdige signalering van verslechtering; herwaardering van onderpand.</td><td>Cyclische uitvraag, cijfer per scenario als early warning indicator, waarderingsbron en -datum per lening, funderings- en onderhoudsindicatoren.</td></tr>
+    <tr><td><b>SREP (ECB, methodologie 2026)</b></td><td>Credit risk: portefeuillekwaliteit, mitigants en coverage; risk control: hoe de instelling exposures monitort.</td><td>Toezichtrapportage met dekking, frequentie, LTV-verdeling, ouderdom waarderingen en EWI-overzicht.</td></tr>
+    <tr><td><b>ECB-prioriteiten / klimaatrisico</b></td><td>Prudente kredietstandaarden; klimaat- en natuurrisico in onderpandwaarde.</td><td>Funderingscijfer, stress-waarde en stress-LTV.</td></tr>
+    <tr><td><b>Wft / MCD (AFM)</b></td><td>Zorgplicht: tijdig en begrijpelijk informeren, zorgvuldig omgaan met betalingsproblemen.</td><td>Handelingsperspectief per scenario, klantrapport, advies blijft bij de adviseur.</td></tr>
+  </tbody></table></div></div>
+  <div class="card" style="margin-top:14px"><h2>Compliance-aandachtspunten</h2>
+    <div class="flag"><b>AFM · cijfer is geen advies.</b> Het Hypotheekcijfer in deze tool is een vereenvoudigde woonquote-benadering, geen toets aan de leennormen (Tijdelijke regeling hypothecair krediet), terwijl hypotheekcijfer.nl wél zegt op de leennormen te rekenen. Risico: klant of geldverstrekker leest het als kredietwaardigheidstoets of advies. Vóór productie de norm vervangen door de leennormtabellen of het verschil expliciet maken.</div>
+    <div class="flag"><b>SREP-claim "Loan monitoring"-module.</b> De onderliggende notitie verwijst naar een SREP-module "Loan monitoring". In de gepubliceerde SREP-methodologie 2026 is geen aparte module met die naam aangetroffen; monitoring valt onder credit risk en risk control. Ook de claim "lagere P2R" is niet hard te maken. Risico: overclaimen richting geldverstrekkers. Formuleer als "ondersteunt" en laat dit verifiëren.</div>
+    <div class="flag"><b>Woningwaarde ≠ taxatie.</b> PandWise noemt de waarde zelf "geen taxatie" en "niet geschikt voor financiering". De notitie stelt dat het rapport de onderpandkant van de SREP-eis "direct dekt". Risico: onvoldoende onderbouwde herwaardering (CRR III-bevindingen). Gebruik voor de toezichtrapportage een gevalideerde AVM (bijv. Calcasa) of taxatie; PandWise als cadeau/signaal.</div>
+    <div class="flag"><b>AVG · datadeling geldverstrekker → Blinqx → adviseur.</b> Er is een grondslag, een verwerkersovereenkomst (of afspraken over gezamenlijke verwerkingsverantwoordelijkheid), dataminimalisatie en transparantie richting de klant nodig. Ockto-brondata alleen met toestemming van de klant.</div>
+    <div class="flag"><b>Provisieverbod (art. 86c Bgfo).</b> Een vergoeding per dossier mag alleen aan Blinqx toekomen, moet marktconform zijn en mag niet afhangen van productafzet. Zodra de adviseur er (mede) van profiteert, is er risico op verkapte provisie. Laat dit vooraf juridisch toetsen.</div>
+    <div class="flag"><b>Funderingscijfer.nl.</b> De site noemt zich een "onafhankelijk initiatief", terwijl hypotheekcijfer.nl het onder "Andere cijfers van Blinqx" noemt. Stem de positionering af vóór externe communicatie.</div>
+  </div>
+  <div class="card" style="margin-top:14px"><details><summary>Rekenparameters en aannames (${PARAMS.jaar})</summary><table class="tbl" style="margin-top:8px"><tbody>
+    <tr><td>Aftrektarief hypotheekrente</td><td class="r">${fmtPct(PARAMS.aftrekTarief * 100)}</td></tr>
+    <tr><td>Eigenwoningforfait</td><td class="r">${fmtPct(PARAMS.ewfPct * 100)} van de WOZ</td></tr>
+    <tr><td>AOW-leeftijd (vereenvoudigd)</td><td class="r">${PARAMS.aowLeeftijd} jaar</td></tr>
+    <tr><td>Pensioeninkomen als niet opgegeven</td><td class="r">${fmtPct(PARAMS.pensioenPctDefault * 100, 0)} van het huidige inkomen</td></tr>
+    <tr><td>WW / AO</td><td class="r">${fmtPct(PARAMS.wwPct * 100, 0)} van het loon, max. ${fmtEUR(PARAMS.wwMaxJaar)}</td></tr>
+    <tr><td>Herfinancieringsrente (standaard)</td><td class="r">${fmtPct(PARAMS.renteHerfinDefault)}</td></tr>
+    <tr><td>Indicatieve woonquote</td><td class="r">${PARAMS.woonquote.map(([i, q]) => `${fmtEUR(i)}: ${fmtPct(q * 100, 1)}`).join(' · ')}</td></tr>
+    <tr><td>Cijfer</td><td class="r">woonlast / (inkomen × woonquote): ≤ 0,6 → 10 · 1,0 → 6 · 1,3 → 3,5 · ≥ 1,7 → 1</td></tr>
+    <tr><td>Totaalcijfer</td><td class="r">gemiddelde van: cijfer nu, laagste moment, laagste life event</td></tr>
+    <tr><td>Stress-aftrek fundering (middel / hoog)</td><td class="r">${fmtEUR(PARAMS.funderingHerstel.middel)} / ${fmtEUR(PARAMS.funderingHerstel.hoog)}</td></tr>
+    <tr><td>Onderhoudscorrectie</td><td class="r">${Object.entries(PARAMS.onderhoudCorrectie).map(([k, v]) => `${k} ${fmtPct(v * 100, 0)}`).join(' · ')}</td></tr>
+  </tbody></table><p class="note">Alle parameters zijn indicatief en staan centraal in PARAMS, zodat ze jaarlijks bij te werken zijn.</p></details></div>`;
+}
+
+/* ---------- Start ---------- */
+S.portfolio = genPortfolio();
+render();
+</script>
+</body>
+</html>
